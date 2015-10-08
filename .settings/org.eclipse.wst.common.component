@@ -2,6 +2,7 @@
     <wb-module deploy-name="yechblog">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
         <property name="context-root" value="yechblog"/>
         <property name="java-output-path" value="/yechblog/build/classes"/>
     </wb-module>
