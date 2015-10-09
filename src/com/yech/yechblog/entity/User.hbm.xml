@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-9 17:38:21 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="com.yech.yechblog.entity.User" table="USERS">
+		<id name="id" type="java.lang.Integer">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+		<property name="username" type="java.lang.String">
+			<column name="USERNAME" />
+		</property>
+		<property name="nickName" type="java.lang.String">
+			<column name="NICK_NAME" />
+		</property>
+		<property name="email" type="java.lang.String">
+			<column name="EMAIL" />
+		</property>
+		<property name="registerDate" type="java.sql.Timestamp">
+			<column name="REGISTER_DATE" />
+		</property>
+		<property name="image" type="java.lang.String">
+			<column name="IMAGE" />
+		</property>
+		<property name="recentLoginTime" type="java.sql.Timestamp">
+			<column name="RECENT_LOGINTIME" />
+		</property>
+		<property name="notes" type="java.lang.String">
+			<column name="NOTES" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="PASSWORD" />
+		</property>
+	</class>
+</hibernate-mapping>

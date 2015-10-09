@@ -60,28 +60,10 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 日志记录仪 -->
-	<bean id="logger" class="com.yech.yechblog.advice.Logger"></bean>
-
 	<!-- 3.配置事务切入点，再把事务属性和事务切入点关联起来 -->
 	<aop:config>
 		<!-- (* *..*Service.*(..)): (*(任何返回值) *(任何包).(子包).(包和类的分隔)*Service(以Service结尾的类或接口).*(任何方法)(..)(任意参数)) -->
 		<!-- 事务切入点通知 -->
-		<aop:pointcut expression="execution(* *..*Service.*(..))"
-			id="txPointcut" />
-		<!-- Logger 切面 -->
-		<aop:aspect id="loggerAspect" ref="logger">
-			<aop:around method="record"
-				pointcut="execution(* *..*Service.save*(..)) 
-												or execution(* *..*Service.update*(..))
-												or execution(* *..*Service.delete*(..))
-												or execution(* *..*Service.batch*(..))
-												or execution(* *..*Service.new*(..))
-												or execution(* *..*Service.move*(..))
-												or execution(* *..*Service.clear*(..))
-												or execution(* *..*Service.toggle*(..))
-												and !bean(logService)
-												" />
-		</aop:aspect>
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..*Service.*(..))"/>
 	</aop:config>
 </beans>
