@@ -1,5 +1,7 @@
 package com.yech.yechblog.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yech.yechblog.dao.BaseDao;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.UserService;
+import com.yech.yechblog.util.ValidateUtil;
 
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User> 
@@ -26,7 +29,9 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 	 */
 	@Override
 	public boolean isRegisted(String email) {
-		return false;
+		String hql = "from User u where u.email = ?";
+		List<User> list = this.batchFindEntityByHQL(hql, email);
+		return ValidateUtil.isValidate(list);
 	}
 
 	/**
@@ -34,7 +39,9 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 	 */
 	@Override
 	public User validateLoginInfo(String email, String pswByMD5) {
-		return null;
+		String hql = "FROM User u WHERE u.email = ? AND u.password = ?";
+		List<User> list = batchFindEntityByHQL(hql, email,pswByMD5);
+		return ValidateUtil.isValidate(list)?list.get(0):null;
 	}
 
 }

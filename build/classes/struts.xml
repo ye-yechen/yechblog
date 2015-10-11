@@ -14,7 +14,25 @@
 	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
 	<package name="default" namespace="/" extends="struts-default">
 
+		<!-- 定义全局结果,返回到登录界面 -->
+		<global-results>
+			<result name="login">/index.jsp</result>
+			<result name="error_no_right">/index.jsp</result>
+		</global-results>
+
+		<!-- RegistAction -->
+		<action name="RegistAction_*" class="registAction" method="{1}">
+			<result name="registPage">/views/regist.jsp</result>
+			<result name="success">/index.jsp</result>
+			<result name="input">/views/regist.jsp</result>
+		</action>
 		
+		<!-- loginAction -->
+		<action name="LoginAction_*" class="loginAction" method="{1}">
+			<result name="loginPage">/views/login.jsp</result>
+			<result name="input">/views/login.jsp</result>
+			<result name="success">/index.jsp</result>
+		</action>
 	</package>
 
 </struts>
