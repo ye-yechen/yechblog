@@ -22,7 +22,7 @@ public class User{
 		this.image = image;
 	}
 	//注册时间不可改
-	private Timestamp registerDate;
+	private Timestamp registerDate = new Timestamp(System.currentTimeMillis());
 	//最近一次登录时间
 	 private Timestamp recentLoginTime;
 	public Integer getId() {

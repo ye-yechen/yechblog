@@ -12,6 +12,16 @@
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		//进入注册页面
+		$("#signup").click(function(){
+			 window.location.href="RegistAction_toRegistPage";
+		});
+	})
+</script>
+
 </head>
 <body>
 	<div class="page-header">
@@ -54,6 +64,9 @@
 			<div class="col-sm-offset-2 col-sm-4">
 				<button type="submit" class="btn btn-primary">Sign in</button>
 			</div>
+			<label class="col-sm-4">
+				<button id="signup" type="button" class="btn btn-primary">Sign up</button>
+			</label>
 		</div>
 	</form>
 </body>

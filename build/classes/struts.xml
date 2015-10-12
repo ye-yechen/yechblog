@@ -14,9 +14,22 @@
 	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
 	<package name="default" namespace="/" extends="struts-default">
 
+		<interceptors>
+			<!-- 注册登录拦截器 -->
+			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor"></interceptor>
+			<!-- 定义拦截器栈 -->
+			<interceptor-stack name="yechblogStack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>	
+		<!-- 定义默认拦截器栈 -->
+		<default-interceptor-ref name="yechblogStack"></default-interceptor-ref>
+		
 		<!-- 定义全局结果,返回到登录界面 -->
 		<global-results>
-			<result name="login">/index.jsp</result>
+			<!-- 进行写操作时先登录 -->
+			<result name="login">/views/login.jsp</result>
 			<result name="error_no_right">/index.jsp</result>
 		</global-results>
 
@@ -32,6 +45,14 @@
 			<result name="loginPage">/views/login.jsp</result>
 			<result name="input">/views/login.jsp</result>
 			<result name="success">/index.jsp</result>
+		</action>
+		
+		<!-- blogAction -->
+		<action name="BlogAction_*" class="blogAction" method="{1}">
+			<!-- 错误页 -->
+			<result name="allBlogsList">/index.jsp</result>
+			<result name="toWriteBlogPage">/views/writeBlog.jsp</result>
+			<result name="writeBlog">/views/writeBlog.jsp</result>
 		</action>
 	</package>
 

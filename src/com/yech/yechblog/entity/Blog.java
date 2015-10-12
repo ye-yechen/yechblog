@@ -1,6 +1,6 @@
 package com.yech.yechblog.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * 博客类
@@ -22,7 +22,7 @@ public class Blog{
 	private Integer category;
 
 	// 创建时间
-	private Date createTime;
+	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 	// 建立 Blog 到 User 之间 多对一 关联关系
 	private User user;
 	public User getUser() {
@@ -65,11 +65,11 @@ public class Blog{
 		this.category = category;
 	}
 
-	public Date getCreateTime() {
+	public Timestamp getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
 
