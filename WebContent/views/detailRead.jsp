@@ -83,13 +83,29 @@
 					</article>
 				</main>
 				<aside class="col-md-3 sidebar">
-					<div class="widget">
-						<h4 class="title">yech</h4>
-						<div class="content download">
-							<a href="" class="btn btn-default btn-block" onclick="">YechBlog</a>
-						</div>
-					</div>
-				</aside>
+			
+			<div class="widget">
+				<h4 class="title">
+					<span class="content">YechBlog</span>
+				</h4>
+					<span class="mylabel">
+						<s:if test="#session['user'] != null">
+							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="name">
+								<a href="#"><s:property value="#session['user'].username" /></a>
+								<span class="badge">0</span>
+							</span>&nbsp;&nbsp;
+						</s:if>
+						<s:else>
+							<div class="content download">
+								<a href="LoginAction_toLoginPage" class="btn btn-default btn-block" onclick="">
+									<span class="">去登录</span>
+								</a>
+							</div>
+						</s:else>
+					</span>
+			</div>
+			</aside>
 			</div>
 		</div>
 	</section>

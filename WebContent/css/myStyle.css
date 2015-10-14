@@ -681,6 +681,9 @@ pre {
 /*====================================================
 	sidebar
 ====================================================*/
+.sidebar {
+	padding-right: 1mm;
+}
 .sidebar .widget {
   background: #ffffff;
   padding: 21px 30px;
@@ -690,6 +693,13 @@ pre {
 }
 .widget {
   margin-bottom: 35px;
+}
+.widget .welcome{
+	background: #e67e22;
+}
+.widget .name{
+	font-size:30px;
+	font-weight: lighter;
 }
 .widget .title {
   margin-top: 0;

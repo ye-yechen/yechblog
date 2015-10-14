@@ -6,6 +6,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+	//导航栏标签的 active 状态切换
+	$(function(){
+		$('ul.nav > li').click(function (e) {
+			//阻止元素发生默认的行为
+			//e.preventDefault();
+			$('ul.nav > li').removeClass('active');
+			$(this).addClass('active');
+		});
+	})
+</script>
 </head>
 <body>
 
@@ -41,7 +53,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav nav-pills">
-				<li class="active"><a href="BlogAction_queryAllBlogs">博客精选<span
+				<li class="active"><a href="BlogAction_pagenation">博客精选<span
 						class="sr-only">(current)</span></a></li>
 				<li><a href="#">论坛天地</a></li>
 				<li><a href="#">问答社区</a></li>

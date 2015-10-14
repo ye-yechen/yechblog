@@ -23,4 +23,9 @@ public interface BaseDao<T> {
 	//执行原生的sql查询(clazz 指定是否封装成实体)
 	@SuppressWarnings("rawtypes")
 	public List executeSQLQuery(Class clazz,String sql,Object ...objects);
+	
+	//单值检索，确保查询结果有且只有一条记录
+	public Object uniqueResult(String hql,Object ... objects);
+	@SuppressWarnings("rawtypes")
+	public List listResult(Class clazz,String hql, Object... objects);
 }

@@ -40,6 +40,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	// 当前用户的博客列表
 	private List<Blog> myBlogList;
 
+	//
 	// 所有博客列表
 	private List<Blog> allBlogList;
 
@@ -68,17 +69,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	public void setMyBlogList(List<Blog> myBlogList) {
 		this.myBlogList = myBlogList;
-	}
-
-	// 错误页指定
-	private String inputPage;
-
-	public String getInputPage() {
-		return inputPage;
-	}
-
-	public void setInputPage(String inputPage) {
-		this.inputPage = inputPage;
 	}
 
 	/**
@@ -138,5 +128,57 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model = blogService.readDetail(bid);
 		allComments = blogService.queryAllComments(bid);
 		return "detailReadPage";
+	}
+	
+	//接收页面参数，默认第一页
+	private String pageIndex;
+
+	//当前页数
+	private int currentPageIndex;
+	//总页数
+	private int pageCount;
+	
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
+	public int getCurrentPageIndex() {
+		return currentPageIndex;
+	}
+
+	public void setCurrentPageIndex(int currentPageIndex) {
+		this.currentPageIndex = currentPageIndex;
+	}
+
+	public String getPageIndex() {
+		return pageIndex;
+	}
+
+	public void setPageIndex(String pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+	
+	/**
+	 * 分页显示
+	 * @return
+	 */
+	public String pagenation(){
+		int countPerPage = 5;//每页显示5条
+		if(pageIndex == null)
+		{
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getBlogCount();//查询博客总数
+		//显示在当前页的博客
+		allBlogList = blogService.queryPage(currentPageIndex, countPerPage);
+		//总页数
+		pageCount = 
+				(blogCount%countPerPage==0?blogCount/countPerPage:(blogCount/countPerPage + 1));
+		return "allBlogList";
 	}
 }

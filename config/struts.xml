@@ -17,7 +17,7 @@
 		<interceptors>
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
-				 <param name="excludeMethods">queryAllBlogs,readDetail,logout</param>  
+				 <param name="excludeMethods">pagenation,readDetail,logout</param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
 			<interceptor-stack name="yechblogStack">
@@ -32,19 +32,19 @@
 		<global-results>
 			<!-- 进行写操作时先登录 -->
 			<result name="login">/views/login.jsp</result>
-			<result name="error_no_right">/index.jsp</result>
-			<result name="allBlogList">/index.jsp</result>
+			<result name="error_no_right">/views/blogIndex.jsp</result>
+			<result name="allBlogList">/views/blogIndex.jsp</result>
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>
-				<param name="actionName">BlogAction_queryAllBlogs</param>
+				<param name="actionName">BlogAction_pagenation</param>
 			</result>
 		</global-results>
 
 		<!-- RegistAction -->
 		<action name="RegistAction_*" class="registAction" method="{1}">
 			<result name="registPage">/views/regist.jsp</result>
-			<result name="success">/index.jsp</result>
+			<result name="success">/views/blogIndex.jsp</result>
 			<result name="input">/views/regist.jsp</result>
 		</action>
 		
@@ -62,7 +62,7 @@
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>
-				<param name="actionName">BlogAction_queryAllBlogs</param>
+				<param name="actionName">BlogAction_pagenation</param>
 			</result>
 		</action>
 		

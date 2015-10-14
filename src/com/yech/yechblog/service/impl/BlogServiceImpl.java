@@ -93,4 +93,30 @@ public class BlogServiceImpl implements BlogService {
 		return comments;
 	}
 
+	/**
+	 * 统计博客总数
+	 */
+	@Override
+	public int getBlogCount() {
+		String hql = "select count(*) from Blog";
+		return  ((Long)(blogDao.uniqueResult(hql))).intValue();
+	}
+
+	/**
+	 * 查询指定页的bolg总数
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Blog> queryPage(int currentPageIndex, int countPerPage) {
+		String hql = "SELECT * FROM blogs LIMIT ?,?";
+		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql, (currentPageIndex-1) * countPerPage,
+							currentPageIndex * countPerPage);
+		for(Blog blog : blogs){
+			blog.getUser().getUsername();
+		}
+		System.out.println(blogs);
+		return blogs;
+	}
+
 }

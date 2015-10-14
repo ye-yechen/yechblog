@@ -48,4 +48,16 @@ public interface BlogService{
 	 */
 	public List<Comment> queryAllComments(Integer bid);
 
+	/**
+	 * 统计博客总数
+	 * @return
+	 */
+	public int getBlogCount();
+	
+	/**
+	 * 查询指定页的bolg总数
+	 * @return
+	 */
+	public List<Blog> queryPage(int currentPageIndex,int countPerPage);
+	
 }

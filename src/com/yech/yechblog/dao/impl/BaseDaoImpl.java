@@ -13,26 +13,28 @@ import com.yech.yechblog.dao.BaseDao;
 
 /**
  * 抽象的 Dao 实现类，用于继承
+ * 
  * @author Administrator
  */
 public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Resource
 	private SessionFactory sessionFactory;
-	
+
 	/*
-	 * 注: class UserDao extends BaseDaoIml<User>{}
-	 * 		以下操作就是为了得到 BaseDaoIml<User> 中的 User
+	 * 注: class UserDao extends BaseDaoIml<User>{} 以下操作就是为了得到 BaseDaoIml<User>
+	 * 中的 User
 	 */
 	private Class<T> clazz;
-	
+
 	@SuppressWarnings("unchecked")
 	public BaseDaoImpl() {
-		//得到泛型化超类
-		ParameterizedType type =
-				(ParameterizedType) this.getClass().getGenericSuperclass();
+		// 得到泛型化超类
+		ParameterizedType type = (ParameterizedType) this.getClass()
+				.getGenericSuperclass();
 		clazz = (Class<T>) type.getActualTypeArguments()[0];
 	}
+
 	@Override
 	public void saveEntity(T t) {
 		sessionFactory.getCurrentSession().save(t);
@@ -59,17 +61,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Override
 	public void batchUpdateEntityByHQL(String hql, Object... objects) {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		for(int i=0;i<objects.length;i++){
+		for (int i = 0; i < objects.length; i++) {
 			query.setParameter(i, objects[i]);
 		}
 		query.executeUpdate();
 	}
 
-	//执行原生的 sql 语句
+	// 执行原生的 sql 语句
 	@Override
 	public void executeSQL(String sql, Object... objects) {
 		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
-		for(int i=0;i<objects.length;i++){
+		for (int i = 0; i < objects.length; i++) {
 			query.setParameter(i, objects[i]);
 		}
 	}
@@ -90,7 +92,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Override
 	public List<T> batchFindEntityByHQL(String hql, Object... objects) {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		for(int i=0;i<objects.length;i++){
+		for (int i = 0; i < objects.length; i++) {
 			query.setParameter(i, objects[i]);
 		}
 		return query.list();
@@ -100,11 +102,34 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Override
 	public List executeSQLQuery(Class clazz, String sql, Object... objects) {
 		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+		// 添加实体类
+		if (clazz != null) {
+			query.addEntity(clazz);
+		}
+		for (int i = 0; i < objects.length; i++) {
+			query.setParameter(i, objects[i]);
+		}
+		return query.list();
+	}
+
+	// 单值检索，确保查询结果有且只有一条记录
+	public Object uniqueResult(String hql, Object... objects) {
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		for (int i = 0; i < objects.length; i++) {
+			query.setParameter(i, objects[i]);
+		}
+		return query.uniqueResult();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List listResult(Class clazz,String hql, Object... objects) {
+		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(hql);
 		//添加实体类
 		if(clazz != null){
 			query.addEntity(clazz);
 		}
-		for(int i=0;i<objects.length;i++){
+		for (int i = 0; i < objects.length; i++) {
 			query.setParameter(i, objects[i]);
 		}
 		return query.list();
