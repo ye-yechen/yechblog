@@ -56,7 +56,16 @@ public class LoginAction extends BaseAction<User> implements SessionAware{
 	 * @return
 	 */
 	public String doLogin(){
-		return "success";
+		return "BlogAction";
+	}
+	
+	/**
+	 * ÍË³öµÇÂ¼
+	 */
+	@SkipValidation
+	public String logout(){
+		sessionMap.clear();
+		return "BlogAction";
 	}
 	
 	public void validate(){

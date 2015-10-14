@@ -9,6 +9,7 @@
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
 <title>写博客</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+<link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script> 
@@ -44,11 +45,11 @@
 		 </div>
 		 <div class="form-group">
    		 	<label for="blogcontent">博客内容</label>
-    	 	<textarea class="form-control" rows="30" cols="50" name="content"><p></p></textarea>
+    	 	<textarea class="form-control" rows="30" cols="50" name="content"></textarea>
 		 </div>
 		 <div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
-				<button type="submit" class="btn btn-success">publish</button>
+				<button type="submit" class="btn btn-default">publish</button>
 			</div>
 		</div>
 	</form>

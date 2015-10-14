@@ -16,7 +16,9 @@
 
 		<interceptors>
 			<!-- 注册登录拦截器 -->
-			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor"></interceptor>
+			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
+				 <param name="excludeMethods">queryAllBlogs,readDetail,logout</param>  
+			</interceptor>
 			<!-- 定义拦截器栈 -->
 			<interceptor-stack name="yechblogStack">
 				<interceptor-ref name="loginInterceptor"></interceptor-ref>
@@ -31,6 +33,12 @@
 			<!-- 进行写操作时先登录 -->
 			<result name="login">/views/login.jsp</result>
 			<result name="error_no_right">/index.jsp</result>
+			<result name="allBlogList">/index.jsp</result>
+			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
+			<result name="BlogAction" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_queryAllBlogs</param>
+			</result>
 		</global-results>
 
 		<!-- RegistAction -->
@@ -44,15 +52,27 @@
 		<action name="LoginAction_*" class="loginAction" method="{1}">
 			<result name="loginPage">/views/login.jsp</result>
 			<result name="input">/views/login.jsp</result>
-			<result name="success">/index.jsp</result>
 		</action>
 		
 		<!-- blogAction -->
 		<action name="BlogAction_*" class="blogAction" method="{1}">
-			<!-- 错误页 -->
-			<result name="allBlogsList">/index.jsp</result>
+			<result name="myBlogList">/views/myBlogList.jsp</result>
 			<result name="toWriteBlogPage">/views/writeBlog.jsp</result>
-			<result name="writeBlog">/views/writeBlog.jsp</result>
+			<result name="detailReadPage">/views/detailRead.jsp</result>
+			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
+			<result name="BlogAction" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_queryAllBlogs</param>
+			</result>
+		</action>
+		
+		<!-- commentAction -->
+		<action name="CommentAction_*" class="commentAction" method="{1}">
+			<result name="toDetailReadPage" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_readDetail</param>
+				<param name="bid">${bid}</param>
+			</result>
 		</action>
 	</package>
 

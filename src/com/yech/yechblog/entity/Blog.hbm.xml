@@ -30,5 +30,10 @@
         <many-to-one name="user" class="com.yech.yechblog.entity.User">
         	<column name="USERID"></column>
         </many-to-one>
+        <!-- Blog 到 Comment 一对多 -->
+        <set name="comments" inverse="true">
+        	<key column="BLOGID"></key>
+        	<one-to-many class="com.yech.yechblog.entity.Comment"/>
+        </set>
     </class>
 </hibernate-mapping>

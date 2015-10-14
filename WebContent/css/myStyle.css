@@ -95,6 +95,7 @@ textarea {
 input[type="search"]:focus,
 input[type="text"]:focus,
 input[type="url"]:focus,
+input[type="password"]:focus,
 input[type="email"]:focus,
 textarea:focus {
   border: 1px solid #e67e22;
@@ -312,10 +313,21 @@ pre {
 .post .post-content {
   margin: 30px 0;
 }
+/*
+为blog的comment制定的样式
+*/
+.post .post-comment {
+  margin: 10px 0;
+}
 .post .post-footer {
   margin-top: 30px;
-  border-top: 1px solid #ebebeb;
+  border-top: 1px solid #e67e22;
   padding: 21px 0 0;
+}
+.post .post-footer2 {
+  margin-top: 2px;
+  border-top: 1px solid #ebebeb;
+  padding: 2px 0 0;
 }
 .post .post-footer .tag-list {
   color: #959595;

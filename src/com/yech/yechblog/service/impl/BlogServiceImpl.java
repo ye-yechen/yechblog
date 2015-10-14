@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yech.yechblog.dao.BaseDao;
 import com.yech.yechblog.entity.Blog;
+import com.yech.yechblog.entity.Comment;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 
@@ -17,11 +18,13 @@ public class BlogServiceImpl implements BlogService {
 	@Resource(name="blogDao")
 	private BaseDao<Blog> blogDao;
 
+	@Resource(name="commentDao")
+	private BaseDao<Comment> commentDao;
 	/**
 	 * 查找所有博客
 	 */
 	@Override
-	public List<Blog> batchFindEntityByHQL(User user) {
+	public List<Blog> findMyBlogs(User user) {
 		String hql = "from Blog b where b.user.id = ?";
 		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql,user.getId());
 		//遍历blog所属的user，避免懒加载
@@ -38,6 +41,56 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public void saveOrUpdateBlog(Blog blog) {
 		blogDao.saveOrUpdateEntity(blog);
+	}
+
+	/**
+	 * 查询所有用户博客
+	 * @return
+	 */
+	@Override
+	public List<Blog> findAllBlogs() {
+		String hql = "from Blog";
+		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql);
+		//遍历blog所属的user，避免懒加载
+		for(Blog blog : blogs){
+			blog.getUser().getUsername();
+		}
+		return blogs;
+	}
+
+	/**
+	 * 阅读全文
+	 */
+	@Override
+	public Blog readDetail(Integer bid) {
+		
+		Blog blog =  blogDao.getEntity(bid);
+		blog.getComments().size();
+		//获取blog所属的user，避免懒加载
+		blog.getUser().getUsername();
+		return blog;
+	}
+
+	/**
+	 * 为当前博客添加评论
+	 * @param bid
+	 */
+	@Override
+	public void addComment(Comment comment) {
+		commentDao.saveOrUpdateEntity(comment);
+	}
+
+	/**
+	 * 查询当前博客所有评论
+	 */
+	@Override
+	public List<Comment> queryAllComments(Integer bid) {
+		String hql = "from Comment c where c.blog.id = ?";
+		List<Comment> comments = commentDao.batchFindEntityByHQL(hql, bid);
+		for(Comment comment : comments){
+			comment.getUser().getUsername();
+		}
+		return comments;
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.yech.yechblog.interceptor;
 
 import com.opensymphony.xwork2.ActionInvocation;
-import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 import com.yech.yechblog.action.BaseAction;
 import com.yech.yechblog.action.LoginAction;
 import com.yech.yechblog.action.RegistAction;
@@ -13,7 +13,7 @@ import com.yech.yechblog.entity.User;
  * @author Administrator
  *
  */
-public class LoginInterceptor implements Interceptor {
+public class LoginInterceptor extends MethodFilterInterceptor {
 
 	private static final long serialVersionUID = -113465086676835611L;
 
@@ -27,7 +27,7 @@ public class LoginInterceptor implements Interceptor {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public String intercept(ActionInvocation arg0) throws Exception {
+	protected String doIntercept(ActionInvocation arg0) throws Exception {
 		BaseAction action = (BaseAction) arg0.getAction();
 		if(action instanceof LoginAction
 				|| action instanceof RegistAction){

@@ -10,6 +10,7 @@
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
 <title>登录</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+<link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
@@ -25,7 +26,7 @@
 </head>
 <body>
 	<div class="page-header">
- 		 <h2 class="text-center"><span class="label label-primary">用户登录</span></h2>
+ 		 <h2 class="text-center"><span class="label label-warning">用户登录</span></h2>
 	</div>
 	<form class="form-horizontal" action="LoginAction_doLogin" namespace="/" method="post">
 		<div class="form-group">
@@ -62,10 +63,10 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
-				<button type="submit" class="btn btn-primary">Sign in</button>
+				<button type="submit" class="btn btn-default">Sign in</button>
 			</div>
 			<label class="col-sm-4">
-				<button id="signup" type="button" class="btn btn-primary">Sign up</button>
+				<button id="signup" type="button" class="btn btn-default">Sign up</button>
 			</label>
 		</div>
 	</form>

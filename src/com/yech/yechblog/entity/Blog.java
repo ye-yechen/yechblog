@@ -1,6 +1,8 @@
 package com.yech.yechblog.entity;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 博客类
@@ -23,6 +25,18 @@ public class Blog{
 
 	// 创建时间
 	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+	
+	//评论
+	//建立 Blog 到 Comment 到一对多关系
+	private Set<Comment> comments = new HashSet<Comment>();
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 	// 建立 Blog 到 User 之间 多对一 关联关系
 	private User user;
 	public User getUser() {
