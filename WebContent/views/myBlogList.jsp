@@ -42,7 +42,7 @@
 	<section class="content-wrap">
 	<div class="container">
 		<div class="row">
-			<main class="col-md-8 main-content"> 
+			<main class="col-md-9 main-content"> 
 				<!-- 迭代博客列表 -->
 				<s:iterator var="b" value="myBlogList">
 					<article id=<s:property value="#b.id" /> class="post tag-spark">
@@ -71,10 +71,24 @@
 				</article> 
 			</s:iterator>
 			<nav class="pagination" role="navigation"> 
-				<span class="label label-warning">第 1 页 &frasl; 共 1 页</span> 
+				<span class="label label-warning">第&nbsp;<s:property value="currentPageIndex"/>&nbsp;页 &frasl; 共&nbsp; <s:property value="pageCount"/>&nbsp;页</span>
+				 <ul class="pager">
+				 	<s:if test="currentPageIndex != 1">
+    					<li><a href="BlogAction_myPagination?pageIndex=1"><span><font color="#e67e22">首页</font></span></a></li>
+    				</s:if>
+    				<s:if test="currentPageIndex > 1">
+    					<li><a href="BlogAction_myPagination?pageIndex=<s:property value='currentPageIndex-1' />"><span><font color="#e67e22">上一页</font></span></a></li>
+   					</s:if>
+   					<s:elseif test="currentPageIndex < pageCount">
+   						<li><a href="BlogAction_myPagination?pageIndex=<s:property value='currentPageIndex+1' />"><span><font color="#e67e22">下一页</font></span></a></li>
+   					</s:elseif>
+   					<s:if test="currentPageIndex != pageCount">
+   						<li><a href="BlogAction_myPagination?pageIndex=<s:property value='pageCount' />"><span><font color="#e67e22">尾页</font></span></a></li>
+  					</s:if>
+  				</ul>
 			</nav> 
 			</main>
-			<aside class="col-md-4 sidebar">
+			<aside class="col-md-3 sidebar">
 			<div class="widget">
 				<h4 class="title">yech</h4>
 				<div class="content download">

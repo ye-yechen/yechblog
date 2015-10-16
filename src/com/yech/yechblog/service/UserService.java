@@ -13,4 +13,10 @@ public interface UserService extends BaseService<User> {
 	 * 验证登录信息
 	 */
 	public User validateLoginInfo(String email,String pswByMD5);
+
+	/**
+	 * 上传头像
+	 * @param string
+	 */
+	public void updateUserImgPath(Integer id, String string);
 }

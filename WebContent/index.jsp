@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	 <meta http-equiv="refresh" content="0;url=BlogAction_pagenation">
+	 <meta http-equiv="refresh" content="0;url=BlogAction_pagination">
 </body>
 </html>

@@ -55,9 +55,26 @@ public interface BlogService{
 	public int getBlogCount();
 	
 	/**
-	 * 查询指定页的bolg总数
+	 * 在所有博客中查询指定页的bolg总数
 	 * @return
 	 */
 	public List<Blog> queryPage(int currentPageIndex,int countPerPage);
+
+	/**
+	 * 在当前用户博客中查询指定页的bolg总数
+	 * @return
+	 */
+	public List<Blog> queryMyPage(User user,int currentPageIndex, int countPerPage);
+	/**
+	 * 统计当前用户博客总数
+	 * @return
+	 */
+	public int getMyBlogCount(User user);
+
+	/**
+	 * 根据 id 查出博客
+	 * @return
+	 */
+	public Blog getBlogById(Integer bid);
 	
 }

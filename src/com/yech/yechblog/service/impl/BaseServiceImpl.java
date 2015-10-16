@@ -39,7 +39,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Override
 	public void batchUpdateEntityByHQL(String hql, Object... objects) {
-		baseDao.batchFindEntityByHQL(hql, objects);
+		baseDao.batchUpdateEntityByHQL(hql, objects);
 	}
 
 	@Override
@@ -62,6 +62,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		return baseDao.batchFindEntityByHQL(hql, objects);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List executeSQLQuery(Class clazz, String sql, Object... objects) {
 		return baseDao.executeSQLQuery(clazz, sql, objects);

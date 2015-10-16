@@ -163,10 +163,10 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	}
 	
 	/**
-	 * 分页显示
+	 * 所有博客列表分页显示
 	 * @return
 	 */
-	public String pagenation(){
+	public String pagination(){
 		int countPerPage = 5;//每页显示5条
 		if(pageIndex == null)
 		{
@@ -180,5 +180,33 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		pageCount = 
 				(blogCount%countPerPage==0?blogCount/countPerPage:(blogCount/countPerPage + 1));
 		return "allBlogList";
+	}
+	/**
+	 * 当前用户博客列表分页显示
+	 * @return
+	 */
+	public String myPagination(){
+		int countPerPage = 5;//每页显示5条
+		if(pageIndex == null)
+		{
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getMyBlogCount(user);//查询博客总数
+		System.out.println("user="+user.getImage());
+		//显示在当前页的博客
+		myBlogList = blogService.queryMyPage(user,currentPageIndex, countPerPage);
+		//总页数
+		pageCount = 
+				(blogCount%countPerPage==0?blogCount/countPerPage:(blogCount/countPerPage + 1));
+		return "myBlogList";
+	}
+	
+	/**
+	 * 去个人主页
+	 * @return
+	 */
+	public String toPersonalPage(){
+		return "personalPage";
 	}
 }

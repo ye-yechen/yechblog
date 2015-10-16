@@ -53,7 +53,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav nav-pills">
-				<li class="active"><a href="BlogAction_pagenation">博客精选<span
+				<li class="active"><a href="BlogAction_pagination">博客精选<span
 						class="sr-only">(current)</span></a></li>
 				<li><a href="#">论坛天地</a></li>
 				<li><a href="#">问答社区</a></li>
@@ -62,11 +62,12 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">个人中心<span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a href="BlogAction_toPersonalPage">个人主页</a></li>
+						<li role="separator" class="divider"></li>
 						<li><a href="BlogAction_toWriteBlogPage">写博客</a></li>
-						<li><a href="BlogAction_queryMyBlogs">我的博客</a></li>
+						<li><a href="BlogAction_myPagination">我的博客</a></li>
 						<li><a href="#">我的论坛</a></li>
 						<li><a href="#">我的收藏</a></li>
-						<li role="separator" class="divider"></li>
 						<li><a href="#">我的分享</a></li>
 					</ul></li>
 

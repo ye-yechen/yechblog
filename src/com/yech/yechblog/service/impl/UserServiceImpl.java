@@ -44,4 +44,12 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 		return ValidateUtil.isValidate(list)?list.get(0):null;
 	}
 
+	/**
+	 * ÉÏ´«Í·Ïñ
+	 */
+	@Override
+	public void updateUserImgPath(Integer id, String path) {
+		String hql = "UPDATE User u SET u.image = ? WHERE u.id = ?";
+		this.batchUpdateEntityByHQL(hql,path,id);
+	}
 }

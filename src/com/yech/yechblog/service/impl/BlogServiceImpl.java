@@ -115,8 +115,44 @@ public class BlogServiceImpl implements BlogService {
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
 		}
-		System.out.println(blogs);
 		return blogs;
+	}
+	
+	/**
+	 * 在当前用户博客中查询指定页的bolg总数
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Blog> queryMyPage(User user,int currentPageIndex, int countPerPage) {
+		String hql = "SELECT * FROM blogs WHERE userid = ? LIMIT ?,?";
+		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,user.getId(), (currentPageIndex-1) * countPerPage,
+				currentPageIndex * countPerPage);
+		for(Blog blog : blogs){
+			blog.getUser().getUsername();
+		}
+		return blogs;
+	}
+
+	/**
+	 * 统计当前用户博客总数
+	 * @return
+	 */
+	@Override
+	public int getMyBlogCount(User user) {
+		String hql = "select count(*) from Blog b where b.user.id = ?";
+		return  ((Long)(blogDao.uniqueResult(hql,user.getId()))).intValue();
+	}
+
+	/**
+	 * 根据 id 查出博客
+	 * @return
+	 */
+	@Override
+	public Blog getBlogById(Integer bid) {
+		Blog blog = blogDao.getEntity(bid);
+		blog.getUser().getUsername();
+		return blog;
 	}
 
 }

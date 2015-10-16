@@ -17,12 +17,19 @@
 		<interceptors>
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
-				 <param name="excludeMethods">pagenation,readDetail,logout</param>  
+				 <param name="excludeMethods">pagination,readDetail,logout</param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
 			<interceptor-stack name="yechblogStack">
 				<interceptor-ref name="loginInterceptor"></interceptor-ref>
-				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="defaultStack">
+					<!-- 上传文件的大小 kb-->
+					<param name="fileUpload.maximumSize">600000</param>
+					<!-- 上传文件的扩展名 -->
+					<param name="fileUpload.allowedExtensions">.jpg,.jpeg,.png,.bmp,.gif</param>
+					<!-- 文件的内容类型 -->
+					<param name="fileUpload.allowedTypes">image/jpg,image/jpeg,image/png,image/bmp,image/gif</param>
+				</interceptor-ref>
 			</interceptor-stack>
 		</interceptors>	
 		<!-- 定义默认拦截器栈 -->
@@ -37,7 +44,7 @@
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>
-				<param name="actionName">BlogAction_pagenation</param>
+				<param name="actionName">BlogAction_pagination</param>
 			</result>
 		</global-results>
 
@@ -59,10 +66,11 @@
 			<result name="myBlogList">/views/myBlogList.jsp</result>
 			<result name="toWriteBlogPage">/views/writeBlog.jsp</result>
 			<result name="detailReadPage">/views/detailRead.jsp</result>
+			<result name="personalPage">/views/personalPage.jsp</result>
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>
-				<param name="actionName">BlogAction_pagenation</param>
+				<param name="actionName">BlogAction_pagination</param>
 			</result>
 		</action>
 		
@@ -73,6 +81,12 @@
 				<param name="actionName">BlogAction_readDetail</param>
 				<param name="bid">${bid}</param>
 			</result>
+		</action>
+		
+		<!-- UserAction -->
+		<action name="UserAction_*" class="userAction" method="{1}">
+			<result name="personalPage">/views/personalPage.jsp</result>
+			<result name="input">/views/personalPage.jsp</result>
 		</action>
 	</package>
 

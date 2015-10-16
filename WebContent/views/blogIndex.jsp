@@ -24,7 +24,6 @@
 </head>
 <body>
 
-	<!-- end header -->
 	<!-- 包含 导航栏 -->
 	<jsp:include page="/views/navbar.jsp"></jsp:include>
 
@@ -65,14 +64,18 @@
 			<nav class="pagination" role="navigation"> 
 				<span class="label label-warning">第&nbsp;<s:property value="currentPageIndex"/>&nbsp;页 &frasl; 共&nbsp; <s:property value="pageCount"/>&nbsp;页</span>
 				 <ul class="pager">
-    				<li><a href="BlogAction_pagenation?pageIndex=1"><span><font color="#e67e22">首页</font></span></a></li>
+				 	<s:if test="currentPageIndex != 1">
+    					<li><a href="BlogAction_pagination?pageIndex=1"><span><font color="#e67e22">首页</font></span></a></li>
+    				</s:if>
     				<s:if test="currentPageIndex > 1">
-    					<li><a href="BlogAction_pagenation?pageIndex=<s:property value='currentPageIndex-1' />"><span><font color="#e67e22">上一页</font></span></a></li>
+    					<li><a href="BlogAction_pagination?pageIndex=<s:property value='currentPageIndex-1' />"><span><font color="#e67e22">上一页</font></span></a></li>
    					</s:if>
    					<s:elseif test="currentPageIndex < pageCount">
-   						<li><a href="BlogAction_pagenation?pageIndex=<s:property value='currentPageIndex+1' />"><span><font color="#e67e22">下一页</font></span></a></li>
+   						<li><a href="BlogAction_pagination?pageIndex=<s:property value='currentPageIndex+1' />"><span><font color="#e67e22">下一页</font></span></a></li>
    					</s:elseif>
-   						<li><a href="BlogAction_pagenation?pageIndex=<s:property value='pageCount' />"><span><font color="#e67e22">尾页</font></span></a></li>
+   					<s:if test="currentPageIndex != pageCount">
+   						<li><a href="BlogAction_pagination?pageIndex=<s:property value='pageCount' />"><span><font color="#e67e22">尾页</font></span></a></li>
+  					</s:if>
   				</ul>
 			</nav> 
 			</main>

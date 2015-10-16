@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 import com.yech.yechblog.action.BaseAction;
 import com.yech.yechblog.action.LoginAction;
 import com.yech.yechblog.action.RegistAction;
+import com.yech.yechblog.action.UserAction;
 import com.yech.yechblog.aware.UserAware;
 import com.yech.yechblog.entity.User;
 
@@ -25,7 +26,7 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 	public void init() {
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected String doIntercept(ActionInvocation arg0) throws Exception {
 		BaseAction action = (BaseAction) arg0.getAction();
@@ -43,6 +44,9 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 			//如果 action 实现了 UserAware 接口,则为此 action 注入 user
 			if(action instanceof UserAware){
 				((UserAware)action).setUser(user);
+				return arg0.invoke();
+			} else if(action instanceof UserAction){
+				action.model = user;
 				return arg0.invoke();
 			}
 		}

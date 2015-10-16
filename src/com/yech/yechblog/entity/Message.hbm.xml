@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-9 17:42:00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.yech.yechblog.entity.Message" table="MESSAGES">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="content" type="java.lang.String">
+            <column name="CONTENT" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+        	<column name="STATUS"></column>
+        </property>
+        <property name="createTime" type="java.sql.Timestamp">
+            <column name="CREATE_TIME" />
+        </property>
+        <!-- Message 和 User 多对一 (发出消息的人)-->
+        <many-to-one name="self" class="com.yech.yechblog.entity.User">
+        	<column name="SELF"></column>
+        </many-to-one>
+        <!-- Message 和 User 多对一 (接收消息的人)-->
+        <many-to-one name="other" class="com.yech.yechblog.entity.User">
+        	<column name="OTHER"></column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -283,6 +283,27 @@ pre {
 .post .post-head {
   text-align: center;
 }
+.person-edit{
+	margin-bottom: 10px;
+}
+
+.personal-img{
+}
+.person-name{
+	color: #e67e22;
+	font-size: 2.5em;
+	margin: 0 0 14px 14px;
+	line-height: 1em;
+}
+.person-signature{
+	color: #959595;
+	font-size: 0.5em;
+	border-bottom: 1px solid #e67e22;
+}
+.person-introduce{
+	font-size: 1em;
+	margin-top: 10px;
+}
 .post .post-head .post-title {
   margin: 0;
   font-size: 2.5em;
