@@ -23,7 +23,7 @@
         <property name="resultMsg" type="java.lang.String">
             <column name="RESULT_MSG" />
         </property>
-        <property name="operTime" type="java.util.Date">
+        <property name="operTime" type="java.lang.String">
             <column name="OPER_TIME" />
         </property>
     </class>

@@ -1,5 +1,7 @@
 package com.yech.yechblog.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -106,6 +108,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setContent(model.getContent().replace("<p>", "")
 				.replace("</p>", ""));
 		model.setUser(user);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		model.setCreateTime(format.format(new Date()));
 		blogService.saveOrUpdateBlog(model);
 		return "BlogAction";
 	}
@@ -193,7 +197,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		}
 		currentPageIndex = Integer.parseInt(pageIndex);
 		int blogCount = blogService.getMyBlogCount(user);//查询博客总数
-		System.out.println("user="+user.getImage());
 		//显示在当前页的博客
 		myBlogList = blogService.queryMyPage(user,currentPageIndex, countPerPage);
 		//总页数

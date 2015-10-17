@@ -300,6 +300,17 @@ pre {
 	font-size: 0.5em;
 	border-bottom: 1px solid #e67e22;
 }
+.message-info{
+	color: #959595;
+	font-size: 1em;
+	border-bottom: 1px solid #e67e22;
+}
+.blog-message{
+	border-bottom: 1px solid #959595;
+}
+.message-head{
+	text-align:left;
+}
 .person-introduce{
 	font-size: 1em;
 	margin-top: 10px;

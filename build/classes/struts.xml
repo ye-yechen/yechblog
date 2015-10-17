@@ -87,6 +87,12 @@
 		<action name="UserAction_*" class="userAction" method="{1}">
 			<result name="personalPage">/views/personalPage.jsp</result>
 			<result name="input">/views/personalPage.jsp</result>
+			<result name="toMessageCenterPage">/views/messageCenterPage.jsp</result>
+		</action>
+		
+		<!-- MessageAction -->
+		<action name="MessageAction_*" class="messageAction" method="{1}">
+			<result name="toDetailMessagePage">/views/detailMessagePage.jsp</result>
 		</action>
 	</package>
 

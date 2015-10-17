@@ -1,6 +1,5 @@
 package com.yech.yechblog.entity;
 
-import java.sql.Timestamp;
 
 /**
  * Message : 消息类，用于动态提醒
@@ -14,7 +13,21 @@ public class Message {
 	private User self;	//消息来自谁
 	private User other; //消息发给谁
 	private Boolean status; //状态 0已读 1未读
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+	private Blog blog;//消息是关于哪篇博客
+	private String createTime;
+	
+	public Blog getBlog() {
+		return blog;
+	}
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -26,12 +39,6 @@ public class Message {
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
 	}
 	public User getSelf() {
 		return self;

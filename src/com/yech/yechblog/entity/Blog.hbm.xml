@@ -17,7 +17,7 @@
         <property name="category" type="java.lang.Integer">
             <column name="CATEGORY" />
         </property>
-        <property name="createTime" type="java.sql.Timestamp">
+        <property name="createTime" type="java.lang.String">
             <column name="CREATE_TIME" />
         </property>
         <property name="deleted" type="java.lang.Integer">

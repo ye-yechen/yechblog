@@ -11,7 +11,7 @@
         <property name="content" type="java.lang.String">
             <column name="CONTENT" />
         </property>
-        <property name="commentTime" type="java.sql.Timestamp">
+        <property name="commentTime" type="java.lang.String">
             <column name="COMMENT_TIME" />
         </property>
         <property name="imageUrl" type="java.lang.String">

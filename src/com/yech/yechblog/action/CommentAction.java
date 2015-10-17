@@ -1,5 +1,8 @@
 package com.yech.yechblog.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -62,6 +65,8 @@ public class CommentAction extends BaseAction<Comment> implements UserAware{
 		Blog blog = new Blog();
 		blog.setId(bid);
 		model.setBlog(blog);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		model.setCommentTime(format.format(new Date()));
 		blog.getComments().add(model);
 		blogService.addComment(model);
 		
@@ -71,7 +76,9 @@ public class CommentAction extends BaseAction<Comment> implements UserAware{
 		message.setSelf(user);
 		message.setOther(blog2.getUser());
 		message.setStatus(true);//1´ú±íÎ´¶Á
-		messageService.saveEntity(message);
+		
+		message.setCreateTime(format.format(new Date()));
+		messageService.saveMessage(message);
 		return "toDetailReadPage";
 	}
 	

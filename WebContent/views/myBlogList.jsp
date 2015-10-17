@@ -25,18 +25,6 @@
 </head>
 <body>
 
-	<!-- start header -->
-	<header class="main-header bgimage">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12">
-				<!-- start logo -->
-				<a class="branding" href="" title=""><img src="" alt=""></a>
-				<img src="" alt="" class="hide">
-			</div>
-		</div>
-	</div>
-	</header>
 	<!-- 包含 导航栏 -->
 	<jsp:include page="/views/navbar.jsp"></jsp:include>
 	<section class="content-wrap">

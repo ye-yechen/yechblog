@@ -1,6 +1,5 @@
 package com.yech.yechblog.entity;
 
-import java.util.Date;
 
 /**
  * 日志类
@@ -15,7 +14,7 @@ public class Log{
 	private String operParams;//操作参数
 	private String operResult;//操作结果，成功/失败
 	private String resultMsg;//结果消息
-	private Date operTime = new Date();//操作时间
+	private String operTime;//操作时间
 
 	public String getId() {
 		return id;
@@ -65,11 +64,11 @@ public class Log{
 		this.resultMsg = resultMsg;
 	}
 
-	public Date getOperTime() {
+	public String getOperTime() {
 		return operTime;
 	}
 
-	public void setOperTime(Date operTime) {
+	public void setOperTime(String operTime) {
 		this.operTime = operTime;
 	}
 }

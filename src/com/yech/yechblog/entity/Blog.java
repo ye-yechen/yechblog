@@ -1,6 +1,5 @@
 package com.yech.yechblog.entity;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +23,7 @@ public class Blog{
 	private Integer category;
 
 	// 创建时间
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+	private String createTime;
 	
 	//评论
 	//建立 Blog 到 Comment 到一对多关系
@@ -79,11 +78,11 @@ public class Blog{
 		this.category = category;
 	}
 
-	public Timestamp getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

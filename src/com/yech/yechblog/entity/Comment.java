@@ -1,6 +1,5 @@
 package com.yech.yechblog.entity;
 
-import java.sql.Timestamp;
 
 /**
  * 评论类
@@ -11,7 +10,7 @@ public class Comment {
 	private Integer id;
 	private String content;//内容
 	private User user;//评论人
-	private Timestamp commentTime = new Timestamp(System.currentTimeMillis());;//评论时间
+	private String commentTime;//评论时间
 	private String imageUrl;//评论的图片的url
 	//评论所对应的blog
 	private Blog blog;
@@ -39,10 +38,10 @@ public class Comment {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Timestamp getCommentTime() {
+	public String getCommentTime() {
 		return commentTime;
 	}
-	public void setCommentTime(Timestamp commentTime) {
+	public void setCommentTime(String commentTime) {
 		this.commentTime = commentTime;
 	}
 	public String getImageUrl() {

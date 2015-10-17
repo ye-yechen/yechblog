@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
@@ -10,9 +12,14 @@
 	<!-- 导入资源文件 -->
 	<context:property-placeholder location="classpath:db.properties" />
 
+	<task:scheduled-tasks>
+		<task:scheduled ref="scheduleMessage" method="scheduleTask" 
+				cron="0 0/1 * * * *"/>
+	</task:scheduled-tasks>
+	
 	<!-- -->
 	<context:component-scan
-		base-package="com.yech.yechblog.dao.impl,com.yech.yechblog.service.impl,com.yech.yechblog.action,com.yech.yechblog.listener"></context:component-scan>
+		base-package="com.yech.yechblog.dao.impl,com.yech.yechblog.service.impl,com.yech.yechblog.action,com.yech.yechblog.schedule"></context:component-scan>
 	<!-- 配置 c3p0 数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="user" value="${jdbc.user}"></property>

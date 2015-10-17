@@ -1,6 +1,8 @@
 package com.yech.yechblog.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户类
@@ -15,6 +17,14 @@ public class User{
 	private String nickName; //昵称
 	private String notes;//个人备注
     private String image;//图片URL
+    private List<Message> messages = new ArrayList<Message>();
+    
+	public List<Message> getMessages() {
+		return messages;
+	}
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 	public String getImage() {
 		return image;
 	}

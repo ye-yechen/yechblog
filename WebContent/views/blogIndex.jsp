@@ -20,6 +20,9 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+.badge :empty {
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -90,7 +93,11 @@
 							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="name">
 								<a href="#"><s:property value="#session['user'].username" /></a>
-								<span class="badge">0</span>
+								<a href="UserAction_toMessageCenter">
+									<span class="badge badge-important">
+										<s:property value="#session['user'].messages.size()"/>
+									</span>
+								</a>
 							</span>&nbsp;&nbsp;
 						</s:if>
 						<s:else>

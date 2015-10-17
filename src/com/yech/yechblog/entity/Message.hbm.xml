@@ -14,7 +14,7 @@
         <property name="status" type="java.lang.Boolean">
         	<column name="STATUS"></column>
         </property>
-        <property name="createTime" type="java.sql.Timestamp">
+        <property name="createTime" type="java.lang.String">
             <column name="CREATE_TIME" />
         </property>
         <!-- Message 和 User 多对一 (发出消息的人)-->
@@ -24,6 +24,10 @@
         <!-- Message 和 User 多对一 (接收消息的人)-->
         <many-to-one name="other" class="com.yech.yechblog.entity.User">
         	<column name="OTHER"></column>
+        </many-to-one>
+        <!-- Message 和 Blog 多对一 (接收消息的人)-->
+        <many-to-one name="blog" class="com.yech.yechblog.entity.Blog">
+        	<column name="BLOGID"></column>
         </many-to-one>
     </class>
 </hibernate-mapping>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.DataUtil;
+import com.yech.yechblog.util.Global;
 
 /**
  * 登录Action
@@ -65,6 +66,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware{
 	@SkipValidation
 	public String logout(){
 		sessionMap.clear();
+		Global.user = null;
 		return "BlogAction";
 	}
 	
@@ -77,6 +79,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware{
 			if(isRemember()){ //记住了密码
 			}
 			sessionMap.put("user", user);//将 user 信息放到session域
+			Global.user = user;
 		}
 	}
 
