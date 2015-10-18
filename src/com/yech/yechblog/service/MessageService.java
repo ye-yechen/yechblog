@@ -31,4 +31,10 @@ public interface MessageService{
 	 */
 	public Message getMessageById(Integer mid);
 
+	/**
+	 * 获取已经读过的旧消息
+	 * @return
+	 */
+	public List<Message> getOldMessages(User model);
+
 }

@@ -42,20 +42,20 @@
 							<s:property value="#m.blog.title" />
 						</div>
 						<div class="message-info">
-							<p><s:property value="#m.blog.content" /></p>
+							<s:property value="#m.blog.content" />
 						</div>
 						<s:if test="comments.size() == null">
 							<div class="pull-left">
-								暂且没有评论!
+								暂且没有消息!
 							</div>
 						</s:if>
 						<s:iterator var="c" value="comments">
-							<div class="pull-left">
+							<div class="">
 								<a><s:property value="#c.user.username" /></a>&nbsp;评论于
 								&nbsp;<s:property value="#c.commentTime" />
 							</div>
-							<div class="post-content">
-								<p><s:property value="#c.content" /></p>
+							<div class="">
+								<s:property value="#c.content" />
 							</div>
 						</s:iterator>
 					</article>

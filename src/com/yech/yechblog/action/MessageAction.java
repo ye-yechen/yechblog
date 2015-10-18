@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.yech.yechblog.aware.UserAware;
-import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
 import com.yech.yechblog.entity.Message;
 import com.yech.yechblog.entity.User;

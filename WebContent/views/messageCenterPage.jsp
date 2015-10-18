@@ -36,9 +36,6 @@
   					 <li role="presentation"><a href="#">@ 我</a></li>
 				</ul>
 				<div class="post">
-					<s:if test="newMessages.size() == 0 || newMessages == null">
-						<div>当前没有任何新的消息!以下部分是已读的旧消息</div>
-					</s:if>
 					<s:iterator var="m" value="newMessages">
 						<ul class="notice-list">
 							<li>
@@ -51,6 +48,21 @@
 							</li>
 						</ul>
 					</s:iterator>
+					<s:if test="newMessages.size() == 0 || newMessages == null">
+						<div>当前没有任何新的消息!以下部分是已读的旧消息</div>
+						<s:iterator var="om" value="oldMessages">
+							<ul class="notice-list">
+								<li>
+									<a href="#"><s:property value="#om.self.username"/></a>评论了您的博客
+										&nbsp;&nbsp;
+										<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+									<div class="pull-right">
+										<i><s:property value="#om.createTime"/></i>
+									</div>
+								</li>
+							</ul>
+						</s:iterator>
+					</s:if>
 				</div>
 			</main>
 		</div>

@@ -14,6 +14,7 @@ import org.springframework.web.context.ServletContextAware;
 
 import com.yech.yechblog.entity.Message;
 import com.yech.yechblog.entity.User;
+import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.ValidateUtil;
 
@@ -38,6 +39,8 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 	@Resource
 	private UserService userService;
 
+	@Resource
+	private MessageService messageService;
 	@Override
 	public void setServletContext(ServletContext arg0) {
 		this.servletContext = arg0;
@@ -114,11 +117,11 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		this.oldMessages = oldMessages;
 	}
 
-	public List<Message> getMessages() {
+	public List<Message> getNewMessages() {
 		return newMessages;
 	}
 
-	public void setMessages(List<Message> newMessages) {
+	public void setNewMessages(List<Message> newMessages) {
 		this.newMessages = newMessages;
 	}
 
@@ -129,8 +132,15 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 	 */
 	public String toMessageCenter() {
 		newMessages = model.getMessages();
+		oldMessages = messageService.getOldMessages(model); //获取已经读过的旧消息
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
+				message.getBlog().getId();
+			}
+		}
+		if(oldMessages.size() > 0){
+			for (Message message : oldMessages) {
+				System.out.println("om="+message.getId());
 				message.getBlog().getId();
 			}
 		}

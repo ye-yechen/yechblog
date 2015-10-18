@@ -66,4 +66,19 @@ public class MessageServiceImpl implements  MessageService{
 		return message;
 	}
 
+	/**
+	 * 获取已经读过的旧消息
+	 */
+	@Override
+	public List<Message> getOldMessages(User user) {
+		String hql = "from Message m where m.other.id = ? and m.self.id != ? and m.status = ?";
+		List<Message> messages = 
+				messageDao.batchFindEntityByHQL(hql, user.getId(), user.getId(),false);
+		for(Message message : messages){
+			message.getOther().getUsername();
+			message.getSelf().getUsername();
+		}
+		return messages;
+	}
+
 }
