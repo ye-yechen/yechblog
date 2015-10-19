@@ -41,19 +41,20 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 
 	@Resource
 	private MessageService messageService;
+
 	@Override
 	public void setServletContext(ServletContext arg0) {
 		this.servletContext = arg0;
 	}
 
-	//
-	// /**
-	// * 编辑用户信息
-	// * @return
-	// */
-	// public String editInfo(){
-	// return "";
-	// }
+	/**
+	 * 编辑用户信息
+	 * 
+	 * @return
+	 */
+	public String editInfo() {
+		return "";
+	}
 
 	public File getUserImg() {
 		return userImg;
@@ -104,11 +105,11 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		return "personalPage";
 	}
 
-	//新的消息
+	// 新的消息
 	private List<Message> newMessages;
-	//已读过的旧消息
+	// 已读过的旧消息
 	private List<Message> oldMessages;
-	
+
 	public List<Message> getOldMessages() {
 		return oldMessages;
 	}
@@ -132,15 +133,15 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 	 */
 	public String toMessageCenter() {
 		newMessages = model.getMessages();
-		oldMessages = messageService.getOldMessages(model); //获取已经读过的旧消息
+		oldMessages = messageService.getOldMessages(model); // 获取已经读过的旧消息
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
 				message.getBlog().getId();
 			}
 		}
-		if(oldMessages.size() > 0){
+		if (oldMessages.size() > 0) {
 			for (Message message : oldMessages) {
-				System.out.println("om="+message.getId());
+				System.out.println("om=" + message.getId());
 				message.getBlog().getId();
 			}
 		}

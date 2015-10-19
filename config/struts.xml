@@ -55,6 +55,14 @@
 			<result name="input">/views/regist.jsp</result>
 		</action>
 		
+		<!-- IdentifyCodeAction -->
+		<action name="IdentifyCodeAction_*" class="identifyCodeAction" method="{1}">
+			<result name="success" type="stream">
+				<param name="contentType">image/jpeg</param>
+   				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
 		<!-- loginAction -->
 		<action name="LoginAction_*" class="loginAction" method="{1}">
 			<result name="loginPage">/views/login.jsp</result>

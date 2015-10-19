@@ -23,7 +23,15 @@
 }
 </style>
 <script type="text/javascript">
-
+	$(function(){
+		$("#btn_addImg").click(function(){
+			$("#addImgForm").submit();
+		});
+		
+		$("#btn_editInfo").click(function(){
+			$("#editInfoForm").submit();
+		});
+	})
 
 </script>
 </head>
@@ -94,7 +102,7 @@
 	         		</div>
 	         	
 	         		 <div class="modal-body">
-	         		 	<form action="UserAction_editInfo" method="post">
+	         		 	<form action="UserAction_editInfo" method="post" id="editInfoForm">
 	         		 		<table class="table table-bordered" border="0">
 							  <tr>
 							  	<td>
@@ -103,7 +111,7 @@
 							  	</td>
 							  	<td>
 							  		<label>职位:</label>
-							  		<input type="text" name="job">
+							  		<input type="text" name="career">
 							  	</td>
 							  </tr>
 							  <tr>
@@ -165,7 +173,7 @@
 		           		 <button type="button" class="btn btn-default" 
 		              			 data-dismiss="modal">关闭
 		        	    </button>
-		           		 <button id="editInfo" type="button" class="btn btn-primary">
+		           		 <button id="btn_editInfo" type="button" class="btn btn-primary">
 		             		  提交更改
 		          		 </button>
 		         	</div>
@@ -186,17 +194,16 @@
 	           			 </h4>
 	       		</div>
 	       		<div class="modal-body">
-	         		 <form action="UserAction_addImage" method="post" enctype="multipart/form-data">
+	         		 <form action="UserAction_addImage" method="post" enctype="multipart/form-data" id="addImgForm">
 	         		 	<label>头像:</label>
 	         		 	<input type="file" name="userImg">
 	         		 	<font color="red"><s:fielderror fieldName="userImg"></s:fielderror></font>
-	         			<button type="submit">sure</button>
 	         		 </form>
 	         	</div>
 	         	<div class="modal-footer">
 	         		<button type="button" class="btn btn-default" 
 		              			 data-dismiss="modal">关闭</button>
-		             <button type="button" class="btn btn-primary" >提交更改</button>
+		             <button type="button" class="btn btn-primary" id="btn_addImg">提交更改</button>
 	         	</div>
 		          
 	       </div>

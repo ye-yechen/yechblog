@@ -13,6 +13,13 @@
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+ <script type="text/javascript">  
+     function changeImg() {  
+        $("#code").attr("src","IdentifyCodeAction_execute?d="+new Date().valueOf());  
+     }  
+ </script>  
+
 </head>
 <body>
 	<div class="page-header">
@@ -43,6 +50,19 @@
 			</div>
 			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>password</s:param></s:fielderror></font></div>
 		</div>
+		<div class="form-group">
+			<label for="inputIdentifyCode" class="col-sm-2 control-label">IdentifyCode</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" name="identifyCode" id="identifyCode"
+					placeholder="identifyCode">
+			</div>
+			<div class="col-sm-4">
+				<img alt="验证码" id="code" src="IdentifyCodeAction_execute">
+			</div>
+			<div class="col-sm-4"><a href="#" onclick="changeImg()">看不清，换一张！</a> </div>
+			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>identifyCode</s:param></s:fielderror></font></div>
+		</div>
+		
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-4">
 				<button type="submit" class="btn btn-default">Sign up</button>

@@ -3,6 +3,7 @@ package com.yech.yechblog.interceptor;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 import com.yech.yechblog.action.BaseAction;
+import com.yech.yechblog.action.IdentifyCodeAction;
 import com.yech.yechblog.action.LoginAction;
 import com.yech.yechblog.action.RegistAction;
 import com.yech.yechblog.action.UserAction;
@@ -29,9 +30,15 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected String doIntercept(ActionInvocation arg0) throws Exception {
+		
+		//生成验证码的Action,直接放行
+		if(arg0.getAction() instanceof IdentifyCodeAction){
+			return arg0.invoke();
+		}
+		
 		BaseAction action = (BaseAction) arg0.getAction();
 		if(action instanceof LoginAction
-				|| action instanceof RegistAction){
+				|| action instanceof RegistAction ){
 			//不拦截注册和登录action，直接放行
 			return arg0.invoke();
 		}

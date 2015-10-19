@@ -6,6 +6,7 @@ import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.DataUtil;
@@ -37,8 +38,20 @@ public class RegistAction extends BaseAction<User> {
 		//密码加密
 		model.setPassword(DataUtil.md5(model.getPassword()));
 		userService.saveEntity(model);
-		return SUCCESS;
+		return "BlogAction";//重定向进入首页博客列表
 	}
+	
+	//接收页面传过来的验证码
+	private String identifyCode;
+	
+	public String getIdentifyCode() {
+		return identifyCode;
+	}
+
+	public void setIdentifyCode(String identifyCode) {
+		this.identifyCode = identifyCode;
+	}
+
 	/**
 	 * 校验(重写 ActionSupport 父类的方法进行校验)
 	 */
@@ -53,6 +66,9 @@ public class RegistAction extends BaseAction<User> {
 		}
 		if(!ValidateUtil.isValidate(model.getPassword())){
 			addFieldError("password", "password 不能为空!");
+		}
+		if(!identifyCode.equals((String)(ActionContext.getContext().getSession().get("code")))){
+			addFieldError("identifyCode", "验证码不对!");
 		}
 		if(hasErrors()){
 			return;
