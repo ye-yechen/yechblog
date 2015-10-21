@@ -35,5 +35,10 @@
         	<key column="BLOGID"></key>
         	<one-to-many class="com.yech.yechblog.entity.Comment"/>
         </set>
+        
+        <set name="tags" table="TAGS_BLOGS" inverse="true">
+        	<key column="B_ID"></key>
+        	<many-to-many column="T_ID" class="com.yech.yechblog.entity.Tag"></many-to-many>
+        </set>
     </class>
 </hibernate-mapping>

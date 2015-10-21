@@ -111,9 +111,10 @@ public class BlogServiceImpl implements BlogService {
 	public List<Blog> queryPage(int currentPageIndex, int countPerPage) {
 		String hql = "SELECT * FROM blogs LIMIT ?,?";
 		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql, (currentPageIndex-1) * countPerPage,
-							currentPageIndex * countPerPage);
+							countPerPage);
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
+			blog.getTags().size();
 		}
 		return blogs;
 	}
@@ -153,6 +154,21 @@ public class BlogServiceImpl implements BlogService {
 		Blog blog = blogDao.getEntity(bid);
 		blog.getUser().getUsername();
 		return blog;
+	}
+
+	/**
+	 * 根据传入的tagName 查找含有此标签的博客
+	 * @return
+	 */
+	@Override
+	public List<Blog> queryBlogsByTagName(String tagName) {
+		String hql = "select t.blogs from Tag t where t.tagName = ?";
+		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql, tagName);
+		for(Blog blog : blogs){
+			blog.getComments().size();
+			blog.getTags().size();
+		}
+		return blogs;
 	}
 
 }

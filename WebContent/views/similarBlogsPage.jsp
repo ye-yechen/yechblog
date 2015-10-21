@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-CN">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
@@ -26,10 +28,8 @@
 </style>
 </head>
 <body>
-	
 	<!-- 包含 导航栏 -->
 	<jsp:include page="/views/navbar.jsp"></jsp:include>
-
 	<section class="content-wrap">
 	<div class="container">
 		<div class="row">
@@ -58,7 +58,7 @@
 							<i class="fa-folder-open-o"></i> 
 							<span>标签</span>
 							<s:iterator var="bt" value="#b.tags">
-								<i class="tag-cloud"><a href="BlogAction_queryBlogsByTagName?tagName=<s:property value="#bt.tagName" />"><s:property value="#bt.tagName" /></a></i>
+								<i class="tag-cloud"><s:property value="#bt.tagName" /></i>
 							</s:iterator>
 						</div>
 						<div class="pull-right share">

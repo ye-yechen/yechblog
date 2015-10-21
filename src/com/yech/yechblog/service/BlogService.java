@@ -76,5 +76,11 @@ public interface BlogService{
 	 * @return
 	 */
 	public Blog getBlogById(Integer bid);
+
+	/**
+	 * 根据传入的tagName 查找含有此标签的博客
+	 * @return
+	 */
+	public List<Blog> queryBlogsByTagName(String tagName);
 	
 }

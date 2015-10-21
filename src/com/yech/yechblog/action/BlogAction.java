@@ -12,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import com.yech.yechblog.aware.UserAware;
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
+import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
+import com.yech.yechblog.service.TagService;
+import com.yech.yechblog.util.StringUtil;
 
 /**
  * BlogAction
@@ -31,6 +34,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	@Resource
 	private BlogService blogService;
 
+	@Resource
+	private TagService tagService;
 	// 接收 User 对象
 	private User user;
 
@@ -100,20 +105,58 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		return "toWriteBlogPage";
 	}
 
+	//接收页面传过来的博客的标签
+	private String myTags;
+
+	public String getMyTags() {
+		return myTags;
+	}
+
+	public void setMyTags(String myTags) {
+		this.myTags = myTags;
+	}
+
 	/**
 	 * 新建博客
 	 */
 	public String newBlog() {
+		System.out.println("8888888888888888888");
 		// 去掉CKEditor自动在文本上添加的<p></p>标签
 		model.setContent(model.getContent().replace("<p>", "")
 				.replace("</p>", ""));
 		model.setUser(user);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		model.setCreateTime(format.format(new Date()));
-		blogService.saveOrUpdateBlog(model);
+		System.out.println("tags= "+myTags);
+		String []tagArr = StringUtil.str2Arr(myTags, ","); //以逗号分割字符串
+		Tag blogTag = null;
+		if(tagArr != null && tagArr.length > 0){
+			for(String str : tagArr){
+				//保存标签
+				blogTag = new Tag();
+				blogTag.setTagName(str);
+				blogTag.setCreateTime(format.format(new Date()));
+				blogTag.setTagDesc("*"+str+"*");
+				System.out.println("000000: "+str);
+				blogTag.getBlogs().add(model);
+				model.getTags().add(blogTag);
+				blogService.saveOrUpdateBlog(model);
+				tagService.saveTag(blogTag);
+			}
+		}else{
+			blogService.saveOrUpdateBlog(model);
+		}
 		return "BlogAction";
 	}
 
+//	/**
+//	 * 查询博客所属的标签
+//	 * @return
+//	 */
+//	public List<Tag> queryBlogTags(){
+//		return tagService.queryBlogTags(bid);
+//	}
+//	
 	// 接收页面的bid(blog id)
 	private Integer bid;
 
@@ -212,4 +255,24 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	public String toPersonalPage(){
 		return "personalPage";
 	}
+	
+	public String tagName;
+	
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	/**
+	 * 根据传入的tagName 查找含有此标签的博客
+	 * @return
+	 */
+	public String queryBlogsByTagName(){
+		allBlogList = blogService.queryBlogsByTagName(tagName);
+		return "similarBlogs";
+	}
+	
 }

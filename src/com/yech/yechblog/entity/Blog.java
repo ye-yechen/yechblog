@@ -107,5 +107,14 @@ public class Blog{
 
 	// 阅读数量
 	private Integer readCount;
+	
+	//blog 到 Tag 的多对多关系
+	private Set<Tag> tags = new HashSet<Tag>();
+	public Set<Tag> getTags() {
+		return tags;
+	}
 
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
 }

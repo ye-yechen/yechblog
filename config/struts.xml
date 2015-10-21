@@ -75,6 +75,7 @@
 			<result name="toWriteBlogPage">/views/writeBlog.jsp</result>
 			<result name="detailReadPage">/views/detailRead.jsp</result>
 			<result name="personalPage">/views/personalPage.jsp</result>
+			<result name="similarBlogs">/views/similarBlogsPage.jsp</result>
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>
