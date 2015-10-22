@@ -72,9 +72,9 @@
 		<div class="row">
 			<main class="col-md-9 main-content">
 				<ul class="nav nav-tabs">
- 					 <li role="presentation" class="active"><a href="#">Home</a></li>
-  					 <li role="presentation"><a href="#">Profile</a></li>
-  					 <li role="presentation"><a href="#">Messages</a></li>
+ 					 <li role="presentation" class="active"><a href="#">我的动态</a></li>
+  					 <li role="presentation"><a href="#">我的朋友</a></li>
+  					 <li role="presentation"><a href="#">我的收藏</a></li>
 				</ul>
 				<div class="post">
 					wwwwwwwww

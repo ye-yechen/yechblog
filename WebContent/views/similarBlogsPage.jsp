@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
-<title>博客精选</title>
+<title>同类博客</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 
@@ -35,8 +35,8 @@
 		<div class="row">
 			<main class="col-md-9 main-content"> 
 				<!-- 迭代博客列表 -->
-				<s:iterator var="b" value="allBlogList">
-					<article id=<s:property value="#b.id" /> class="post ">
+				<s:iterator var="b" value="similarBlogList">
+					<article id=<s:property value="#b.id" /> class="post">
 						<div class="post-head">
 							<h1 class="post-title">
 								<s:property value="#b.title" />
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 					<div class="post-content">
-						<p><s:property value="#b.content" /></p>
+						<p><s:property value="#b.content" escapeHtml="false"/></p>
 					</div>
 					<div class="post-permalink">
 						<a href="BlogAction_readDetail?bid=<s:property value='#b.id' />" class="btn btn-default">阅读全文</a>

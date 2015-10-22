@@ -82,5 +82,18 @@ public interface BlogService{
 	 * @return
 	 */
 	public List<Blog> queryBlogsByTagName(String tagName);
+
+	/**
+	 * 查询具有 tagName 标签的博客总数，用于分页
+	 * @return
+	 */
+	public int getSimilarBlogCount(String tagName);
+
+	/**
+	 * 在具有相同标签的博客中查询指定页的bolg总数
+	 * @return
+	 */
+	public List<Blog> querySimilarBlogPage(String tagName,
+			int currentPageIndex, int countPerPage);
 	
 }

@@ -40,19 +40,22 @@
 							</h1>
 							<div class="post-meta">
 								<span class="author">作者：<a href="#"><s:property value="#b.user.username" /></a></span>
-								<time class="post-date" datetime="" title=""></time>
+								<span class="post-date"><s:property value="#b.createTime" /></span>
 							</div>
 						</div>
 					<div class="post-content">
-						<p><s:property value="#b.content" /></p>
+						<p><s:property value="#b.content" escapeHtml="false"/></p>
 					</div>
 					<div class="post-permalink">
-						<a href="#" class="btn btn-default">阅读全文</a>
+						<a href="BlogAction_readDetail?bid=<s:property value='#b.id' />" class="btn btn-default">阅读全文</a>
 					</div>
 
 					<footer class="post-footer clearfix">
 						<div class="pull-left tag-list">
-							<i class="fa fa-folder-open-o"></i> <a href="#">yech</a>
+							<span>标签</span>
+							<s:iterator var="bt" value="#b.tags">
+								<i class="tag-cloud"><a href="BlogAction_similarBlogsPagination?tagName=<s:property value="#bt.tagName" />"><s:property value="#bt.tagName" /></a></i>
+							</s:iterator>
 						</div>
 						<div class="pull-right share"></div>
 					</footer> 
@@ -77,11 +80,31 @@
 			</nav> 
 			</main>
 			<aside class="col-md-3 sidebar">
+			
 			<div class="widget">
-				<h4 class="title">yech</h4>
-				<div class="content download">
-					<a href="" class="btn btn-default btn-block" onclick="">YechBlog</a>
-				</div>
+				<h4 class="title">
+					<span class="content">YechBlog</span>
+				</h4>
+					<span class="mylabel">
+						<s:if test="#session['user'] != null">
+							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="name">
+								<a href="#"><s:property value="#session['user'].username" /></a>
+								<a href="UserAction_toMessageCenter">
+									<span class="badge badge-important">
+										<s:property value="#session['user'].messages.size()"/>
+									</span>
+								</a>
+							</span>&nbsp;&nbsp;
+						</s:if>
+						<s:else>
+							<div class="content download">
+								<a href="LoginAction_toLoginPage" class="btn btn-default btn-block" onclick="">
+									<span class="">去登录</span>
+								</a>
+							</div>
+						</s:else>
+					</span>
 			</div>
 			</aside>
 		</div>

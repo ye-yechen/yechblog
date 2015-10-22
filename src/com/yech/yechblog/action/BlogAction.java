@@ -53,6 +53,16 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	// 当前博客的评论列表
 	private List<Comment> allComments;
+	//具有相同标签的博客列表
+	private List<Blog> similarBlogList;
+	
+	public List<Blog> getSimilarBlogList() {
+		return similarBlogList;
+	}
+
+	public void setSimilarBlogList(List<Blog> similarBlogList) {
+		this.similarBlogList = similarBlogList;
+	}
 
 	public List<Comment> getAllComments() {
 		return allComments;
@@ -120,14 +130,12 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 * 新建博客
 	 */
 	public String newBlog() {
-		System.out.println("8888888888888888888");
 		// 去掉CKEditor自动在文本上添加的<p></p>标签
 		model.setContent(model.getContent().replace("<p>", "")
 				.replace("</p>", ""));
 		model.setUser(user);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		model.setCreateTime(format.format(new Date()));
-		System.out.println("tags= "+myTags);
 		String []tagArr = StringUtil.str2Arr(myTags, ","); //以逗号分割字符串
 		Tag blogTag = null;
 		if(tagArr != null && tagArr.length > 0){
@@ -137,7 +145,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 				blogTag.setTagName(str);
 				blogTag.setCreateTime(format.format(new Date()));
 				blogTag.setTagDesc("*"+str+"*");
-				System.out.println("000000: "+str);
 				blogTag.getBlogs().add(model);
 				model.getTags().add(blogTag);
 				blogService.saveOrUpdateBlog(model);
@@ -275,4 +282,23 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		return "similarBlogs";
 	}
 	
+	/**
+	 * 有相同标签的博客列表分页显示
+	 * @return
+	 */
+	public String similarBlogsPagination(){
+		int countPerPage = 5;//每页显示5条
+		if(pageIndex == null)
+		{
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getSimilarBlogCount(tagName);//查询具有相同标签的博客总数
+		//显示在当前页的博客
+		similarBlogList = blogService.querySimilarBlogPage(tagName,currentPageIndex, countPerPage);
+		//总页数
+		pageCount = 
+				(blogCount%countPerPage==0?blogCount/countPerPage:(blogCount/countPerPage + 1));
+		return "similarBlogs";
+	}
 }

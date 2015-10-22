@@ -77,6 +77,7 @@ public class MessageServiceImpl implements  MessageService{
 		for(Message message : messages){
 			message.getOther().getUsername();
 			message.getSelf().getUsername();
+			message.getBlog().getId();
 		}
 		return messages;
 	}

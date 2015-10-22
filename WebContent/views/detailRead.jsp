@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="post-content">
-							<p><s:property value="#b.content" /></p>
+							<p><s:property value="#b.content" escapeHtml="false"/></p>
 						</div>
 						<div class="pull-right share">
 							<a id="comment" href="#">评论</a>
@@ -93,7 +93,11 @@
 							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="name">
 								<a href="#"><s:property value="#session['user'].username" /></a>
-								<span class="badge">0</span>
+								<a href="UserAction_toMessageCenter">
+									<span class="badge badge-important">
+										<s:property value="#session['user'].messages.size()"/>
+									</span>
+								</a>
 							</span>&nbsp;&nbsp;
 						</s:if>
 						<s:else>

@@ -47,7 +47,7 @@
 							</div>
 						</div>
 					<div class="post-content">
-						<p><s:property value="#b.content" /></p>
+						<p><s:property value="#b.content" escapeHtml="false"/></p>
 					</div>
 					<div class="post-permalink">
 						<a href="BlogAction_readDetail?bid=<s:property value='#b.id' />" class="btn btn-default">阅读全文</a>
@@ -58,7 +58,7 @@
 							<i class="fa-folder-open-o"></i> 
 							<span>标签</span>
 							<s:iterator var="bt" value="#b.tags">
-								<i class="tag-cloud"><a href="BlogAction_queryBlogsByTagName?tagName=<s:property value="#bt.tagName" />"><s:property value="#bt.tagName" /></a></i>
+								<i class="tag-cloud"><a href="BlogAction_similarBlogsPagination?tagName=<s:property value="#bt.tagName" />"><s:property value="#bt.tagName" /></a></i>
 							</s:iterator>
 						</div>
 						<div class="pull-right share">

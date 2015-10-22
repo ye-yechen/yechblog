@@ -109,9 +109,9 @@ public class BlogServiceImpl implements BlogService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Blog> queryPage(int currentPageIndex, int countPerPage) {
-		String hql = "SELECT * FROM blogs LIMIT ?,?";
-		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql, (currentPageIndex-1) * countPerPage,
-							countPerPage);
+		String hql = "SELECT * FROM blogs order by create_time desc LIMIT ?,?";
+		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,
+				(currentPageIndex-1) * countPerPage,countPerPage);
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
 			blog.getTags().size();
@@ -126,11 +126,12 @@ public class BlogServiceImpl implements BlogService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Blog> queryMyPage(User user,int currentPageIndex, int countPerPage) {
-		String hql = "SELECT * FROM blogs WHERE userid = ? LIMIT ?,?";
-		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,user.getId(), (currentPageIndex-1) * countPerPage,
-				currentPageIndex * countPerPage);
+		String hql = "SELECT * FROM blogs WHERE userid = ? order by create_time desc LIMIT ?,?";
+		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,user.getId(), 
+				(currentPageIndex-1) * countPerPage,countPerPage);
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
+			blog.getTags().size();
 		}
 		return blogs;
 	}
@@ -162,9 +163,44 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public List<Blog> queryBlogsByTagName(String tagName) {
-		String hql = "select t.blogs from Tag t where t.tagName = ?";
+		String hql = "select t.blogs from Tag t where t.tagName = ? order by t.createTime desc";
 		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql, tagName);
 		for(Blog blog : blogs){
+			//避免懒加载
+			blog.getUser().getUsername();
+			blog.getComments().size();
+			blog.getTags().size();
+		}
+		return blogs;
+	}
+
+	/**
+	 * 查询具有 tagName 标签的博客总数，用于分页
+	 * @return
+	 */
+	@Override
+	public int getSimilarBlogCount(String tagName) {
+		String hql = "select count(t.tagName) from Tag t where t.tagName = ?";
+		return  ((Long)(blogDao.uniqueResult(hql,tagName))).intValue();
+	}
+
+	/**
+	 * 在具有相同标签的博客中查询指定页的bolg总数
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Blog> querySimilarBlogPage(String tagName,
+			int currentPageIndex, int countPerPage) {
+		String sql = "select b.*,t.* from tags_blogs as tb "
+				+ "left join tags as t on t.id = tb.t_id "
+				+ "left join blogs as b on b.id = tb.b_id "
+				+ "where t.tag_name = ? "
+				+ "order by t.create_time desc limit ?,?";
+		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,sql,tagName, 
+				(currentPageIndex-1) * countPerPage,countPerPage);
+		for(Blog blog : blogs){
+			blog.getUser().getUsername();
 			blog.getComments().size();
 			blog.getTags().size();
 		}

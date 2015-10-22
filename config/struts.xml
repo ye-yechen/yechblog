@@ -17,7 +17,7 @@
 		<interceptors>
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
-				 <param name="excludeMethods">pagination,readDetail,logout</param>  
+				 <param name="excludeMethods">pagination,readDetail,logout,similarBlogsPagination</param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
 			<interceptor-stack name="yechblogStack">
