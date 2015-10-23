@@ -37,4 +37,10 @@ public interface MessageService{
 	 */
 	public List<Message> getOldMessages(User model);
 
+	/**
+	 * 查询当前用户的动态
+	 * @return
+	 */
+	public List<Message> queryUserActivities(User user);
+
 }

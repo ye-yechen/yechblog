@@ -31,6 +31,23 @@
 		$("#btn_editInfo").click(function(){
 			$("#editInfoForm").submit();
 		});
+		
+		//切换‘我的小活动’、‘我的小伙伴’、‘我的小宝藏’的显示状态
+		$("#m_activity").click(function(){
+			$("#myActivity").show();
+			$("#myFriends").hide();
+			$("#myCollection").hide();
+		});
+		$("#m_friends").click(function(){
+			$("#myFriends").show();
+			$("#myCollection").hide();
+			$("#myActivity").hide();
+		});
+		$("#m_collections").click(function(){
+			$("#myCollection").show();
+			$("#myFriends").hide();
+			$("#myActivity").hide();
+		});
 	})
 
 </script>
@@ -72,16 +89,49 @@
 		<div class="row">
 			<main class="col-md-9 main-content">
 				<ul class="nav nav-tabs">
- 					 <li role="presentation" class="active"><a href="#">我的动态</a></li>
-  					 <li role="presentation"><a href="#">我的朋友</a></li>
-  					 <li role="presentation"><a href="#">我的收藏</a></li>
+ 					 <li id="m_activity" role="presentation" class="active"><a href="#">我的小活动</a></li>
+  					 <li id="m_friends" role="presentation"><a href="#">我的小伙伴</a></li>
+  					 <li id="m_collections" role="presentation"><a href="#">我的小宝藏</a></li>
 				</ul>
-				<div class="post">
-					wwwwwwwww
-				</div>
+				 <div id="myActivity" class="post">
+					<s:iterator var="m" value="allMessages">
+						<ul class="notice-list">
+							<li>
+								<s:if test="#m.comment == true">
+									评论了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+										&nbsp;&nbsp;
+								</s:if>
+								<s:elseif test="#m.love == true">
+									赞了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<s:elseif test="#m.collect == true">
+									收藏了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<s:elseif test="#m.share == true">
+									分享了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+									<s:property value="#m.blog.title"/>
+								</a>
+								<div class="pull-right">
+									<i><s:property value="#m.createTime"/></i>
+								</div>
+							</li>
+						</ul>
+					</s:iterator>
+				 </div>
+				 <div id="myFriends" class="post" style="display:none;">
+					these are my friends!
+				 </div>
+				 <div id="myCollection" class="post" style="display:none;">
+					these are my collections!
+				 </div>
 			</main>
 			<aside class="col-md-3 sidebar">
-				<div class="post">kkkkkkkk</div>
+				<div class="post">我是侧边栏</div>
 			</aside>
 		</div>
 	</div>

@@ -12,10 +12,11 @@
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="xhEditor/xheditor-1.2.2.min.js"></script>
+<script type="text/javascript" src="xhEditor/xheditor_lang/zh-cn.js"></script>
 <script type="text/javascript">
 	$(function() {
-		CKEDITOR.replace('content');
+		//CKEDITOR.replace('content');
 	
 		var b = true;
 		//得到焦点
@@ -63,7 +64,7 @@
 		</div>
 		<div class="form-group">
 			<label for="blogcontent">博客内容</label>
-			<textarea class="form-control" rows="30" cols="50" name="content"></textarea>
+			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" name="content"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用,分隔)</label> 

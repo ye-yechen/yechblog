@@ -48,8 +48,13 @@
 							</li>
 						</ul>
 					</s:iterator>
-					<s:if test="newMessages.size() == 0 || newMessages == null">
-						<div>当前没有任何新的消息!以下部分是已读的旧消息</div>
+					<s:if test="newMessages == null || newMessages.size() == 0">
+						<div>
+							当前没有任何新的消息!
+							<s:if test="oldMessages != null && oldMessages.size() != 0">
+								以下部分是已读的旧消息
+							</s:if>
+						</div>
 						<s:iterator var="om" value="oldMessages">
 							<ul class="notice-list">
 								<li>

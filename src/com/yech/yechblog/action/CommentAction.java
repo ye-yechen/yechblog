@@ -75,6 +75,7 @@ public class CommentAction extends BaseAction<Comment> implements UserAware{
 		message.setContent(model.getContent());
 		message.setSelf(user);
 		message.setOther(blog2.getUser());
+		message.setComment(true);//动态类型是评论
 		message.setStatus(true);//1代表未读
 		message.setBlog(blog2);
 		message.setCreateTime(format.format(new Date()));

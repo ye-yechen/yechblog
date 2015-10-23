@@ -15,7 +15,36 @@ public class Message {
 	private Boolean status; //状态 0已读 1未读
 	private Blog blog;//消息是关于哪篇博客
 	private String createTime;
+	private Boolean comment=false; //评论
+	private Boolean love=false;//赞
+	private Boolean collect=false;//收藏
+	private Boolean share=false; //分享
 	
+	public Boolean getComment() {
+		return comment;
+	}
+	public void setComment(Boolean comment) {
+		this.comment = comment;
+	}
+	
+	public Boolean getLove() {
+		return love;
+	}
+	public void setLove(Boolean love) {
+		this.love = love;
+	}
+	public Boolean getCollect() {
+		return collect;
+	}
+	public void setCollect(Boolean collect) {
+		this.collect = collect;
+	}
+	public Boolean getShare() {
+		return share;
+	}
+	public void setShare(Boolean share) {
+		this.share = share;
+	}
 	public Blog getBlog() {
 		return blog;
 	}
@@ -52,11 +81,10 @@ public class Message {
 	public void setOther(User other) {
 		this.other = other;
 	}
-	public boolean isStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	
 }

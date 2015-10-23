@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import com.yech.yechblog.aware.UserAware;
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
+import com.yech.yechblog.entity.Message;
 import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
+import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.TagService;
 import com.yech.yechblog.util.StringUtil;
 
@@ -36,6 +38,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	@Resource
 	private TagService tagService;
+	
+	@Resource
+	private MessageService messageService;
 	// 接收 User 对象
 	private User user;
 
@@ -55,7 +60,17 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Comment> allComments;
 	//具有相同标签的博客列表
 	private List<Blog> similarBlogList;
+	//当前用户的动态(评论了谁、赞了谁、收藏了谁...)
+	private List<Message> allMessages;
 	
+	public List<Message> getAllMessages() {
+		return allMessages;
+	}
+
+	public void setAllMessages(List<Message> allMessages) {
+		this.allMessages = allMessages;
+	}
+
 	public List<Blog> getSimilarBlogList() {
 		return similarBlogList;
 	}
@@ -260,6 +275,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 * @return
 	 */
 	public String toPersonalPage(){
+		//去个人主页的时候查询当前用户的动态
+		allMessages = messageService.queryUserActivities(user);
 		return "personalPage";
 	}
 	

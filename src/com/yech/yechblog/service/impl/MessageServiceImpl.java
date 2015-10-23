@@ -82,4 +82,22 @@ public class MessageServiceImpl implements  MessageService{
 		return messages;
 	}
 
+	/**
+	 * 查询当前用户的动态
+	 * @return
+	 */
+	@Override
+	public List<Message> queryUserActivities(User user) {
+		String hql = "from Message m where m.self.id = ?";
+		List<Message> messages = 
+				messageDao.batchFindEntityByHQL(hql, user.getId());
+		for(Message message : messages){
+			message.getOther().getUsername();
+			message.getSelf().getUsername();
+			message.getBlog().getId();
+			message.getBlog().getTitle();
+		}
+		return messages;
+	}
+
 }

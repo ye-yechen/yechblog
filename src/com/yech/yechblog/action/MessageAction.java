@@ -80,5 +80,5 @@ public class MessageAction extends BaseAction<Message> implements UserAware{
 		model.setBlog(blogService.getBlogById(bid));
 		return "toDetailMessagePage";
 	}
-
+	
 }

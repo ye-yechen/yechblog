@@ -14,6 +14,18 @@
         <property name="status" type="java.lang.Boolean">
         	<column name="STATUS"></column>
         </property>
+        <property name="comment" type="java.lang.Boolean">
+        	<column name="COMMENT"></column>
+        </property>
+        <property name="love" type="java.lang.Boolean">
+        	<column name="LOVE"></column>
+        </property>
+        <property name="collect" type="java.lang.Boolean">
+        	<column name="COLLECT"></column>
+        </property>
+        <property name="share" type="java.lang.Boolean">
+        	<column name="SHARE"></column>
+        </property>
         <property name="createTime" type="java.lang.String">
             <column name="CREATE_TIME" />
         </property>
