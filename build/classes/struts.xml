@@ -103,6 +103,14 @@
 		<action name="MessageAction_*" class="messageAction" method="{1}">
 			<result name="toDetailMessagePage">/views/detailMessagePage.jsp</result>
 		</action>
+		
+		<!-- ReplyAction -->
+		<action name="ReplyAction_*" class="replyAction" method="{1}">
+			<result name="toMessageCenterPage" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">UserAction_toMessageCenter</param>
+			</result>
+		</action>
 	</package>
 
 </struts>

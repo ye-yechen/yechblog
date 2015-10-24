@@ -19,7 +19,14 @@ public class Message {
 	private Boolean love=false;//赞
 	private Boolean collect=false;//收藏
 	private Boolean share=false; //分享
+	private Boolean reply=false;//回复评论
 	
+	public Boolean getReply() {
+		return reply;
+	}
+	public void setReply(Boolean reply) {
+		this.reply = reply;
+	}
 	public Boolean getComment() {
 		return comment;
 	}

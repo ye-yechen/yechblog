@@ -39,9 +39,29 @@
 					<s:iterator var="m" value="newMessages">
 						<ul class="notice-list">
 							<li>
-								<a href="#"><s:property value="#m.self.username"/></a>评论了您的博客
-									&nbsp;&nbsp;
+								
+								<s:if test="#m.comment == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;评论了您的的博客
+										&nbsp;&nbsp;
+								</s:if>
+								<s:elseif test="#m.love == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;赞了您的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<s:elseif test="#m.collect == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;收藏了您的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<s:elseif test="#m.share == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;分享了您的博客
+										&nbsp;&nbsp;
+								</s:elseif>
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
+								
+								<s:if test="#m.reply == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;回复了您&nbsp;&nbsp;
 									<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
+								</s:if>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
 								</div>

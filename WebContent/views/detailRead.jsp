@@ -58,11 +58,12 @@
 						<div class="pull-right share">
 							<a id="comment" href="#">评论</a>
 						</div>
-						<!-- 迭代评论列表 -->
+						
 						<s:if test="allComments == null || allComments.size() == 0">
 							<div class="post-footer clearfix"><span>当前没有任何评论!赶紧去抢沙发!</span></div>
 						</s:if>
 						<s:else>
+							<!-- 迭代评论列表 -->
 							<s:iterator var="c" value="allComments">
 							<div class="post-footer2">
 								<div class="post-comment">
@@ -70,7 +71,22 @@
 									<p><s:property value="#c.content" /></p>
 								</div>
 							</div>
-						</s:iterator>
+							</s:iterator>
+							<!-- 迭代评论的回复列表 -->
+							<s:iterator var="r" value="allReplies">
+								<s:set name="s" value="#r.value.size"/> 
+								<s:iterator var="v" value="#r.value">
+									<div class="post-footer2">
+									<div class="post-comment">
+										<span class="author">
+											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;回复
+											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
+										</span>
+										<p><s:property value="#v.content" /></p>
+									</div>
+									</div>
+								</s:iterator>
+							</s:iterator>
 						</s:else>
 						<form action="CommentAction_addComment?bid=<s:property value='#b.id' />" method="post" style="display: none;" id="comment_zone">
 							 <div class="form-group">

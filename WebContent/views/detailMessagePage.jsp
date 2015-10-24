@@ -23,6 +23,22 @@
 	background-size: cover;
 }
 </style>
+
+<script type="text/javascript">
+	$(function(){
+		//设置每个回复区的可见性
+		$("span a").click(function(){
+			//为了区分每个不同的回复区
+			var $id = $(this).attr('id'); //得到点击的id
+			if($("#reply_zone_"+$id).is(":hidden")){
+				$("#reply_zone_"+$id).show();
+			} else {
+				$("#reply_zone_"+$id).hide();
+			}
+		});
+	})
+</script>
+
 </head>
 <body>
 	<jsp:include page="/views/navbar.jsp"></jsp:include>
@@ -56,6 +72,15 @@
 							</div>
 							<div class="">
 								<s:property value="#c.content" />
+								<span class="pull-right"><a id="<s:property value='#c.id'/>">回复</a></span>
+								<form action="ReplyAction_addReply?cid=<s:property value='#c.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#c.id'/>">
+									 <div class="form-group">
+										<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复别人是一种美德..."></textarea>
+										<div class="col-sm-offset-10">
+											<button type="submit" class="btn btn-default">确定</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</s:iterator>
 					</article>

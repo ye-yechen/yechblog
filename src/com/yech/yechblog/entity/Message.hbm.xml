@@ -23,6 +23,9 @@
         <property name="collect" type="java.lang.Boolean">
         	<column name="COLLECT"></column>
         </property>
+        <property name="reply" type="java.lang.Boolean">
+        	<column name="REPLY"></column>
+        </property>
         <property name="share" type="java.lang.Boolean">
         	<column name="SHARE"></column>
         </property>

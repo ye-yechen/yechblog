@@ -2,7 +2,9 @@ package com.yech.yechblog.action;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,10 +15,12 @@ import com.yech.yechblog.aware.UserAware;
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
 import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Reply;
 import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.MessageService;
+import com.yech.yechblog.service.ReplyService;
 import com.yech.yechblog.service.TagService;
 import com.yech.yechblog.util.StringUtil;
 
@@ -41,6 +45,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	
 	@Resource
 	private MessageService messageService;
+	
+	@Resource
+	private ReplyService replyService;
 	// 接收 User 对象
 	private User user;
 
@@ -62,7 +69,19 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Blog> similarBlogList;
 	//当前用户的动态(评论了谁、赞了谁、收藏了谁...)
 	private List<Message> allMessages;
+	//当前博客对应评论的回复--- Map<评论id,对应评论的回复>
+	private Map<Integer,List<Reply>> allReplies = 
+						new HashMap<Integer, List<Reply>>();
 	
+	
+	public Map<Integer, List<Reply>> getAllReplies() {
+		return allReplies;
+	}
+
+	public void setAllReplies(Map<Integer, List<Reply>> allReplies) {
+		this.allReplies = allReplies;
+	}
+
 	public List<Message> getAllMessages() {
 		return allMessages;
 	}
@@ -196,6 +215,11 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	public String readDetail() {
 		model = blogService.readDetail(bid);
 		allComments = blogService.queryAllComments(bid);
+		for(Comment comment : allComments){
+			List<Reply> replies = 
+					replyService.queryAllReplies(comment.getId());
+			allReplies.put(comment.getId(), replies);
+		}
 		return "detailReadPage";
 	}
 	
