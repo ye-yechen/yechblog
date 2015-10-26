@@ -30,5 +30,5 @@ public class TagServiceImpl implements TagService{
 		String hql = "select b.tags from Blog b where b.id = ?";
 		return tagDao.batchFindEntityByHQL(hql, bid);
 	}
-	
+
 }

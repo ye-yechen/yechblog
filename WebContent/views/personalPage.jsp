@@ -15,6 +15,9 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <style type="text/css">
+body{
+	background-image:url();
+}
 .bgimage {
 	background-image: url(image/bg.jpg);
 	background-position: 40% 40%;
@@ -37,14 +40,23 @@
 			$("#myActivity").show();
 			$("#myFriends").hide();
 			$("#myCollection").hide();
+			$("#myBlogs").hide();
 		});
 		$("#m_friends").click(function(){
 			$("#myFriends").show();
 			$("#myCollection").hide();
 			$("#myActivity").hide();
+			$("#myBlogs").hide();
 		});
 		$("#m_collections").click(function(){
 			$("#myCollection").show();
+			$("#myFriends").hide();
+			$("#myActivity").hide();
+			$("#myBlogs").hide();
+		});
+		$("#m_bloglist").click(function(){
+			$("#myBlogs").show();
+			$("#myCollection").hide();
 			$("#myFriends").hide();
 			$("#myActivity").hide();
 		});
@@ -87,9 +99,10 @@
 			 </main>
 		</div>
 		<div class="row">
-			<main class="col-md-9 main-content">
+			<main class="col-md-12 main-content">
 				<ul class="nav nav-tabs">
  					 <li id="m_activity" role="presentation" class="active"><a href="#">我的小活动</a></li>
+ 					 <li id="m_bloglist" role="presentation"><a href="#">我的小博客</a></li>
   					 <li id="m_friends" role="presentation"><a href="#">我的小伙伴</a></li>
   					 <li id="m_collections" role="presentation"><a href="#">我的小宝藏</a></li>
 				</ul>
@@ -100,28 +113,69 @@
 								<s:if test="#m.comment == true">
 									评论了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
+										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+											<s:property value="#m.blog.title"/>
+										</a>
 								</s:if>
 								<s:elseif test="#m.love == true">
 									赞了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
+										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+											<span><s:property value="#m.blog.title"/></span>
+										</a>
 								</s:elseif>
 								<s:elseif test="#m.collect == true">
 									收藏了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
+										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+											<s:property value="#m.blog.title"/>
+										</a>
 								</s:elseif>
 								<s:elseif test="#m.share == true">
 									分享了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
+										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+											<s:property value="#m.blog.title"/>
+										</a>
 								</s:elseif>
-								<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-									<s:property value="#m.blog.title"/>
-								</a>
+								<s:elseif test="#m.reply == true">
+									在&nbsp;<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
+										<s:property value="#m.blog.title"/>
+									</a>&nbsp;中回复了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
+										&nbsp;&nbsp;
+								</s:elseif>
+								
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
 								</div>
 							</li>
 						</ul>
 					</s:iterator>
+				 </div>
+				 <div id="myBlogs" class="post" style="display:none;">
+				 	<table class="table table-hover">
+				 		<tr>
+				 			<th>标题</th>
+				 			<th>阅读</th>
+				 			<th>评论</th>
+				 			<th>操作</th>
+				 		</tr>
+				 		<s:iterator var="mb" value="myBlogList">
+				 			<tr>
+				 				<td>
+				 					<a href="BlogAction_readDetail?bid=<s:property value='#mb.id'/>"><s:property value="#mb.title"/></a>
+									(<s:property value="#mb.createTime"/>)
+				 				</td>
+				 				<td><s:property value="#mb.readCount"/></td>
+				 				<td><s:property value="#mb.comments.size()"/></td>
+				 				<td>
+				 					<i><a href="BlogAction_editBlog?bid=<s:property value='#mb.id'/>">编辑</a></i>&nbsp;
+									<i><a href="BlogAction_deleteBlog?bid=<s:property value='#mb.id'/>">删除</a></i>&nbsp;
+									<i><a href="#">分类</a></i>&nbsp;
+				 				</td>
+				 			</tr>
+				 		</s:iterator>
+				 	</table>
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
 					these are my friends!
@@ -130,9 +184,6 @@
 					these are my collections!
 				 </div>
 			</main>
-			<aside class="col-md-3 sidebar">
-				<div class="post">我是侧边栏</div>
-			</aside>
 		</div>
 	</div>
 	

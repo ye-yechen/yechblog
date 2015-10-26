@@ -14,6 +14,9 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <style type="text/css">
+body{
+	background-image:url();
+}
 .bgimage {
 	background-image: url(image/bg.jpg);
 	background-position: 40% 40%;
@@ -24,6 +27,13 @@
     display: none;
 }
 </style>
+
+<script type="text/javascript">
+	$(function(){
+		$("i").next().click(function(){
+		});
+	})
+</script>
 </head>
 <body>
 	
@@ -62,8 +72,8 @@
 							</s:iterator>
 						</div>
 						<div class="pull-right share">
-							<i class="fa-folder-open-o"></i><a href="#">收藏</a>&nbsp;&nbsp;&nbsp;
-							<i class="fa-folder-open-o"></i><a href="#">分享</a>
+							<i class=""></i><a href="#">收藏</a>&nbsp;&nbsp;&nbsp;
+							<i class=""></i><a href="#">分享</a>
 						</div>
 					</footer> 
 				</article> 

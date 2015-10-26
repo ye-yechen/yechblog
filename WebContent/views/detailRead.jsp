@@ -15,6 +15,9 @@
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <style type="text/css">
+body{
+	background-image:url();
+}
 .bgimage {
 	background-image: url(image/bg.jpg);
 	background-position: 40% 40%;
@@ -74,7 +77,6 @@
 							</s:iterator>
 							<!-- 迭代评论的回复列表 -->
 							<s:iterator var="r" value="allReplies">
-								<s:set name="s" value="#r.value.size"/> 
 								<s:iterator var="v" value="#r.value">
 									<div class="post-footer2">
 									<div class="post-comment">

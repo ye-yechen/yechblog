@@ -1,5 +1,7 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
-<title>写博客</title>
+<title>编辑博客</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
@@ -56,16 +58,17 @@
 	</div>
 	</header>
 	<h1 class="col-sm-offset-2">write your blog!</h1>
-	<form action="BlogAction_newBlog" method="post" namespace="/"
+	<form action="BlogAction_updateBlog" method="post" namespace="/"
 		class="col-sm-offset-2 col-sm-8">
 		<div class="form-group">
 			<label for="blogtitle">博客标题</label>
-			 <input type="text" name="title"
+			 <input type="text" name="title" value="${model.title }"
 				class="form-control" id="blogtitle" placeholder="Title">
 		</div>
 		<div class="form-group">
 			<label for="blogcontent">博客内容</label>
-			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" name="content"></textarea>
+			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" 
+						name="content" >${model.content }</textarea>
 		</div>
 		<div class="form-group">
 			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用,分隔)</label> 

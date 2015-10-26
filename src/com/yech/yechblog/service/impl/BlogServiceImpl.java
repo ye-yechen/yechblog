@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yech.yechblog.dao.BaseDao;
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
+import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 
@@ -25,11 +26,13 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public List<Blog> findMyBlogs(User user) {
-		String hql = "from Blog b where b.user.id = ?";
+		String hql = "from Blog b where b.user.id = ? and b.deleted = 0";
 		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql,user.getId());
 		//±È¿˙blogÀ˘ Ùµƒuser£¨±‹√‚¿¡º”‘ÿ
 		for(Blog blog : blogs){
+			blog.getComments().size();
 			blog.getUser().getUsername();
+			blog.getId();
 		}
 		return blogs;
 	}
@@ -49,7 +52,7 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public List<Blog> findAllBlogs() {
-		String hql = "from Blog";
+		String hql = "from Blog b where b.deleted = 0";
 		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql);
 		//±È¿˙blogÀ˘ Ùµƒuser£¨±‹√‚¿¡º”‘ÿ
 		for(Blog blog : blogs){
@@ -98,7 +101,7 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public int getBlogCount() {
-		String hql = "select count(*) from Blog";
+		String hql = "select count(*) from Blog b where b.deleted = 0";
 		return  ((Long)(blogDao.uniqueResult(hql))).intValue();
 	}
 
@@ -109,7 +112,7 @@ public class BlogServiceImpl implements BlogService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Blog> queryPage(int currentPageIndex, int countPerPage) {
-		String hql = "SELECT * FROM blogs order by create_time desc LIMIT ?,?";
+		String hql = "SELECT * FROM blogs where deleted = 0 order by create_time desc LIMIT ?,?";
 		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,
 				(currentPageIndex-1) * countPerPage,countPerPage);
 		for(Blog blog : blogs){
@@ -126,7 +129,7 @@ public class BlogServiceImpl implements BlogService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Blog> queryMyPage(User user,int currentPageIndex, int countPerPage) {
-		String hql = "SELECT * FROM blogs WHERE userid = ? order by create_time desc LIMIT ?,?";
+		String hql = "SELECT * FROM blogs WHERE userid = ? and deleted = 0 order by create_time desc LIMIT ?,?";
 		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,hql,user.getId(), 
 				(currentPageIndex-1) * countPerPage,countPerPage);
 		for(Blog blog : blogs){
@@ -142,7 +145,7 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public int getMyBlogCount(User user) {
-		String hql = "select count(*) from Blog b where b.user.id = ?";
+		String hql = "select count(*) from Blog b where b.user.id = ? and b.deleted = 0";
 		return  ((Long)(blogDao.uniqueResult(hql,user.getId()))).intValue();
 	}
 
@@ -154,6 +157,9 @@ public class BlogServiceImpl implements BlogService {
 	public Blog getBlogById(Integer bid) {
 		Blog blog = blogDao.getEntity(bid);
 		blog.getUser().getUsername();
+		for(Tag tag : blog.getTags()){
+			tag.getTagName();
+		}
 		return blog;
 	}
 
@@ -195,7 +201,7 @@ public class BlogServiceImpl implements BlogService {
 		String sql = "select b.*,t.* from tags_blogs as tb "
 				+ "left join tags as t on t.id = tb.t_id "
 				+ "left join blogs as b on b.id = tb.b_id "
-				+ "where t.tag_name = ? "
+				+ "where t.tag_name = ? and b.deleted = 0 "
 				+ "order by t.create_time desc limit ?,?";
 		List<Blog> blogs = (List<Blog>) blogDao.listResult(Blog.class,sql,tagName, 
 				(currentPageIndex-1) * countPerPage,countPerPage);
@@ -205,6 +211,23 @@ public class BlogServiceImpl implements BlogService {
 			blog.getTags().size();
 		}
 		return blogs;
+	}
+
+	/**
+	 * ∏¸–¬blog
+	 */
+	@Override
+	public void updateBlog(Blog model) {
+		blogDao.updateEntity(model);
+	}
+
+	/**
+	 * …æ≥˝blog(¬ﬂº≠…æ≥˝)
+	 */
+	@Override
+	public void deleteBlog(Integer bid) {
+		String hql = "update Blog b set b.deleted = 1 where b.id = ?";
+		blogDao.batchUpdateEntityByHQL(hql, bid);
 	}
 
 }

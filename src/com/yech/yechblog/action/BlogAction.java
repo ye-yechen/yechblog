@@ -168,6 +168,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setContent(model.getContent().replace("<p>", "")
 				.replace("</p>", ""));
 		model.setUser(user);
+		model.setReadCount(0);//设置阅读次数
+		model.setDeleted(0);//设置未删除(逻辑删除)
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		model.setCreateTime(format.format(new Date()));
 		String []tagArr = StringUtil.str2Arr(myTags, ","); //以逗号分割字符串
@@ -214,6 +216,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 */
 	public String readDetail() {
 		model = blogService.readDetail(bid);
+		model.setReadCount(model.getReadCount()+1);
+		blogService.saveOrUpdateBlog(model);//更新博客的阅读次数
 		allComments = blogService.queryAllComments(bid);
 		for(Comment comment : allComments){
 			List<Reply> replies = 
@@ -301,6 +305,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	public String toPersonalPage(){
 		//去个人主页的时候查询当前用户的动态
 		allMessages = messageService.queryUserActivities(user);
+		myBlogList = blogService.findMyBlogs(user);
 		return "personalPage";
 	}
 	
@@ -342,4 +347,56 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 				(blogCount%countPerPage==0?blogCount/countPerPage:(blogCount/countPerPage + 1));
 		return "similarBlogs";
 	}
+	
+	/**
+	 * 编辑博客
+	 * @return
+	 */
+	public String editBlog(){
+		//得到要编辑的博客
+		model = blogService.getBlogById(bid);
+		return "editBlogPage";
+	}
+	
+	/**
+	 * 更新blog
+	 * @return
+	 */
+	public String updateBlog(){
+		model.setId(bid);
+		// 去掉CKEditor自动在文本上添加的<p></p>标签
+		model.setContent(model.getContent().replace("<p>", "")
+				.replace("</p>", ""));
+		model.setUser(user);// 保持关联关系
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		model.setCreateTime(format.format(new Date()));
+		String []tagArr = StringUtil.str2Arr(myTags, ","); //以逗号分割字符串
+		Tag blogTag = null;
+		if(tagArr != null && tagArr.length > 0){
+			for(String str : tagArr){
+				//保存标签
+				blogTag = new Tag();
+				blogTag.setTagName(str);
+				blogTag.setCreateTime(format.format(new Date()));
+				blogTag.setTagDesc("*"+str+"*");
+				blogTag.getBlogs().add(model);
+				model.getTags().add(blogTag);
+				tagService.saveTag(blogTag);
+			}
+			blogService.saveOrUpdateBlog(model);
+		}else{
+			blogService.saveOrUpdateBlog(model);
+		}
+		return "personalPage";
+	}
+	
+	/**
+	 * 删除blog(逻辑删除)
+	 * @return
+	 */
+	public String deleteBlog(){
+		blogService.deleteBlog(bid);
+		return "redirectToPersonalPage";
+	}
+	
 }

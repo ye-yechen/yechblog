@@ -16,6 +16,9 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <style type="text/css">
+body{
+	background-image:url();
+}
 .bgimage {
 	background-image: url(image/bg.jpg);
 	background-position: 40% 40%;
@@ -39,28 +42,31 @@
 					<s:iterator var="m" value="newMessages">
 						<ul class="notice-list">
 							<li>
-								
 								<s:if test="#m.comment == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;评论了您的的博客
 										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
 								</s:if>
 								<s:elseif test="#m.love == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;赞了您的博客
 										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
 								</s:elseif>
 								<s:elseif test="#m.collect == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;收藏了您的博客
 										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
 								</s:elseif>
 								<s:elseif test="#m.share == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;分享了您的博客
 										&nbsp;&nbsp;
-								</s:elseif>
 								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
+								</s:elseif>
 								
 								<s:if test="#m.reply == true">
-									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;回复了您&nbsp;&nbsp;
-									<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;在
+										<a href="#"><s:property value="#m.blog.title"/></a>
+										中回复了您&nbsp;&nbsp;
 								</s:if>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
@@ -78,9 +84,32 @@
 						<s:iterator var="om" value="oldMessages">
 							<ul class="notice-list">
 								<li>
-									<a href="#"><s:property value="#om.self.username"/></a>评论了您的博客
+									<s:if test="#om.comment == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;评论了您的的博客
 										&nbsp;&nbsp;
-										<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+								</s:if>
+								<s:elseif test="#om.love == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;赞了您的博客
+										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+								</s:elseif>
+								<s:elseif test="#om.collect == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;收藏了您的博客
+										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+								</s:elseif>
+								<s:elseif test="#om.share == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;分享了您的博客
+										&nbsp;&nbsp;
+								<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
+								</s:elseif>
+								
+								<s:if test="#om.reply == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;在
+										<a href="BlogAction_readDetail?bid=<s:property value='#om.blog.id'/>"><s:property value="#om.blog.title"/></a>
+										中回复了您&nbsp;&nbsp;
+								</s:if>
 									<div class="pull-right">
 										<i><s:property value="#om.createTime"/></i>
 									</div>

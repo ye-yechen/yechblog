@@ -95,5 +95,16 @@ public interface BlogService{
 	 */
 	public List<Blog> querySimilarBlogPage(String tagName,
 			int currentPageIndex, int countPerPage);
-	
+
+	/**
+	 * ¸üÐÂblog
+	 * @param model
+	 */
+	public void updateBlog(Blog model);
+
+	/**
+	 * É¾³ýblog(Âß¼­É¾³ý)
+	 */
+	public void deleteBlog(Integer bid);
+
 }

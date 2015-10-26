@@ -76,6 +76,11 @@
 			<result name="detailReadPage">/views/detailRead.jsp</result>
 			<result name="personalPage">/views/personalPage.jsp</result>
 			<result name="similarBlogs">/views/similarBlogsPage.jsp</result>
+			<result name="editBlogPage">/views/editBlog.jsp</result>
+			<result name="redirectToPersonalPage" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_toPersonalPage</param>
+			</result>
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>

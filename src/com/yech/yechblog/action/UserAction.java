@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.ServletContextAware;
 
+import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Message;
 import com.yech.yechblog.entity.User;
+import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.ValidateUtil;
@@ -42,6 +44,8 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 	@Resource
 	private MessageService messageService;
 
+	@Resource
+	private BlogService blogService;
 	@Override
 	public void setServletContext(ServletContext arg0) {
 		this.servletContext = arg0;
@@ -137,12 +141,16 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
 				message.getBlog().getId();
+				//查出message所对应的blog
+				Blog blog = blogService.getBlogById(message.getBlog().getId());
+				message.setBlog(blog);
 			}
 		}
 		if (oldMessages.size() > 0) {
 			for (Message message : oldMessages) {
-				System.out.println("om=" + message.getId());
-				message.getBlog().getId();
+				//查出message所对应的blog
+				Blog blog = blogService.getBlogById(message.getBlog().getId());
+				message.setBlog(blog);
 			}
 		}
 		return "toMessageCenterPage";
