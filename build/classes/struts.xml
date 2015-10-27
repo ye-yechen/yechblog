@@ -86,6 +86,10 @@
 				<param name="namespace">/</param>
 				<param name="actionName">BlogAction_pagination</param>
 			</result>
+			<result name="redirectToPersonalPage" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_toPersonalPage</param>
+			</result>
 		</action>
 		
 		<!-- commentAction -->

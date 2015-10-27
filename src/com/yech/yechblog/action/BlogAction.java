@@ -392,26 +392,12 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setContent(model.getContent().replace("<p>", "")
 				.replace("</p>", ""));
 		model.setUser(user);// 保持关联关系
+		model.setDeleted(0);
+		model.setReadCount(0);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		model.setCreateTime(format.format(new Date()));
-		String[] tagArr = StringUtil.str2Arr(myTags, ","); // 以逗号分割字符串
-		Tag blogTag = null;
-		if (tagArr != null && tagArr.length > 0) {
-			for (String str : tagArr) {
-				// 保存标签
-				blogTag = new Tag();
-				blogTag.setTagName(str);
-				blogTag.setCreateTime(format.format(new Date()));
-				blogTag.setTagDesc("*" + str + "*");
-				blogTag.getBlogs().add(model);
-				model.getTags().add(blogTag);
-				tagService.saveTag(blogTag);
-			}
-			blogService.saveOrUpdateBlog(model);
-		} else {
-			blogService.saveOrUpdateBlog(model);
-		}
-		return "personalPage";
+		blogService.updateBlog(model);
+		return "redirectToPersonalPage";
 	}
 
 	private InputStream inputStream;
@@ -449,7 +435,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		try {
 			// 如果没有收藏这个博客
 			if (!collectionService.queryBlogInCollection(user,bid)) {
-				System.out.println("kkkkkkkkk");
 				Blog blog2 = blogService.getBlogById(bid);
 				Blog blog = new Blog();
 				blog.setId(bid);

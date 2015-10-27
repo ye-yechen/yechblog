@@ -58,7 +58,7 @@
 	</div>
 	</header>
 	<h1 class="col-sm-offset-2">write your blog!</h1>
-	<form action="BlogAction_updateBlog" method="post" namespace="/"
+	<form action="BlogAction_updateBlog?bid=${model.id }" method="post" namespace="/"
 		class="col-sm-offset-2 col-sm-8">
 		<div class="form-group">
 			<label for="blogtitle">博客标题</label>
@@ -70,22 +70,7 @@
 			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" 
 						name="content" >${model.content }</textarea>
 		</div>
-		<div class="form-group">
-			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用,分隔)</label> 
-			<input
-				type="text" name="myTags" class="form-control" id="blogtag"
-				placeholder="Tag">
-			<div id="usual_tags" style="border: 1px solid #e67e22; display: none;">
-				<table id="tag_tab">
-					<tr>
-						<th>常用标签 &nbsp;</th>
-						<td>android &nbsp;</td>
-						<td>java &nbsp;</td>
-						<td>javaEE &nbsp;</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+		
 		<div class="form-group">
 			<div class="col-sm-4 pull-right">
 				<button type="submit" class="btn btn-default">publish</button>
