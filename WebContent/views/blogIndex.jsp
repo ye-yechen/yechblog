@@ -30,7 +30,24 @@ body{
 
 <script type="text/javascript">
 	$(function(){
-		$("i").next().click(function(){
+		$("i > a").click(function(){
+			var $a = $(this).html();
+			if($a == "收藏"){
+				//使用 ajax 的方式处理收藏
+				var url = this.href;
+				var args = {"time":new Date()};
+				$.post(url,args,function(data){
+					//若 data 的返回值为 1，则提示删除成功，并将当前行删除
+					if(data == 1){
+						alert("收藏成功^_^!");
+					} else{
+						//若 data 的返回值不为1，则删除失败
+						alert("已经收藏过了*><*!");
+					}
+				});
+				//取消超链接的默认行为
+				return false;
+			}
 		});
 	})
 </script>
@@ -72,8 +89,8 @@ body{
 							</s:iterator>
 						</div>
 						<div class="pull-right share">
-							<i class=""></i><a href="#">收藏</a>&nbsp;&nbsp;&nbsp;
-							<i class=""></i><a href="#">分享</a>
+							<i class=""><a href="BlogAction_addToCollections?bid=<s:property value='#b.id' />">收藏</a></i>&nbsp;&nbsp;&nbsp;
+							<i class=""><a href="#">分享</a></i>
 						</div>
 					</footer> 
 				</article> 

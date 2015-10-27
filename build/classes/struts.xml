@@ -77,10 +77,10 @@
 			<result name="personalPage">/views/personalPage.jsp</result>
 			<result name="similarBlogs">/views/similarBlogsPage.jsp</result>
 			<result name="editBlogPage">/views/editBlog.jsp</result>
-			<result name="redirectToPersonalPage" type="redirectAction">
-				<param name="namespace">/</param>
-				<param name="actionName">BlogAction_toPersonalPage</param>
-			</result>
+			<result type="stream" name="ajax-success">
+       			<param name="contentType">text/html</param>
+       			<param name="inputName">inputStream</param>
+       		</result>
 			<!-- 登录成功后重定向到 BlogAction，用于进入首页 -->
 			<result name="BlogAction" type="redirectAction">
 				<param name="namespace">/</param>

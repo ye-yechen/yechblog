@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-26 22:30:52 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.yech.yechblog.entity.Collection" table="COLLECTION">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="blog" class="com.yech.yechblog.entity.Blog" fetch="join">
+            <column name="BLOGID" />
+        </many-to-one>
+        <property name="collectTime" type="java.lang.String">
+            <column name="COLLECT_TIME" />
+        </property>
+        <property name="deleted" type="java.lang.Boolean">
+            <column name="DELETED" />
+        </property>
+        <many-to-one name="self" class="com.yech.yechblog.entity.User">
+            <column name="SELF" />
+        </many-to-one>
+        <many-to-one name="other" class="com.yech.yechblog.entity.User">
+            <column name="OTHER" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -58,6 +58,7 @@
 				<li><a href="#">论坛天地</a></li>
 				<li><a href="#">问答社区</a></li>
 				<li><a href="#">资源分享</a></li>
+				<li><a href="#">美文推送</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">个人中心<span class="caret"></span></a>
@@ -87,6 +88,7 @@
 					<s:else>
 						<li><a href="LoginAction_toLoginPage">登录</a></li>
 					</s:else>
+					<li><a href="RegistAction_toRegistPage">注册</a><li>
 				</ul>
 			</ul>
 		</div>

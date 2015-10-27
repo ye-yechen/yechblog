@@ -60,6 +60,58 @@ body{
 			$("#myFriends").hide();
 			$("#myActivity").hide();
 		});
+		
+		//以 ajax 方式删除
+		$("i > a").click(function(){
+			
+			var $a = $(this).html();
+			if($a == "删除博客"){
+				//1.点击 delete 时，弹出警告信息
+				var flag = confirm("确定要删除这篇博客吗?");
+				if(flag){
+					//使用 ajax 的方式删除
+					var url = this.href;
+					var args = {"time":new Date()};
+					//将 <a></a>节点所在行从页面删除
+					var $tr = $(this).parent().parent().parent();
+					$.post(url,args,function(data){
+						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
+						if(data == 1){
+							alert("删除成功!");
+							$tr.remove();
+						} else{
+						//若 data 的返回值不为1，则删除失败
+							alert("删除失败!");
+						}
+					});
+				}
+				//取消超链接的默认行为
+				return false;
+			}
+			if($a == "删除收藏"){
+				//1.点击 delete 时，弹出警告信息
+				var flag = confirm("确定要删除这篇收藏的博客吗?");
+				if(flag){
+					//使用 ajax 的方式删除
+					var url = this.href;
+					var args = {"time":new Date()};
+					//将 <a></a>节点所在行从页面删除
+					var $tr = $(this).parent().parent().parent();
+					$.post(url,args,function(data){
+						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
+						if(data == 1){
+							alert("删除成功!");
+							$tr.remove();
+						} else{
+						//若 data 的返回值不为1，则删除失败
+							alert("删除失败!");
+						}
+					});
+				}
+				//取消超链接的默认行为
+				return false;
+			}
+		});
 	})
 
 </script>
@@ -170,8 +222,27 @@ body{
 				 				<td><s:property value="#mb.comments.size()"/></td>
 				 				<td>
 				 					<i><a href="BlogAction_editBlog?bid=<s:property value='#mb.id'/>">编辑</a></i>&nbsp;
-									<i><a href="BlogAction_deleteBlog?bid=<s:property value='#mb.id'/>">删除</a></i>&nbsp;
+									<i><a href="BlogAction_deleteBlog?bid=<s:property value='#mb.id'/>">删除博客</a></i>&nbsp;
 									<i><a href="#">分类</a></i>&nbsp;
+				 				</td>
+				 			</tr>
+				 		</s:iterator>
+				 	</table>
+				 </div>
+				 <div id="myCollection" class="post" style="display:none;">
+					<table class="table table-hover">
+				 		<tr>
+				 			<th>收藏的博客</th>
+				 			<th>操作</th>
+				 		</tr>
+				 		<s:iterator var="ac" value="allCollections">
+				 			<tr>
+				 				<td>
+				 					<a href="BlogAction_readDetail?bid=<s:property value='#ac.blog.id'/>"><s:property value="#ac.blog.title"/></a>
+									(<s:property value="#ac.collectTime"/>)
+				 				</td>
+				 				<td>
+									<i><a href="BlogAction_removeTheCollection?bid=<s:property value='#ac.id'/>">删除收藏</a></i>&nbsp;
 				 				</td>
 				 			</tr>
 				 		</s:iterator>
@@ -179,9 +250,6 @@ body{
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
 					these are my friends!
-				 </div>
-				 <div id="myCollection" class="post" style="display:none;">
-					these are my collections!
 				 </div>
 			</main>
 		</div>
