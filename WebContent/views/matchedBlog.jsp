@@ -6,12 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
-<title>博客精选</title>
+<title>博客速配</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
 <style type="text/css">
 body{
 	background-image:url();
@@ -34,15 +35,14 @@ body{
 		    cache: false, //关闭ajax缓存
 		    contentType:"application/x-www-form-urlencoded;charset=utf-8",   
 		    //complete：表示完成请求后触发。
-		    //即在success或error触发后触发
-		    //XHR:XMLHttpReques
+		    //即在success或error触发后触发。也有success: 和 error: 等参数，根据需要来
 		    complete:function(XHR,textStatus){ 
 		    	var resText = XHR.responseText; 
-		    
+		    	/*根据拦截器传递的标识，进行相关操作*/
 		    	//isNotLogin标识用户当前未登录，需要将页面转到登录页面
 		        if(resText=='isNotLogin'){ 
 		        	window.location="LoginAction_toLoginPage";
-		        }
+		        }  
 		    }   
 		}); 
 		
@@ -56,7 +56,6 @@ body{
 					//若 data 的返回值为 1，则提示删除成功，并将当前行删除
 					if(data == 1){
 						alert("收藏成功^_^!");
-						$(".collect").attr("disabled",true);
 					} else if(data == 0){
 						//若 data 的返回值不为1，则删除失败
 						alert("已经收藏过了*><*!");
@@ -66,26 +65,10 @@ body{
 				});
 				//取消超链接的默认行为
 				return false;
-			}else if($a == "分享"){
-				var $id = $(this).attr('id');
-				if($("#sharezone_"+$id).is(":hidden")){
-					$("#sharezone_"+$id).show();
-				}else{
-					$("#sharezone_"+$id).hide();
-				}
 			}
 		});
-		
-		$(".author > a").click(function(){
-			//得到userId
-			var $userId = $(this).parent('.author').attr('id');
-			$(this).attr('href','UserAction_toOtherHomePage?userId='+$userId);
-		});
-		
 	})
-	
 </script>
-
 </head>
 <body>
 	
@@ -97,17 +80,14 @@ body{
 		<div class="row">
 			<main class="col-md-9 main-content"> 
 				<!-- 迭代博客列表 -->
-				<s:iterator var="b" value="allBlogList">
+				<s:iterator var="b" value="matchedBlogList">
 					<article id=<s:property value="#b.id" /> class="post ">
 						<div class="post-head">
-							<h1 id="title_<s:property value="#b.id" />" class="post-title">
+							<h1 class="post-title">
 								<s:property value="#b.title" />
 							</h1>
 							<div class="post-meta">
-								<span class="author" id="<s:property value='#b.user.id' />">
-									作者：
-									<a href=""><s:property value="#b.user.username" /></a>
-								</span>
+								<span class="author">作者：<a href="#"><s:property value="#b.user.username" /></a></span>
 								<span class="post-date"><s:property value="#b.createTime" /></span>
 							</div>
 						</div>
@@ -127,19 +107,8 @@ body{
 							</s:iterator>
 						</div>
 						<div class="pull-right share">
-							<i class="collect" ><a href="BlogAction_addToCollections?bid=<s:property value='#b.id' />">收藏</a></i>&nbsp;&nbsp;&nbsp;
-							<i class=""><a id="<s:property value='#b.id' />">分享</a></i>
-						</div>
-						<div id="sharezone_<s:property value='#b.id' />" class="jiathis_style_32x32" style="display: none">
-							<div class="bshare-custom">
-							<a title="分享到QQ空间" class="bshare-qzone"></a>
-							<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-							<a title="分享到人人网" class="bshare-renren"></a>
-							<a title="分享到腾讯微博" class="bshare-qqmb"></a>
-							<a title="分享到网易微博" class="bshare-neteasemb"></a>
-							<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
-							<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
-							<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+							<i class=""><a href="BlogAction_addToCollections?bid=<s:property value='#b.id' />">收藏</a></i>&nbsp;&nbsp;&nbsp;
+							<i class=""><a href="#">分享</a></i>
 						</div>
 					</footer> 
 				</article> 
@@ -194,8 +163,6 @@ body{
 	</div>
 	</section>
 
-<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
 	<!--footer-->
 	<footer>
 	<div class="container"></div>

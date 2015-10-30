@@ -107,4 +107,24 @@ public interface BlogService{
 	 */
 	public void deleteBlog(Integer bid);
 
+	/**
+	 * 根据条件搜索匹配的博客
+	 * @param searchCondition
+	 * @return 
+	 */
+	public List<Blog> searchBlogByCondition(int currentPageIndex,int countPerPage,String searchCondition);
+
+	/**
+	 * 查询匹配的博客数量
+	 * @param searchCondition 
+	 * @return
+	 */
+	public int getMatchedBlogCount(String searchCondition);
+
+	/**
+	 * 根据用户id查询他的博客
+	 * @return
+	 */
+	public List<Blog> queryHisBlogs(Integer userId);
+
 }

@@ -137,7 +137,7 @@ body{
 							<a id="edit" href="#" data-toggle="modal" data-target="#myModal2">上传头像</a>
 						</dd>
 						 <dd class="focus_num">关注</dd>
-            			 <dd class="">粉丝</dd>
+            			 <dd class="fans_num">粉丝</dd>
 					</dl>
 					<dl class="">
 						<dd class="person-name"><s:property value="#session['user'].username"></s:property></dd>
@@ -249,7 +249,9 @@ body{
 				 	</table>
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
-					these are my friends!
+					<s:iterator var="ar" value="allRelations">
+						
+					</s:iterator>
 				 </div>
 			</main>
 		</div>

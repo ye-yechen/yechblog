@@ -46,6 +46,17 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 
 	@Resource
 	private BlogService blogService;
+	//他的博客列表
+	private List<Blog> hisBlogs;
+	
+	public List<Blog> getHisBlogs() {
+		return hisBlogs;
+	}
+
+	public void setHisBlogs(List<Blog> hisBlogs) {
+		this.hisBlogs = hisBlogs;
+	}
+
 	@Override
 	public void setServletContext(ServletContext arg0) {
 		this.servletContext = arg0;
@@ -82,7 +93,6 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 	 * @return
 	 */
 	public String addImage() {
-		System.out.println("imageFileName = " + userImgFileName);
 		if (ValidateUtil.isValidate(userImgFileName)) { // 文件名是否有效
 			// 1.实现上传
 			// 得到 uplode 文件夹在服务器上的真实路径
@@ -94,7 +104,6 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 			long l = System.nanoTime();
 			// 新文件路径
 			File newFile = new File(dir, l + ext);
-			System.out.println(",,," + newFile);
 			// 文件另存为
 			// userImg.renameTo(newFile);
 			try {
@@ -154,5 +163,42 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 			}
 		}
 		return "toMessageCenterPage";
+	}
+	
+	//接收页面传过来的用户id，根据id进入他的主页
+	private Integer userId;
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	//要进user的主页
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * 去别人的主页
+	 * @return
+	 */
+	public String toOtherHomePage(){
+		user = userService.getEntity(userId);
+		if(model.getId() != userId){	//所进的主页不是当前登录的用户的主页
+			hisBlogs = blogService.queryHisBlogs(userId);
+			return "toOtherHomePage";
+		} else{	//要进的主页是当前登录用户的主页(即进自己的主页)
+			//重定向到个人主页
+			return "redirectToPersonalPage";
+		}
 	}
 }

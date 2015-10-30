@@ -20,7 +20,14 @@ public class Message {
 	private Boolean collect=false;//收藏
 	private Boolean share=false; //分享
 	private Boolean reply=false;//回复评论
+	private Boolean focus=false;//关注
 	
+	public Boolean getFocus() {
+		return focus;
+	}
+	public void setFocus(Boolean focus) {
+		this.focus = focus;
+	}
 	public Boolean getReply() {
 		return reply;
 	}

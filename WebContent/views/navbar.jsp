@@ -45,7 +45,7 @@
 					<span class="icon-bar"></span> 
 			</button>
 			<a class="navbar-brand" href="#"> 
-				<img alt="Brand" src="">
+				<img alt="Brand" src="image/logo.png">
 			</a>
 		</div>
 
@@ -68,15 +68,14 @@
 						<li><a href="BlogAction_toWriteBlogPage">写博客</a></li>
 						<li><a href="BlogAction_myPagination">我的博客</a></li>
 						<li><a href="#">我的论坛</a></li>
-						<li><a href="#">我的收藏</a></li>
 						<li><a href="#">我的分享</a></li>
 					</ul></li>
 
-				<form class="navbar-form navbar-left" role="search">
+				<form action="BlogAction_searchBlog" method="post" class="navbar-form navbar-left" role="search">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
+						<input name="searchCondition" type="text" class="form-control" placeholder="博客名">
 					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
+					<button type="submit" class="btn btn-default">Search</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">关于</a></li>

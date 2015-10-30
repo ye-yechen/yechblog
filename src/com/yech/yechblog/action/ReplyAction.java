@@ -69,7 +69,7 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware{
 		model.setComment(comment);
 		model.setSelf(user);
 		model.setOther(comment2.getUser());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setReplyTime(format.format(new Date()));
 		replyService.saveReply(model);
 		

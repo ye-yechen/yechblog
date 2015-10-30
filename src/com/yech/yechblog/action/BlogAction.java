@@ -19,12 +19,14 @@ import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Collection;
 import com.yech.yechblog.entity.Comment;
 import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Relation;
 import com.yech.yechblog.entity.Reply;
 import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.CollectionService;
 import com.yech.yechblog.service.MessageService;
+import com.yech.yechblog.service.RelationService;
 import com.yech.yechblog.service.ReplyService;
 import com.yech.yechblog.service.TagService;
 import com.yech.yechblog.util.StringUtil;
@@ -56,6 +58,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	
 	@Resource
 	private CollectionService collectionService;
+	
+	@Resource
+	private RelationService relationService;
 	// 接收 User 对象
 	private User user;
 
@@ -79,7 +84,27 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Message> allMessages;
 	//当前用户的所有收藏
 	private List<Collection> allCollections;
+	//根据用户搜索匹配的博客列表
+	private List<Blog> matchedBlogList;
+	//当前用户关注的列表
+	private List<Relation> allRelations;
 	
+	public List<Relation> getAllRelations() {
+		return allRelations;
+	}
+
+	public void setAllRelations(List<Relation> allRelations) {
+		this.allRelations = allRelations;
+	}
+
+	public List<Blog> getMatchedBlogList() {
+		return matchedBlogList;
+	}
+
+	public void setMatchedBlogList(List<Blog> matchedBlogList) {
+		this.matchedBlogList = matchedBlogList;
+	}
+
 	public List<Collection> getAllCollections() {
 		return allCollections;
 	}
@@ -187,7 +212,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setUser(user);
 		model.setReadCount(0);// 设置阅读次数
 		model.setDeleted(0);// 设置未删除(逻辑删除)
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setCreateTime(format.format(new Date()));
 		String[] tagArr = StringUtil.str2Arr(myTags, ","); // 以逗号分割字符串
 		Tag blogTag = null;
@@ -326,6 +351,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		allMessages = messageService.queryUserActivities(user);
 		myBlogList = blogService.findMyBlogs(user);
 		allCollections = collectionService.findMyCollections(user);
+		allRelations = relationService.queryAllRelations(user);
 		return "personalPage";
 	}
 
@@ -394,7 +420,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setUser(user);// 保持关联关系
 		model.setDeleted(0);
 		model.setReadCount(0);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setCreateTime(format.format(new Date()));
 		blogService.updateBlog(model);
 		return "redirectToPersonalPage";
@@ -441,7 +467,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 				Collection collection = new Collection();
 				collection.setBlog(blog);
 				collection.setDeleted(false);//未删除
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				collection.setCollectTime(format.format(new Date()));
 				collection.setSelf(user);
 				collection.setOther(blog2.getUser());
@@ -449,7 +475,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 				
 				// 将收藏消息添加到 Message 中
 				Message message = new Message();
-				message.setContent("收藏了您的博客!");
+				message.setContent("收藏了博客!");
 				message.setSelf(user);
 				message.setOther(blog2.getUser());
 				message.setCollect(true); // 消息是收藏
@@ -488,6 +514,42 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 			}
 		}
 		return "ajax-success";
+	}
+	
+	//搜索条件
+	private String searchCondition;
+	
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+
+	/**
+	 * 根据用户的输入搜索博客
+	 * @return
+	 */
+	public String searchBlog(){
+		
+		int countPerPage = 5;// 每页显示5条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getMatchedBlogCount(searchCondition);// 查询匹配的博客总数
+		System.out.println("llll"+blogCount);
+		// 显示在当前页的博客
+		matchedBlogList = 
+				blogService.searchBlogByCondition(currentPageIndex,
+											countPerPage,searchCondition);
+		// 总页数
+		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
+				: (blogCount / countPerPage + 1));
+		
+		
+		return "toMatchedBlogPage";
 	}
 
 }

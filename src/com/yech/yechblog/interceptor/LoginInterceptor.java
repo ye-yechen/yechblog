@@ -37,29 +37,6 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	@Override
 	protected String doIntercept(ActionInvocation arg0) throws Exception {
-		HttpServletRequest request = 
-				(HttpServletRequest)arg0.getInvocationContext().
-						get(ServletActionContext.HTTP_REQUEST);
-		HttpServletResponse response = 
-				(HttpServletResponse) arg0.getInvocationContext().
-						get(ServletActionContext.HTTP_RESPONSE);
-		//处理ajax请求
-		if (request.getHeader("X-Requested-With") != null 
-				&& request.getHeader("X-Requested-With").
-					equalsIgnoreCase("XMLHttpRequest")){
-			//取出 session 中的 user 信息
-			User user = 
-					(User) arg0.getInvocationContext().getSession().get("user");
-			if(user == null){
-				System.out.println("ajax -- ajax");
-				PrintWriter out = response.getWriter(); 
-				out.print("isNotLogin");//返回一个标识给前端
-				out.flush();
-				out.close();
-				return null;
-			} 
-		} else {	//处理Http请求
-			
 			//生成验证码的Action,直接放行
 			if(arg0.getAction() instanceof IdentifyCodeAction){
 				return arg0.invoke();
@@ -75,11 +52,29 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 			User user = 
 					(User) arg0.getInvocationContext().getSession().get("user");
 			if(user == null){
+				HttpServletRequest request = 
+						(HttpServletRequest)arg0.getInvocationContext().
+								get(ServletActionContext.HTTP_REQUEST);
+				HttpServletResponse response = 
+						(HttpServletResponse) arg0.getInvocationContext().
+								get(ServletActionContext.HTTP_RESPONSE);
+				//如果是ajax请求
+				if(request.getHeader("X-Requested-With") != null 
+						&& request.getHeader("X-Requested-With").
+						equalsIgnoreCase("XMLHttpRequest")){
+					PrintWriter out = response.getWriter();
+					out.print("isNotLogin");//返回一个标识给前端
+					out.flush();
+					out.close();
+					return null;
+				}
+				
 				//去登录
 				return "login";
 			} else {
 				//如果 action 实现了 UserAware 接口,则为此 action 注入 user
 				if(action instanceof UserAware){
+					System.out.println("useraware");
 					((UserAware)action).setUser(user);
 					return arg0.invoke();
 				} else if(action instanceof UserAction){
@@ -87,8 +82,6 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 					return arg0.invoke();
 				}
 			}
-			
-		}
 		return null;
 	}
 }

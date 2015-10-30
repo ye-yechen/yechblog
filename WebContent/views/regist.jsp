@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
 <title>注册</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
-<link type="text/css" href="css/myStyle.css" rel="stylesheet">
+<link type="text/css" href="css/signin.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
@@ -22,52 +22,26 @@
 
 </head>
 <body>
-	<div class="page-header">
- 		 <h2 class="text-center"><span class="label label-warning">注册新用户</span></h2>
-	</div>
-	<form class="form-horizontal" action="RegistAction_doRegist" namespace="/" method="post">
-		<div class="form-group">
-			<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="email"
-					placeholder="Email">
-			</div>
-			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>email</s:param></s:fielderror></font></div>
-		</div>
-		<div class="form-group">
-			<label for="inputusername" class="col-sm-2 control-label">UserName</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="username"
-					placeholder="Username">
-			</div>
-			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>username</s:param></s:fielderror></font></div>
-		</div>
-		<div class="form-group">
-			<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-			<div class="col-sm-4">
-				<input type="password" class="form-control" name="password" id="password"
-					placeholder="Password">
-			</div>
-			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>password</s:param></s:fielderror></font></div>
-		</div>
-		<div class="form-group">
-			<label for="inputIdentifyCode" class="col-sm-2 control-label">IdentifyCode</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="identifyCode" id="identifyCode"
-					placeholder="identifyCode">
-			</div>
-			<div class="col-sm-4">
-				<img alt="验证码" id="code" src="IdentifyCodeAction_execute">
-			</div>
-			<div class="col-sm-4"><a href="#" onclick="changeImg()">看不清，换一张！</a> </div>
-			<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>identifyCode</s:param></s:fielderror></font></div>
-		</div>
+	<div class="signin">
+	<div class="signin-head"><img src="image/logo2.png" alt="" class=""></div>
+	<form class="form-signin" action="RegistAction_doRegist" method="post" role="form">
+		<input type="text" class="form-control" name="email" placeholder="邮箱" required autofocus>
+		<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>email</s:param></s:fielderror></font></div>
 		
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-4">
-				<button type="submit" class="btn btn-default">Sign up</button>
-			</div>
-		</div>
+		<input name="username" type="text" class="form-control" placeholder="用户名" required/>
+		<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>username</s:param></s:fielderror></font></div>
+		
+		<input name="password" type="password" class="form-control" placeholder="密码" required />
+		<div class="col-sm-4"><font color="RED"><s:fielderror><s:param>password</s:param></s:fielderror></font></div>
+		
+		<input type="text" class="form-control" name="identifyCode" id="identifyCode"
+					placeholder="验证码">
+		<img alt="验证码" id="code" src="IdentifyCodeAction_execute">
+		<a href="#" onclick="changeImg()">看不清，换一张！</a>
+		<font color="RED"><s:fielderror><s:param>identifyCode</s:param></s:fielderror></font>
+		
+		<button type="submit" class="btn btn-block btn-warning">注册</button>
 	</form>
+	</div>
 </body>
 </html>

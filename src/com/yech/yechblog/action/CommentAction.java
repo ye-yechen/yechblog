@@ -65,7 +65,7 @@ public class CommentAction extends BaseAction<Comment> implements UserAware{
 		Blog blog = new Blog();
 		blog.setId(bid);
 		model.setBlog(blog);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setCommentTime(format.format(new Date()));
 		blog.getComments().add(model);
 		blogService.addComment(model);

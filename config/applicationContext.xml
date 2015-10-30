@@ -14,7 +14,7 @@
 
 	<task:scheduled-tasks>
 		<task:scheduled ref="scheduleMessage" method="scheduleTask" 
-				cron="0 0/1 * * * *"/>
+				cron="0/20 * * * * *"/>
 	</task:scheduled-tasks>
 	
 	<!-- -->

@@ -29,6 +29,9 @@
         <property name="share" type="java.lang.Boolean">
         	<column name="SHARE"></column>
         </property>
+        <property name="focus" type="java.lang.Boolean">
+        	<column name="FOCUS"></column>
+        </property>
         <property name="createTime" type="java.lang.String">
             <column name="CREATE_TIME" />
         </property>

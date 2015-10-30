@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-10-30 9:03:54 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.yech.yechblog.entity.Relation" table="RELATIONS">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="createTime" type="java.lang.String">
+        	<column name="CREATE_TIME"></column>
+        </property>
+        <many-to-one name="self" class="com.yech.yechblog.entity.User">
+            <column name="SELFID" />
+        </many-to-one>
+        <many-to-one name="other" class="com.yech.yechblog.entity.User">
+            <column name="OTHERID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

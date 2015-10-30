@@ -230,4 +230,51 @@ public class BlogServiceImpl implements BlogService {
 		blogDao.batchUpdateEntityByHQL(hql, bid);
 	}
 
+	/**
+	 * 根据条件搜索匹配的博客
+	 * @param searchCondition
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Blog> searchBlogByCondition(int currentPageIndex,int countPerPage,String searchCondition) {
+		String hql = "SELECT * FROM blogs b where b.deleted = 0 and "
+				+ "b.title like ? order by b.create_time desc LIMIT ?,?";
+		List<Blog> blogs = 
+				blogDao.listResult(Blog.class, hql,"%"+searchCondition+"%",
+						(currentPageIndex-1) * countPerPage,countPerPage);
+		for(Blog blog : blogs){
+			blog.getUser().getUsername();
+			blog.getComments().size();
+			blog.getTags().size();
+		}
+		return blogs;
+	}
+
+	/**
+	 * 查询匹配的博客数量
+	 * @return
+	 */
+	@Override
+	public int getMatchedBlogCount(String searchCondition) {
+		String hql = "select count(*) from Blog b "
+				+ "where b.title like ? and b.deleted = 0";
+		return  ((Long)(blogDao.uniqueResult(hql,"%"+searchCondition+"%"))).intValue();
+	}
+
+	/**
+	 * 根据用户id查询他的博客
+	 * @return
+	 */
+	@Override
+	public List<Blog> queryHisBlogs(Integer userId) {
+		String hql = "from Blog b where b.user.id = ? and b.deleted = 0";
+		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql, userId);
+		for(Blog blog : blogs){
+			blog.getId();
+			blog.getUser().getUsername();
+			blog.getComments().size();
+		}
+		return blogs;
+	}
+
 }
