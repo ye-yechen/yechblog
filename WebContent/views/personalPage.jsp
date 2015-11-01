@@ -60,7 +60,26 @@ body{
 			$("#myFriends").hide();
 			$("#myActivity").hide();
 		});
-		
+		//不再关注
+		$("td > div > a").click(function(){
+			//使用 ajax 的方式删除
+			var url = this.href;
+			var args = {"time":new Date()};
+			//将 <a></a>节点所在<td>从页面删除
+			var $td = $(this).parent().parent();
+			$.post(url,args,function(data){
+				//若 data 的返回值为 1，则提示删除成功，并将当前行删除
+				if(data == 1){
+					//alert("操作成功!");
+					$td.remove();
+				} else{
+				//若 data 的返回值不为1，则删除失败
+					alert("取消关注失败!");
+				}
+			});
+			//取消超链接的默认行为
+			return false;
+		});
 		//以 ajax 方式删除
 		$("i > a").click(function(){
 			
@@ -259,6 +278,7 @@ body{
 										<a href="#">
 											<s:property value="#ar.other.username"/>
 										</a>
+										<div class="stop-focus"><a href="RelationAction_stopFocus?userId=<s:property value='#ar.other.id'/>">不再关注</a></div>
 									</td>
 								</s:if>
 								<s:else>
@@ -268,6 +288,7 @@ body{
 											<a href="#">
 												<s:property value="#ar.other.username"/>
 											</a>
+											<div class="stop-focus"><a href="RelationAction_stopFocus?userId=<s:property value='#ar.other.id'/>">不再关注</a></div>
 										</td>
 								</s:else>
 								

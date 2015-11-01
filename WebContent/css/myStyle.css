@@ -160,7 +160,6 @@ pre {
 	background-size: cover;
 }
 
-
 /* navbar */
 .navbar-header {
 	text-align: center;
@@ -231,51 +230,75 @@ pre {
 }
 
 .person_add_focus {
-  display: block;
-  height: 22px;
-  line-height: 22px;
-  background: #ececec;
-  color: #666;
-  font-size: 12px;
-  padding: 0px 10px;
-  cursor: pointer;
-  position: absolute;
-  right: 114px;
-  top: 44px;
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	background: #ececec;
+	color: #666;
+	font-size: 12px;
+	padding: 0px 10px;
+	cursor: pointer;
+	position: absolute;
+	right: 114px;
+	top: 44px;
 }
+
 .person_add_focus i {
-  color: #e96f5d;
+	color: #e96f5d;
 }
+
 .person_add_focus:hover {
-  text-decoration: none;
-  color: #c0c0c0;
-  background: #ececec;
+	text-decoration: none;
+	color: #c0c0c0;
+	background: #ececec;
 }
 
 .focus_num {
-  width: 85px;
-  height: 32px;
-  border-right: 1px solid #f0f0f0;
-  float: left;
-  font-size: 14px;
-  color: #999;
-  text-align: center;
-  overflow: hidden;
+	width: 85px;
+	height: 32px;
+	border-right: 1px solid #f0f0f0;
+	float: left;
+	font-size: 14px;
+	color: #999;
+	text-align: center;
+	overflow: hidden;
 }
- .fans_num {
-  width: 85px;
-  height: 32px;
-  float: left;
-  font-size: 14px;
-  color: #999;
-  text-align: center;
-  overflow: hidden;
+
+.fans_num {
+	width: 85px;
+	height: 32px;
+	float: left;
+	font-size: 14px;
+	color: #999;
+	text-align: center;
+	overflow: hidden;
 }
 
 .person-signature {
 	color: #959595;
 	font-size: 0.8em;
 	border-bottom: 1px solid #e67e22;
+}
+
+.stop-focus {
+	display: block;
+	height: 22px;
+	width:50px;
+	line-height: 22px;
+	font-size: 12px;
+	cursor: pointer;
+	background: #ececec;
+	color: #808080;
+}
+.stop-focus:hover{
+	display: block;
+	height: 22px;
+	width:50px;
+	line-height: 22px;
+	font-size: 12px;
+	cursor: pointer;
+	background: #000000;
+	color: #ff8040;
 }
 
 .message-info {
@@ -484,7 +507,7 @@ pre {
 	display: inline-block;
 	margin: 0 7px 7px 0;
 	transition: all .2s ease;
-	border-radius: 10px / 20px;
+	border-radius: 10px/20px;
 }
 
 .tag-cloud a:hover {
@@ -492,7 +515,7 @@ pre {
 	background: #c0c0c0;
 	border: 1px solid #e67e22;
 	text-decoration: none;
-	 border-radius: 10px / 20px;
+	border-radius: 10px/20px;
 }
 
 .main-footer {
@@ -517,10 +540,12 @@ pre {
 .main-footer .widget .tag-cloud a:hover {
 	border: 1px solid #337ab7
 }
+
 .sidebar .widget {
-  background: #ffffff;
-  padding: 21px 30px;
+	background: #ffffff;
+	padding: 21px 30px;
 }
+
 .widget .welcome {
 	background: #e67e22;
 }

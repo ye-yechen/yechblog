@@ -102,6 +102,24 @@ public class RelationAction extends BaseAction<Relation> implements UserAware{
 		}
 		return "ajax-success";
 	}
+	
+	/**
+	 * ²»ÔÙ¹Ø×¢
+	 * @return
+	 */
+	public String stopFocus(){
+		try {
+			relationService.stopFocusTheUser(user.getId(),userId);
+			inputStream = new ByteArrayInputStream("1".getBytes("UTF-8"));
+		} catch (Exception e) {
+			try {
+				inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return "ajax-success";
+	}
 
 	
 }

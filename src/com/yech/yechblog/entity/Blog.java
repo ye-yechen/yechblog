@@ -25,6 +25,17 @@ public class Blog{
 	// 创建时间
 	private String createTime;
 	
+	//博客摘要
+	private String summary;
+	
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	//评论
 	//建立 Blog 到 Comment 到一对多关系
 	private Set<Comment> comments = new HashSet<Comment>();

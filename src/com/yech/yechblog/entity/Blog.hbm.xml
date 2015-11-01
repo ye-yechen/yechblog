@@ -11,6 +11,9 @@
         <property name="content" type="java.lang.String">
             <column name="CONTENT" />
         </property>
+        <property name="summary" type="java.lang.String">
+            <column name="SUMMARY" />
+        </property>
         <property name="title" type="java.lang.String">
             <column name="TITLE" />
         </property>

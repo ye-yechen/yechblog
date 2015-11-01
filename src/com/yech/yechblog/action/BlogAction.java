@@ -206,9 +206,14 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 * 新建博客
 	 */
 	public String newBlog() {
-		// 去掉CKEditor自动在文本上添加的<p></p>标签
-		model.setContent(model.getContent().replace("<p>", "")
-				.replace("</p>", ""));
+//		// 去掉CKEditor自动在文本上添加的<p></p>标签
+//		model.setContent(model.getContent().replace("<p>", "")
+//				.replace("</p>", ""));
+		//如果没写summary
+		if(model.getSummary().trim().equals("")){
+			//截取内容的前200个字符作为博客的summary
+			model.setSummary(model.getContent().substring(0, 400));
+		}
 		model.setUser(user);
 		model.setReadCount(0);// 设置阅读次数
 		model.setDeleted(0);// 设置未删除(逻辑删除)

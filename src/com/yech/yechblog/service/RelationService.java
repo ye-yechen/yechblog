@@ -22,4 +22,9 @@ public interface RelationService {
 	 */
 	public List<Relation> queryAllRelations(User user);
 
+	/**
+	 * 使当前用户不再关注id为userId的user
+	 */
+	public void stopFocusTheUser(Integer myId, Integer userId);
+
 }

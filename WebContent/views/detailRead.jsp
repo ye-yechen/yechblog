@@ -16,7 +16,7 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <style type="text/css">
 body{
-	background-image:url();
+	background-image:url(image/bg2.jpg);
 }
 .bgimage {
 	background-image: url(image/bg.jpg);

@@ -64,6 +64,11 @@
 				class="form-control" id="blogtitle" placeholder="Title">
 		</div>
 		<div class="form-group">
+			<label for="blogsummary">博客摘要(少于200字)</label>
+			 <input type="text" name="summary"
+				class="form-control" id="blogsummary" placeholder="Summary">
+		</div>
+		<div class="form-group">
 			<label for="blogcontent">博客内容</label>
 			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" name="content"></textarea>
 		</div>
@@ -83,6 +88,7 @@
 				</table>
 			</div>
 		</div>
+		<div class="alert alert-danger" role="alert">如果不写博客摘要，将自动截取博客内容的前200字符作为摘要</div>
 		<div class="form-group">
 			<div class="col-sm-4 pull-right">
 				<button type="submit" class="btn btn-default">publish</button>

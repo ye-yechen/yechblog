@@ -51,4 +51,13 @@ public class RelationServiceImpl implements RelationService {
 		return relations;
 	}
 
+	/**
+	 * 使当前用户不再关注id为userId的user
+	 */
+	@Override
+	public void stopFocusTheUser(Integer myId,Integer userId) {
+		String hql = "delete from Relation r where r.self.id=? and r.other.id=?";
+		relationDao.batchUpdateEntityByHQL(hql, myId,userId);
+	}
+
 }
