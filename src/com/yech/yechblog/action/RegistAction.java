@@ -37,6 +37,7 @@ public class RegistAction extends BaseAction<User> {
 	public String doRegist(){
 		//密码加密
 		model.setPassword(DataUtil.md5(model.getPassword()));
+		model.setImage("/image/personImg.jpg");//保存默认图片
 		userService.saveEntity(model);
 		return "BlogAction";//重定向进入首页博客列表
 	}

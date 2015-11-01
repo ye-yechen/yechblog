@@ -63,11 +63,17 @@ body{
 								<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">查看</a>
 								</s:elseif>
 								
-								<s:if test="#m.reply == true">
+								<s:elseif test="#m.reply == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;在
-										<a href="#"><s:property value="#m.blog.title"/></a>
+										<a href="MessageAction_toDetailMessage?bid=<s:property value='#m.blog.id' />&mid=<s:property value='#m.id' />">
+											<s:property value="#m.blog.title"/>
+										</a>
 										中回复了您&nbsp;&nbsp;
-								</s:if>
+								</s:elseif>
+								
+								<s:elseif test="#m.focus == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;关注了您
+								</s:elseif>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
 								</div>
@@ -105,11 +111,16 @@ body{
 								<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">查看</a>
 								</s:elseif>
 								
-								<s:if test="#om.reply == true">
+								<s:elseif test="#om.reply == true">
 									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;在
 										<a href="BlogAction_readDetail?bid=<s:property value='#om.blog.id'/>"><s:property value="#om.blog.title"/></a>
 										中回复了您&nbsp;&nbsp;
-								</s:if>
+								</s:elseif>
+								
+								<s:elseif test="#om.focus == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;关注了您
+								</s:elseif>
+								
 									<div class="pull-right">
 										<i><s:property value="#om.createTime"/></i>
 									</div>

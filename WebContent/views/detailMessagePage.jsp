@@ -68,6 +68,7 @@ body{
 								暂且没有消息!
 							</div>
 						</s:if>
+						<!-- 迭代评论列表 -->
 						<s:iterator var="c" value="comments">
 							<div class="">
 								<a><s:property value="#c.user.username" /></a>&nbsp;评论于
@@ -86,6 +87,20 @@ body{
 								</form>
 							</div>
 						</s:iterator>
+						<!-- 迭代评论的回复列表 -->
+							<s:iterator var="r" value="allReplies">
+								<s:iterator var="v" value="#r.value">
+									<div class="post-footer2">
+									<div class="post-comment">
+										<span class="author">
+											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;回复
+											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
+										</span>
+										<p><s:property value="#v.content" /></p>
+									</div>
+									</div>
+								</s:iterator>
+							</s:iterator>
 					</article>
 				</div>
 			</main>

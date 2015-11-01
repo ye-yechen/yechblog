@@ -196,7 +196,9 @@ body{
 									</a>&nbsp;中回复了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
 										&nbsp;&nbsp;
 								</s:elseif>
-								
+								<s:elseif test="#m.focus == true">
+									关注了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
+								</s:elseif>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
 								</div>
@@ -249,9 +251,28 @@ body{
 				 	</table>
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
-					<s:iterator var="ar" value="allRelations">
-						
-					</s:iterator>
+				 		<table class="table table-hover">
+							<s:iterator var="ar" status="s" value="allRelations">
+								<s:if test="(#s.index+1)%4!=0">
+									<td>
+										<img alt="" src='image/personImg.jpg' width="40" height="40">
+										<a href="#">
+											<s:property value="#ar.other.username"/>
+										</a>
+									</td>
+								</s:if>
+								<s:else>
+									<tr></tr>
+										<td>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+											<a href="#">
+												<s:property value="#ar.other.username"/>
+											</a>
+										</td>
+								</s:else>
+								
+							</s:iterator>
+					</table>
 				 </div>
 			</main>
 		</div>

@@ -46,6 +46,7 @@ public class RelationServiceImpl implements RelationService {
 				relationDao.batchFindEntityByHQL(hql, user.getId());
 		for(Relation relation : relations){
 			relation.getOther().getUsername();
+			relation.getOther().getImage();
 		}
 		return relations;
 	}

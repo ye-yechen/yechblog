@@ -85,6 +85,7 @@ public class RelationAction extends BaseAction<Relation> implements UserAware{
 				message.setSelf(user);
 				message.setOther(other);
 				//消息类型是关注
+				message.setFocus(true);
 				message.setStatus(true);// 1代表未读
 				message.setCreateTime(format.format(new Date()));
 				messageService.saveMessage(message);

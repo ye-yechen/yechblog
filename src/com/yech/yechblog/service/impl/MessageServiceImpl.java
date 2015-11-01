@@ -62,7 +62,9 @@ public class MessageServiceImpl implements  MessageService{
 	@Override
 	public Message getMessageById(Integer mid) {
 		Message message =  messageDao.getEntity(mid);
-		message.getBlog().getId();
+		if(!message.getFocus()){ //关注类型的消息没有对应的博客
+			message.getBlog().getId();
+		}
 		return message;
 	}
 
@@ -74,10 +76,12 @@ public class MessageServiceImpl implements  MessageService{
 		String hql = "from Message m where m.other.id = ? and m.self.id != ? and m.status = ?";
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId(), user.getId(),false);
-		for(Message message : messages){
+		for(Message message : messages){//关注类型的消息没有对应的博客
+			if(!message.getFocus()){
+				message.getBlog().getId();
+			}
 			message.getOther().getUsername();
 			message.getSelf().getUsername();
-			message.getBlog().getId();
 		}
 		return messages;
 	}
@@ -92,10 +96,12 @@ public class MessageServiceImpl implements  MessageService{
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId());
 		for(Message message : messages){
+			if(!message.getFocus()){ //关注类型的消息没有对应的博客
+				message.getBlog().getId();
+				message.getBlog().getTitle();
+			}
 			message.getOther().getUsername();
 			message.getSelf().getUsername();
-			message.getBlog().getId();
-			message.getBlog().getTitle();
 		}
 		return messages;
 	}

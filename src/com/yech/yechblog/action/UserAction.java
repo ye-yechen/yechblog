@@ -149,17 +149,24 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		oldMessages = messageService.getOldMessages(model); // 获取已经读过的旧消息
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
-				message.getBlog().getId();
-				//查出message所对应的blog
-				Blog blog = blogService.getBlogById(message.getBlog().getId());
-				message.setBlog(blog);
+				if(!message.getFocus()){ //如果不是关注的消息(因为关注消息没有对应的博客)
+					message.getBlog().getId();
+					//查出message所对应的blog
+					Blog blog = blogService.getBlogById(message.getBlog().getId());
+					message.setBlog(blog);
+				}else { //即是关注类型的消息
+					//将 message 表中的 status 字段设为 0 ，表示已读
+					messageService.changeMessageStatus(message.getId());
+				}
 			}
 		}
 		if (oldMessages.size() > 0) {
 			for (Message message : oldMessages) {
-				//查出message所对应的blog
-				Blog blog = blogService.getBlogById(message.getBlog().getId());
-				message.setBlog(blog);
+				if(!message.getFocus()){
+					//查出message所对应的blog
+					Blog blog = blogService.getBlogById(message.getBlog().getId());
+					message.setBlog(blog);
+				}
 			}
 		}
 		return "toMessageCenterPage";
