@@ -86,9 +86,19 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Collection> allCollections;
 	//根据用户搜索匹配的博客列表
 	private List<Blog> matchedBlogList;
-	//当前用户关注的列表
+	//我关注的列表
 	private List<Relation> allRelations;
-	
+	//所有关注我的
+	private List<Relation> allFocusMe;
+
+	public List<Relation> getAllFocusMe() {
+		return allFocusMe;
+	}
+
+	public void setAllFocusMe(List<Relation> allFocusMe) {
+		this.allFocusMe = allFocusMe;
+	}
+
 	public List<Relation> getAllRelations() {
 		return allRelations;
 	}
@@ -357,6 +367,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		myBlogList = blogService.findMyBlogs(user);
 		allCollections = collectionService.findMyCollections(user);
 		allRelations = relationService.queryAllRelations(user);
+		allFocusMe = relationService.queryAllMyFocus(user);
 		return "personalPage";
 	}
 

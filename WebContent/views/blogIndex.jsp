@@ -82,6 +82,39 @@ body{
 			$(this).attr('href','UserAction_toOtherHomePage?userId='+$userId);
 		});
 		
+		//ajax 方式提交表单，搜索好友
+		$("#searchit").click(function(){
+			//获取输入的用户名
+			var $friendName = $("#friendName").val();
+			//开始发送数据
+			$.ajax({
+				//请求处理页
+				url:"UserAction_searchFriends",
+				dataType: "json",
+				type: "POST",
+				//传送请求数据
+                data: { "friendName" : $friendName},
+                beforeSend: function () {   
+                	if($friendName == ""){
+                		alert("搜索内容不能为空!");
+                		return false;
+                	}
+                },
+                //处理成功返回的数据
+                success:function(retVal){
+                	$.each(retVal,function(index,element){
+	                	var $parentdiv = $("<div></div>");//创建一个父div
+	                	var $childa = $("<a href='#'>"+element.username+"</a>");
+	                	$childa.attr('href','UserAction_toOtherHomePage?userId='+element.id);
+	                	$parentdiv.append($childa);
+	                	$("#search-result").append($parentdiv);
+                	});
+	                $("#search-result").show();
+                }
+			})
+			return false;
+		});
+		
 	})
 	
 </script>
@@ -172,7 +205,7 @@ body{
 						<s:if test="#session['user'] != null">
 							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="name">
-								<a href="#"><s:property value="#session['user'].username" /></a>
+								<a href="BlogAction_toPersonalPage"><s:property value="#session['user'].username" /></a>
 								<a href="UserAction_toMessageCenter">
 									<span class="badge badge-important">
 										<s:property value="#session['user'].messages.size()"/>
@@ -189,6 +222,21 @@ body{
 						</s:else>
 					</span>
 			</div>
+			</aside>
+			<aside class="col-md-3 sidebar">
+				<div class="widget">
+					<form id="searchForm" role="search">
+						<div class="input-group">
+							<input name="friendName" id="friendName" type="text" class="form-control" placeholder="搜好友...">
+							<span class="input-group-addon">
+							   <a id="searchit" href=""> <img alt="" src="image/search.png"></a>
+							</span>
+						</div>
+					</form>
+					<div id="search-result" style="display: none;"> 
+						
+					</div>
+				</div>
 			</aside>
 		</div>
 	</div>

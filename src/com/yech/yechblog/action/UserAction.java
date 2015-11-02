@@ -6,17 +6,22 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.json.JSONArray;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.ServletContextAware;
 
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Relation;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.MessageService;
+import com.yech.yechblog.service.RelationService;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.ValidateUtil;
 
@@ -28,7 +33,8 @@ import com.yech.yechblog.util.ValidateUtil;
  */
 @Controller
 @Scope("prototype")
-public class UserAction extends BaseAction<User> implements ServletContextAware
+public class UserAction extends BaseAction<User> 
+					implements ServletContextAware,ServletResponseAware
 {
 
 	private static final long serialVersionUID = 3575939345060413099L;
@@ -46,9 +52,32 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 
 	@Resource
 	private BlogService blogService;
+	
+	@Resource
+	private RelationService relationService;
 	//他的博客列表
 	private List<Blog> hisBlogs;
+	//他关注的人
+	private List<Relation> hisRelations;
+	//关注他的人
+	private List<Relation> focusHims;
 	
+	public List<Relation> getFocusHims() {
+		return focusHims;
+	}
+
+	public void setFocusHims(List<Relation> focusHims) {
+		this.focusHims = focusHims;
+	}
+
+	public List<Relation> getHisRelations() {
+		return hisRelations;
+	}
+
+	public void setHisRelations(List<Relation> hisRelations) {
+		this.hisRelations = hisRelations;
+	}
+
 	public List<Blog> getHisBlogs() {
 		return hisBlogs;
 	}
@@ -62,6 +91,11 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		this.servletContext = arg0;
 	}
 
+	private HttpServletResponse response;
+	@Override
+	public void setServletResponse(HttpServletResponse arg0) {
+		this.response = arg0;
+	}
 	/**
 	 * 编辑用户信息
 	 * 
@@ -85,6 +119,14 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 
 	public void setUserImgFileName(String userImgFileName) {
 		this.userImgFileName = userImgFileName;
+	}
+	
+	/**
+	 * 去到“关于”页面
+	 * @return
+	 */
+	public String toAboutPage(){
+		return "toAboutPage";
 	}
 
 	/**
@@ -202,10 +244,50 @@ public class UserAction extends BaseAction<User> implements ServletContextAware
 		user = userService.getEntity(userId);
 		if(model.getId() != userId){	//所进的主页不是当前登录的用户的主页
 			hisBlogs = blogService.queryHisBlogs(userId);
+			hisRelations = relationService.queryAllRelations(user);
+			focusHims = relationService.queryAllMyFocus(user);
 			return "toOtherHomePage";
 		} else{	//要进的主页是当前登录用户的主页(即进自己的主页)
 			//重定向到个人主页
 			return "redirectToPersonalPage";
 		}
 	}
+	
+	//接收页面传过来的值
+	private String friendName;
+	//好友列表
+	private List<User> friendsList;
+	
+	public List<User> getFriendsList() {
+		return friendsList;
+	}
+
+	public void setFriendsList(List<User> friendsList) {
+		this.friendsList = friendsList;
+	}
+
+	public String getFriendName() {
+		return friendName;
+	}
+
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
+	}
+
+	/**
+	 * 搜索好友（根据输入的好友名）
+	 * @return
+	 */
+	public void searchFriends(){
+		System.out.println("friendName= "+friendName);
+		friendsList = userService.searchUserByName(friendName);
+		JSONArray array = new JSONArray(friendsList);
+		try {
+			response.getWriter().print(array);
+			System.out.println("array= "+array);
+		} catch (Exception e) {
+		}
+//		return "ajax-success";
+	}
+
 }

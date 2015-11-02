@@ -27,4 +27,10 @@ public interface RelationService {
 	 */
 	public void stopFocusTheUser(Integer myId, Integer userId);
 
+	/**
+	 * ¹Ø×¢ÎÒµÄ
+	 * @return
+	 */
+	public List<Relation> queryAllMyFocus(User user);
+
 }

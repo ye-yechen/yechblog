@@ -52,4 +52,15 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 		String hql = "UPDATE User u SET u.image = ? WHERE u.id = ?";
 		this.batchUpdateEntityByHQL(hql,path,id);
 	}
+
+	/**
+	 * 根据好友名查询好友
+	 * @return
+	 */
+	@Override
+	public List<User> searchUserByName(String friendName) {
+		String hql = "from User u where u.username like ?";
+		List<User> friends = this.batchFindEntityByHQL(hql, "%"+friendName+"%");
+		return friends;
+	}
 }

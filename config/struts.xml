@@ -17,7 +17,7 @@
 		<interceptors>
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
-				 <param name="excludeMethods">pagination,readDetail,logout,similarBlogsPagination,searchBlog</param>  
+				 <param name="excludeMethods">searchFriends,pagination,readDetail,logout,similarBlogsPagination,searchBlog,toAboutPage</param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
 			<interceptor-stack name="yechblogStack">
@@ -108,10 +108,15 @@
 			<result name="input">/views/personalPage.jsp</result>
 			<result name="toMessageCenterPage">/views/messageCenterPage.jsp</result>
 			<result name="toOtherHomePage">/views/otherHomePage.jsp</result>
+			<result name="toAboutPage">/views/about.jsp</result>
 			<result name="redirectToPersonalPage" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">BlogAction_toPersonalPage</param>
 			</result>
+			<result type="stream" name="ajax-success">
+       			<param name="contentType">text/html</param>
+       			<param name="inputName">inputStream</param>
+       		</result>
 		</action>
 		
 		<!-- MessageAction -->

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -155,8 +155,8 @@ body{
 						<dd class="person-edit  pull-right">
 							<a id="edit" href="#" data-toggle="modal" data-target="#myModal2">上传头像</a>
 						</dd>
-						 <dd class="focus_num">关注</dd>
-            			 <dd class="fans_num">粉丝</dd>
+						 <dd class="focus_num"><b><s:property value="allRelations.size()"/></b>关注</dd>
+            			 <dd class="fans_num"><b><s:property value="allFocusMe.size()"/></b>粉丝</dd>
 					</dl>
 					<dl class="">
 						<dd class="person-name"><s:property value="#session['user'].username"></s:property></dd>
@@ -270,6 +270,7 @@ body{
 				 	</table>
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
+				 		<div style="color:#959595 ;">我关注的</div>
 				 		<table class="table table-hover">
 							<s:iterator var="ar" status="s" value="allRelations">
 								<s:if test="(#s.index+1)%4!=0">
@@ -292,6 +293,28 @@ body{
 										</td>
 								</s:else>
 								
+							</s:iterator>
+					</table>
+					<div style="color:#959595 ;">关注我的</div>
+					<table class="table table-hover">
+							<s:iterator var="af" status="s" value="allFocusMe">
+								<s:if test="(#s.index+1)%4!=0">
+									<td>
+										<img alt="" src='image/personImg.jpg' width="40" height="40">
+										<a href="#">
+											<s:property value="#af.self.username"/>
+										</a>
+									</td>
+								</s:if>
+								<s:else>
+									<tr></tr>
+										<td>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+											<a href="#">
+												<s:property value="#af.self.username"/>
+											</a>
+										</td>
+								</s:else>
 							</s:iterator>
 					</table>
 				 </div>

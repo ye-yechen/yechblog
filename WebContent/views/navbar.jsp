@@ -78,7 +78,7 @@
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">关于</a></li>
+					<li><a href="UserAction_toAboutPage">关于</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<s:if test="#session['user'] != null">

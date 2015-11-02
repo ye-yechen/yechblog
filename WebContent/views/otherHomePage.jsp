@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="zh-CN">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -76,8 +76,8 @@ body{
 								<img alt="" src="image/personImg.jpg">
 							</s:else>
 						</dt>
-						 <dd class="focus_num">关注</dd>
-            			 <dd class="fans_num">粉丝</dd>
+						 <dd class="focus_num"><b><s:property value="hisRelations.size()"/></b>关注</dd>
+            			 <dd class="fans_num"><b><s:property value="focusHims.size()"/></b>粉丝</dd>
 					</dl>
 					<dl class="">
 						<dd class="person-name">
@@ -95,7 +95,7 @@ body{
 			<main class="col-md-12 main-content">
 				<ul class="nav nav-tabs">
  					 <li id="h_bloglist" role="presentation" class="active"><a href="#">他的博客</a></li>
-  					 <li id="h_friends" role="presentation"><a href="#">他的伙伴</a></li>
+  					 <li id="h_friends" role="presentation"><a href="#">他的关系</a></li>
 				</ul>
 				
 				 <div id="hisBlogs" class="post">
@@ -119,7 +119,50 @@ body{
 				 </div>
 				 
 				  <div id="hisFriends" class="post" style="display:none;">
-					these are his friends!
+					  <div style="color:#959595 ;">他关注的</div>
+							<table class="table table-hover">
+							<s:iterator var="hr" status="s" value="hisRelations">
+								<s:if test="(#s.index+1)%4!=0">
+									<td>
+										<img alt="" src='image/personImg.jpg' width="40" height="40">
+										<a href="#">
+											<s:property value="#hr.other.username"/>
+										</a>
+									</td>
+								</s:if>
+								<s:else>
+									<tr></tr>
+										<td>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+											<a href="#">
+												<s:property value="#hr.other.username"/>
+											</a>
+										</td>
+								</s:else>
+							</s:iterator>
+					</table>
+					<div style="color:#959595 ;">关注他的</div>
+					<table class="table table-hover">
+							<s:iterator var="fh" status="s" value="focusHims">
+								<s:if test="(#s.index+1)%4!=0">
+									<td>
+										<img alt="" src='image/personImg.jpg' width="40" height="40">
+										<a href="#">
+											<s:property value="#fh.self.username"/>
+										</a>
+									</td>
+								</s:if>
+								<s:else>
+									<tr></tr>
+										<td>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+											<a href="#">
+												<s:property value="#fh.self.username"/>
+											</a>
+										</td>
+								</s:else>
+							</s:iterator>
+					</table>
 				 </div>
 			</main>
 		</div>

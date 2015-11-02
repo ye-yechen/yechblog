@@ -8,6 +8,7 @@
 /*====================================================
 	common styles
 ====================================================*/
+
 html, body {
 	color: #505050;
 	line-height: 1.75em;
@@ -264,6 +265,15 @@ pre {
 	overflow: hidden;
 }
 
+ .focus_num b {
+  color: #333;
+  display: block;
+  width: 80px;
+  text-align: center;
+  line-height: 14px;
+  float: left;
+}
+
 .fans_num {
 	width: 85px;
 	height: 32px;
@@ -273,7 +283,14 @@ pre {
 	text-align: center;
 	overflow: hidden;
 }
-
+.fans_num b {
+  color: #333;
+  display: block;
+  width: 80px;
+  text-align: center;
+  line-height: 14px;
+  float: left;
+}
 .person-signature {
 	color: #959595;
 	font-size: 0.8em;

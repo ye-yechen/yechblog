@@ -60,4 +60,20 @@ public class RelationServiceImpl implements RelationService {
 		relationDao.batchUpdateEntityByHQL(hql, myId,userId);
 	}
 
+
+	/**
+	 * ¹Ø×¢ÎÒµÄ
+	 * @return
+	 */
+	@Override
+	public List<Relation> queryAllMyFocus(User user) {
+		String hql = "from Relation r where r.other.id = ?";
+		List<Relation> relations = 
+				relationDao.batchFindEntityByHQL(hql, user.getId());
+		for(Relation relation : relations){
+			relation.getSelf().getUsername();
+			relation.getSelf().getImage();
+		}
+		return relations;
+	}
 }
