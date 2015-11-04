@@ -17,7 +17,23 @@ public class User{
 	private String nickName; //昵称
 	private String notes;//个人备注
     private String image;//图片URL
-    private List<Message> messages = new ArrayList<Message>();
+    
+    private Boolean status;//是否验证
+    private String validateCode;//验证的验证码，保证只能激活链接只能验证一次
+    
+    public Boolean getStatus() {
+		return status;
+	}
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	public String getValidateCode() {
+		return validateCode;
+	}
+	public void setValidateCode(String validateCode) {
+		this.validateCode = validateCode;
+	}
+	private List<Message> messages = new ArrayList<Message>();
     
 	public List<Message> getMessages() {
 		return messages;

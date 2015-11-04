@@ -16,7 +16,7 @@
 	<div class="jumbotron">
 		<p>
 			yechblog 由 yech 开发，简洁易用，前端采用 bootstrap 响应式布局，后端采用 struts2、
-			spring4、hibernate4 框架。作者经验不够丰富，借鉴了 CSDN 的布局风格，希望大家包容！
+			spring4、hibernate4 框架。作者经验不够丰富，希望大家包容！
 		</p>
 		<p>
 			如果您有更好的建议或者意见，欢迎联系作者<br>

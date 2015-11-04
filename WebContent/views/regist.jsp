@@ -18,6 +18,7 @@
      function changeImg() {  
         $("#code").attr("src","IdentifyCodeAction_execute?d="+new Date().valueOf());  
      }  
+     
  </script>  
 
 </head>
@@ -39,7 +40,7 @@
 		<img alt="验证码" id="code" src="IdentifyCodeAction_execute">
 		<a href="#" onclick="changeImg()">看不清，换一张！</a>
 		<font color="RED"><s:fielderror><s:param>identifyCode</s:param></s:fielderror></font>
-		
+		<div class="alert alert-danger" role="alert">请务必填写真实邮箱，以便激活账号!</div>
 		<button type="submit" class="btn btn-block btn-warning">注册</button>
 	</form>
 	</div>

@@ -1,7 +1,9 @@
 package com.yech.yechblog.action;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -10,11 +12,12 @@ import com.opensymphony.xwork2.ActionContext;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.DataUtil;
+import com.yech.yechblog.util.SendMailUtil;
 import com.yech.yechblog.util.ValidateUtil;
 
 @Controller
 @Scope("prototype")
-public class RegistAction extends BaseAction<User> {
+public class RegistAction extends BaseAction<User> implements ServletRequestAware{
 	
 	private static final long serialVersionUID = 3871358626902449552L;
 	
@@ -23,6 +26,12 @@ public class RegistAction extends BaseAction<User> {
 	 */
 	@Resource
 	private UserService userService;
+
+	private HttpServletRequest request;
+	@Override
+	public void setServletRequest(HttpServletRequest arg0) {
+		this.request = arg0;
+	}
 
 	//去到注册页面
 	@SkipValidation //跳过校验
@@ -38,10 +47,76 @@ public class RegistAction extends BaseAction<User> {
 		//密码加密
 		model.setPassword(DataUtil.md5(model.getPassword()));
 		model.setImage("/image/personImg.jpg");//保存默认图片
+		model.setStatus(false);//设置没有验证
+		model.setValidateCode(DataUtil.md5("VaLiDaTeCoDe"));
 		userService.saveEntity(model);
+		sendMessage();//发送验证邮件
 		return "BlogAction";//重定向进入首页博客列表
 	}
 	
+	private String email;
+	private String vcode;
+	private Integer userId;
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getVcode() {
+		return vcode;
+	}
+
+	public void setVcode(String vcode) {
+		this.vcode = vcode;
+	}
+
+	/**
+	 * 处理邮箱验证
+	 * @return
+	 */
+	public String doMessageValidate(){
+		model = userService.getEntity(userId);
+		//验证激活账号，修改账号状态  
+		if(vcode.equals(model.getValidateCode())){
+			model.setStatus(true);
+			model.setValidateCode("");
+			userService.setValidate(model);//更新status为1，validate为""
+			request.setAttribute("msg", "<h3>激活成功！正在为您跳转到yechblog首页</h3>");
+		} else {
+			request.setAttribute("msg", "<h3>已经激活过了,不要重复激活!</h3>");
+			System.out.println("已经激活过了,不要重复激活!");
+		}
+		return "temp";
+	}
+	/**
+	 * 发送验证邮件
+	 * @return
+	 */
+	public void sendMessage(){
+		if(model != null && !model.getStatus()){ //没有验证
+			String email = model.getEmail();
+			String code = DataUtil.md5("VaLiDaTeCoDe");
+			StringBuffer content = new StringBuffer("<h2>请点击下面的链接激活帐号，"
+			 		+ "链接只能使用一次，请尽快激活！</h2>");
+			 content.append("<a style='font-size:16px;' "
+					 	+ "href='http://localhost:8080/yechblog/RegistAction_doMessageValidate?")
+			 .append("email=" + email + "&vcode=" + code+"&userId="+model.getId() +"'>")
+			 .append("<span style='color:blue;font-size:20px;font-weight:bold;'>yechblog欢迎您！<span></a>");
+			 SendMailUtil.send(email, content.toString());//开始发送邮件
+		}
+	}
 	//接收页面传过来的验证码
 	private String identifyCode;
 	
@@ -56,7 +131,7 @@ public class RegistAction extends BaseAction<User> {
 	/**
 	 * 校验(重写 ActionSupport 父类的方法进行校验)
 	 */
-	public void validate(){
+	public void validateDoRegist(){
 		//1.email 非空
 		String email = model.getEmail();
 		if(!ValidateUtil.isValidate(email)){
@@ -79,4 +154,5 @@ public class RegistAction extends BaseAction<User> {
 			addFieldError("email", "email 已经存在!");
 		}
 	}
+
 }

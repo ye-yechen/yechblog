@@ -39,7 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 	 */
 	@Override
 	public User validateLoginInfo(String email, String pswByMD5) {
-		String hql = "FROM User u WHERE u.email = ? AND u.password = ?";
+		String hql = "FROM User u WHERE u.email = ? AND u.password = ? and u.status = 1";
 		List<User> list = batchFindEntityByHQL(hql, email,pswByMD5);
 		return ValidateUtil.isValidate(list)?list.get(0):null;
 	}
@@ -62,5 +62,15 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 		String hql = "from User u where u.username like ?";
 		List<User> friends = this.batchFindEntityByHQL(hql, "%"+friendName+"%");
 		return friends;
+	}
+
+	/**
+	 * 经过了邮箱验证
+	 */
+	@Override
+	public void setValidate(User model) {
+		String hql = "update User u set u.status = 1,u.validateCode = ? "
+				+ "where u.id = ?";
+		this.batchUpdateEntityByHQL(hql, "",model.getId());
 	}
 }

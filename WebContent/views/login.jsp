@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-CN">
 <head>
@@ -16,6 +17,9 @@
 <body>
 	<div class="signin">
 	<div class="signin-head"><img src="image/logo2.png" alt="" class=""></div>
+	<div class="col-sm-offset-2 col-sm-10">
+		<font color="RED"><s:actionerror/></font>
+	</div>
 	<form action="LoginAction_doLogin" method="post" class="form-signin" role="form">
 		<input type="text" class="form-control" name="email" placeholder="邮箱" required autofocus>
 		<input name="username" type="text" class="form-control" placeholder="用户名" required/>

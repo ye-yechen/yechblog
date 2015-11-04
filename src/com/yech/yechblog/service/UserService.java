@@ -27,4 +27,10 @@ public interface UserService extends BaseService<User> {
 	 * @return
 	 */
 	public List<User> searchUserByName(String friendName);
+
+	/**
+	 * 经过了邮箱验证
+	 * @param model
+	 */
+	public void setValidate(User model);
 }

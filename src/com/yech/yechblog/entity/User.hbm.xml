@@ -26,6 +26,12 @@
         <property name="image" type="java.lang.String">
             <column name="IMAGE" />
         </property>
+        <property name="validateCode" type="java.lang.String">
+            <column name="VALIDATECODE" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+            <column name="STATUS" />
+        </property>
         <property name="registerDate" type="java.sql.Timestamp">
             <column name="REGISTER_DATE" />
         </property>

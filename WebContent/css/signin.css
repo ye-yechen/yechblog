@@ -16,12 +16,12 @@ body {
 }
 .signin-head {
 	margin:0 auto;
-	padding-top:45px;
+	padding-top:10px;
 	width:120px;
 }
 .form-signin {
   max-width: 330px;
-  padding: 43px 15px 15px 15px;
+  padding: 10px 15px 15px 15px;
   margin: 0 auto;
 }
 .form-signin .checkbox {

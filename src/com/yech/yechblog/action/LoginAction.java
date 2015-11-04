@@ -74,7 +74,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware{
 		User user = 
 				userService.validateLoginInfo(model.getEmail(),DataUtil.md5(model.getPassword()));
 		if(user == null){
-			addActionError("email 或 password 错误!");
+			addActionError("email 或 password 错误!或者账号未激活!");
 		} else {
 			if(isRemember()){ //记住了密码
 			}

@@ -53,6 +53,7 @@
 			<result name="registPage">/views/regist.jsp</result>
 			<result name="success">/views/blogIndex.jsp</result>
 			<result name="input">/views/regist.jsp</result>
+			<result name="temp">/views/temp.jsp</result>
 		</action>
 		
 		<!-- IdentifyCodeAction -->
