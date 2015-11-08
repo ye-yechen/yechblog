@@ -26,5 +26,8 @@
         <many-to-one name="comment" class="com.yech.yechblog.entity.Comment">
             <column name="COMMENTID" />
         </many-to-one>
+        <many-to-one name="answer" class="com.yech.yechblog.entity.Answer">
+            <column name="ANSWER" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

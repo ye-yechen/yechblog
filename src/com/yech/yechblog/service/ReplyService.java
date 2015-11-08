@@ -17,4 +17,10 @@ public interface ReplyService {
 	 */
 	public List<Reply> queryAllReplies(Integer id);
 
+	/**
+	 * 根据当前answer id查询此答案的所有追问
+	 * @return
+	 */
+	public List<Reply> queryAllQuestionReplies(Integer id);
+
 }

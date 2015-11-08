@@ -39,4 +39,19 @@ public class ReplyServiceImpl implements ReplyService {
 		return replies;
 	}
 
+	/**
+	 * 根据当前answer id查询此答案的所有追问
+	 * @return
+	 */
+	@Override
+	public List<Reply> queryAllQuestionReplies(Integer aid) {
+		String hql = "from Reply r where r.answer.id = ?";
+		List<Reply> replies = replyDao.batchFindEntityByHQL(hql, aid);
+		for(Reply reply : replies){
+			reply.getSelf().getUsername();
+			reply.getOther().getUsername();
+		}
+		return replies;
+	}
+
 }

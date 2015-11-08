@@ -32,6 +32,12 @@
         <property name="focus" type="java.lang.Boolean">
         	<column name="FOCUS"></column>
         </property>
+        <property name="answer" type="java.lang.Boolean">
+        	<column name="ANSWER"></column>
+        </property>
+        <property name="addAsk" type="java.lang.Boolean">
+        	<column name="ADDASK"></column>
+        </property>
         <property name="createTime" type="java.lang.String">
             <column name="CREATE_TIME" />
         </property>
@@ -43,9 +49,13 @@
         <many-to-one name="other" class="com.yech.yechblog.entity.User">
         	<column name="OTHER"></column>
         </many-to-one>
-        <!-- Message 和 Blog 多对一 (接收消息的人)-->
+        <!-- Message 和 Blog 多对一 -->
         <many-to-one name="blog" class="com.yech.yechblog.entity.Blog">
         	<column name="BLOGID"></column>
+        </many-to-one>
+        <!-- Message 和 Question 多对一 -->
+        <many-to-one name="question" class="com.yech.yechblog.entity.Question">
+        	<column name="QUESTIONID"></column>
         </many-to-one>
     </class>
 </hibernate-mapping>

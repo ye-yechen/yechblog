@@ -74,6 +74,21 @@ body{
 								<s:elseif test="#m.focus == true">
 									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;关注了您
 								</s:elseif>
+								
+								<s:elseif test="#m.answer == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;回答了您的问题
+									<a href="MessageAction_toDetailMessage?qid=<s:property value='#m.question.id' />&mid=<s:property value='#m.id' />">
+										<s:property value="#m.question.title"/>
+									</a>
+								</s:elseif>
+								
+								<s:elseif test="#m.addAsk == true">
+									<a href="#"><s:property value="#m.self.username"/></a>&nbsp;在
+										<a href="MessageAction_toDetailMessage?qid=<s:property value='#m.question.id' />&mid=<s:property value='#m.id' />">
+											<s:property value="#m.question.title"/>
+										</a>
+										中追问了您&nbsp;&nbsp;
+								</s:elseif>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
 								</div>
@@ -121,6 +136,20 @@ body{
 									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;关注了您
 								</s:elseif>
 								
+								<s:elseif test="#om.answer == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;回答了您的问题
+									<a href="MessageAction_toDetailMessage?qid=<s:property value='#om.question.id' />&mid=<s:property value='#om.id' />">
+										<s:property value="#om.question.title"/>
+									</a>
+								</s:elseif>
+								
+								<s:elseif test="#om.addAsk == true">
+									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;在
+										<a href="MessageAction_toDetailMessage?qid=<s:property value='#om.question.id' />&mid=<s:property value='#om.id' />">
+											<s:property value="#om.question.title"/>
+										</a>
+										中追问了您&nbsp;&nbsp;
+								</s:elseif>
 									<div class="pull-right">
 										<i><s:property value="#om.createTime"/></i>
 									</div>

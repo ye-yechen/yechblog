@@ -19,6 +19,7 @@ import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Collection;
 import com.yech.yechblog.entity.Comment;
 import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Question;
 import com.yech.yechblog.entity.Relation;
 import com.yech.yechblog.entity.Reply;
 import com.yech.yechblog.entity.Tag;
@@ -26,6 +27,7 @@ import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.CollectionService;
 import com.yech.yechblog.service.MessageService;
+import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.RelationService;
 import com.yech.yechblog.service.ReplyService;
 import com.yech.yechblog.service.TagService;
@@ -61,6 +63,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	
 	@Resource
 	private RelationService relationService;
+	
+	@Resource
+	private QuestionService questionService;
 	// 接收 User 对象
 	private User user;
 
@@ -86,10 +91,20 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Collection> allCollections;
 	//根据用户搜索匹配的博客列表
 	private List<Blog> matchedBlogList;
-	//我关注的列表
+	//我关注的人列表
 	private List<Relation> allRelations;
-	//所有关注我的
+	//所有关注我的人
 	private List<Relation> allFocusMe;
+	//当前用户提的问题列表
+	private List<Question> allQuestions;
+	
+	public List<Question> getAllQuestions() {
+		return allQuestions;
+	}
+
+	public void setAllQuestions(List<Question> allQuestions) {
+		this.allQuestions = allQuestions;
+	}
 
 	public List<Relation> getAllFocusMe() {
 		return allFocusMe;
@@ -276,6 +291,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setReadCount(model.getReadCount() + 1);
 		blogService.saveOrUpdateBlog(model);// 更新博客的阅读次数
 		allComments = blogService.queryAllComments(bid);
+		//查询当前评论的所有回复
 		for (Comment comment : allComments) {
 			List<Reply> replies = replyService.queryAllReplies(comment.getId());
 			allReplies.put(comment.getId(), replies);
@@ -368,6 +384,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		allCollections = collectionService.findMyCollections(user);
 		allRelations = relationService.queryAllRelations(user);
 		allFocusMe = relationService.queryAllMyFocus(user);
+		allQuestions = questionService.queryAllMyQuestions(user);
 		return "personalPage";
 	}
 

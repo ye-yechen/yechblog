@@ -62,8 +62,10 @@ public class MessageServiceImpl implements  MessageService{
 	@Override
 	public Message getMessageById(Integer mid) {
 		Message message =  messageDao.getEntity(mid);
-		if(!message.getFocus()){ //关注类型的消息没有对应的博客
+		if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){ //关注类型的消息没有对应的博客
 			message.getBlog().getId();
+		}else if (message.getAnswer() || message.getAddAsk()) { //answer类型的消息需要查出对应的question,避免懒加载
+			message.getQuestion().getId();
 		}
 		return message;
 	}
@@ -76,9 +78,11 @@ public class MessageServiceImpl implements  MessageService{
 		String hql = "from Message m where m.other.id = ? and m.self.id != ? and m.status = ?";
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId(), user.getId(),false);
-		for(Message message : messages){//关注类型的消息没有对应的博客
-			if(!message.getFocus()){
+		for(Message message : messages){//关注和answer类型的消息没有对应的博客
+			if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){
 				message.getBlog().getId();
+			} else if (message.getAnswer() || message.getAddAsk()) { //answer类型的消息需要查出对应的question,避免懒加载
+				message.getQuestion().getId();
 			}
 			message.getOther().getUsername();
 			message.getSelf().getUsername();
@@ -92,13 +96,18 @@ public class MessageServiceImpl implements  MessageService{
 	 */
 	@Override
 	public List<Message> queryUserActivities(User user) {
-		String hql = "from Message m where m.self.id = ?";
+		String hql = "from Message m where m.self.id = ? "
+				+ "order by m.createTime desc";
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId());
 		for(Message message : messages){
-			if(!message.getFocus()){ //关注类型的消息没有对应的博客
+			//关注、answer、追问类型的消息没有对应的博客
+			if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){ 
 				message.getBlog().getId();
 				message.getBlog().getTitle();
+			}else if (message.getAnswer() || message.getAddAsk()) { //answer类型的消息需要查出对应的question,避免懒加载
+				message.getQuestion().getId();
+				message.getQuestion().getTitle();
 			}
 			message.getOther().getUsername();
 			message.getSelf().getUsername();

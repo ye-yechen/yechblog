@@ -17,10 +17,12 @@ import org.springframework.web.context.ServletContextAware;
 
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Question;
 import com.yech.yechblog.entity.Relation;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.MessageService;
+import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.RelationService;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.ValidateUtil;
@@ -55,6 +57,9 @@ public class UserAction extends BaseAction<User>
 	
 	@Resource
 	private RelationService relationService;
+	
+	@Resource
+	private QuestionService questionService;
 	//他的博客列表
 	private List<Blog> hisBlogs;
 	//他关注的人
@@ -191,23 +196,32 @@ public class UserAction extends BaseAction<User>
 		oldMessages = messageService.getOldMessages(model); // 获取已经读过的旧消息
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
-				if(!message.getFocus()){ //如果不是关注的消息(因为关注消息没有对应的博客)
+				//不是关注、answer、追问的消息(因为这些消息类型没有对应的博客)
+				if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){ 
 					message.getBlog().getId();
 					//查出message所对应的blog
 					Blog blog = blogService.getBlogById(message.getBlog().getId());
 					message.setBlog(blog);
-				}else { //即是关注类型的消息
+				}else if(!message.getAnswer() && !message.getAddAsk()){ //不是answer、追问类型的消息(即是关注类型的消息)
 					//将 message 表中的 status 字段设为 0 ，表示已读
 					messageService.changeMessageStatus(message.getId());
+				} else { // 是answer类型的消息
+					Question question = 
+							questionService.getQuestionById(message.getQuestion().getId());
+					message.setQuestion(question);
 				}
 			}
 		}
 		if (oldMessages.size() > 0) {
 			for (Message message : oldMessages) {
-				if(!message.getFocus()){
+				if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){
 					//查出message所对应的blog
 					Blog blog = blogService.getBlogById(message.getBlog().getId());
 					message.setBlog(blog);
+				} else if(message.getAnswer() || message.getAddAsk()){
+					Question question = 
+							questionService.getQuestionById(message.getQuestion().getId());
+					message.setQuestion(question);
 				}
 			}
 		}

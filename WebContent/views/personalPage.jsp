@@ -41,21 +41,32 @@ body{
 			$("#myFriends").hide();
 			$("#myCollection").hide();
 			$("#myBlogs").hide();
+			$("#myQuestions").hide();
 		});
 		$("#m_friends").click(function(){
 			$("#myFriends").show();
 			$("#myCollection").hide();
 			$("#myActivity").hide();
 			$("#myBlogs").hide();
+			$("#myQuestions").hide();
 		});
 		$("#m_collections").click(function(){
 			$("#myCollection").show();
 			$("#myFriends").hide();
 			$("#myActivity").hide();
 			$("#myBlogs").hide();
+			$("#myQuestions").hide();
 		});
 		$("#m_bloglist").click(function(){
 			$("#myBlogs").show();
+			$("#myCollection").hide();
+			$("#myFriends").hide();
+			$("#myActivity").hide();
+			$("#myQuestions").hide();
+		});
+		$("#m_questions").click(function(){
+			$("#myQuestions").show();
+			$("#myBlogs").hide();
 			$("#myCollection").hide();
 			$("#myFriends").hide();
 			$("#myActivity").hide();
@@ -172,10 +183,11 @@ body{
 		<div class="row">
 			<main class="col-md-12 main-content">
 				<ul class="nav nav-tabs">
- 					 <li id="m_activity" role="presentation" class="active"><a href="#">我的小活动</a></li>
- 					 <li id="m_bloglist" role="presentation"><a href="#">我的小博客</a></li>
-  					 <li id="m_friends" role="presentation"><a href="#">我的小伙伴</a></li>
-  					 <li id="m_collections" role="presentation"><a href="#">我的小宝藏</a></li>
+ 					 <li id="m_activity" role="presentation" class="active"><a href="#">我的活动</a></li>
+ 					 <li id="m_bloglist" role="presentation"><a href="#">我的博客</a></li>
+  					 <li id="m_friends" role="presentation"><a href="#">我的伙伴</a></li>
+  					 <li id="m_collections" role="presentation"><a href="#">我的收藏</a></li>
+  					 <li id="m_questions" role="presentation"><a href="#">我的问题</a></li>
 				</ul>
 				 <div id="myActivity" class="post">
 					<s:iterator var="m" value="allMessages">
@@ -217,6 +229,20 @@ body{
 								</s:elseif>
 								<s:elseif test="#m.focus == true">
 									关注了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
+								</s:elseif>
+								<s:elseif test="#m.answer == true">
+									回答了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的问题
+									<a href="QuestionAction_readDetail?qid=<s:property value='#m.question.id' />">
+										<s:property value="#m.question.title"/>
+									</a>
+								</s:elseif>
+								
+								<s:elseif test="#m.addAsk == true">
+									追问了<a href="#"><s:property value="#m.self.username"/></a>&nbsp;
+										<a href="QuestionAction_readDetail?qid=<s:property value='#m.question.id' />">
+											<s:property value="#m.question.title"/>
+										</a>
+										&nbsp;&nbsp;
 								</s:elseif>
 								<div class="pull-right">
 									<i><s:property value="#m.createTime"/></i>
@@ -317,6 +343,30 @@ body{
 								</s:else>
 							</s:iterator>
 					</table>
+				 </div>
+				 <div id="myQuestions" class="post" style="display:none;">
+				 	<table class="table table-hover">
+				 		<tr>
+				 			<th>标题</th>
+				 			<th>阅读</th>
+				 			<th>评论</th>
+				 			<th>操作</th>
+				 		</tr>
+				 		<s:iterator var="aq" value="allQuestions">
+				 			<tr>
+				 				<td>
+				 					<a href="QuestionAction_readDetail?qid=<s:property value='#aq.id'/>"><s:property value="#aq.title"/></a>
+									(<s:property value="#aq.createTime"/>)
+				 				</td>
+				 				<td><s:property value="#aq.readCount"/></td>
+				 				<td><s:property value="#aq.answers.size()"/></td>
+				 				<td>
+				 					<i><a href="QuestionAction_editQuestion?qid=<s:property value='#aq.id'/>">编辑</a></i>&nbsp;
+									<i><a href="QuestionAction_deleteQuestion?qid=<s:property value='#aq.id'/>">删除问题</a></i>&nbsp;
+				 				</td>
+				 			</tr>
+				 		</s:iterator>
+				 	</table>
 				 </div>
 			</main>
 		</div>

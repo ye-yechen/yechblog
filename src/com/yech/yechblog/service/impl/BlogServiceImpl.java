@@ -26,7 +26,8 @@ public class BlogServiceImpl implements BlogService {
 	 */
 	@Override
 	public List<Blog> findMyBlogs(User user) {
-		String hql = "from Blog b where b.user.id = ? and b.deleted = 0";
+		String hql = "from Blog b where b.user.id = ? and b.deleted = 0 "
+				+ "order by b.createTime desc";
 		List<Blog> blogs = blogDao.batchFindEntityByHQL(hql,user.getId());
 		//遍历blog所属的user，避免懒加载
 		for(Blog blog : blogs){

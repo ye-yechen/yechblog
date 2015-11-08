@@ -29,7 +29,8 @@ public class CollectionServiceImpl implements CollectionService {
 	 */
 	@Override
 	public List<Collection> findMyCollections(User user) {
-		String hql = "from Collection c where c.deleted = 0 and c.self.id = ?";
+		String hql = "from Collection c where c.deleted = 0 "
+				+ "and c.self.id = ? order by c.collectTime desc";
 		List<Collection> collections = 
 				collectionDao.batchFindEntityByHQL(hql, user.getId());
 		for(Collection collection : collections){

@@ -46,4 +46,5 @@ public class Tag {
 	public void setBlogs(Set<Blog> blogs) {
 		this.blogs = blogs;
 	}
+	
 }

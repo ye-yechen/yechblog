@@ -13,7 +13,8 @@ public class Reply {
 	private String imageUrl;
 	private User self;
 	private User other;
-	private Comment comment;
+	private Comment comment; //回复评论(属于博客模块)
+	private Answer answer;//追问问题(属于问答模块)
 	public Integer getId() {
 		return id;
 	}
@@ -56,4 +57,11 @@ public class Reply {
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
+	public Answer getAnswer() {
+		return answer;
+	}
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+	
 }

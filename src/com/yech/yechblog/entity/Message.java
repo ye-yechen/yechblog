@@ -14,6 +14,7 @@ public class Message {
 	private User other; //消息发给谁
 	private Boolean status; //状态 0已读 1未读
 	private Blog blog;//消息是关于哪篇博客
+	private Question question;//消息是关于哪个问题(对应与answer类型消息)
 	private String createTime;
 	private Boolean comment=false; //评论
 	private Boolean love=false;//赞
@@ -21,7 +22,21 @@ public class Message {
 	private Boolean share=false; //分享
 	private Boolean reply=false;//回复评论
 	private Boolean focus=false;//关注
+	private Boolean answer=false;//回答
+	private Boolean addAsk=false;//追问
 	
+	public Boolean getAddAsk() {
+		return addAsk;
+	}
+	public void setAddAsk(Boolean addAsk) {
+		this.addAsk = addAsk;
+	}
+	public Boolean getAnswer() {
+		return answer;
+	}
+	public void setAnswer(Boolean answer) {
+		this.answer = answer;
+	}
 	public Boolean getFocus() {
 		return focus;
 	}
@@ -64,6 +79,13 @@ public class Message {
 	}
 	public void setBlog(Blog blog) {
 		this.blog = blog;
+	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 	public String getCreateTime() {
 		return createTime;
