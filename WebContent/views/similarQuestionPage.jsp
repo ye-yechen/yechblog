@@ -19,8 +19,9 @@
 	 <nav role="navigation" class="navbar navbar-default">
 		  <ul class="nav navbar-nav">
 		  	  <li><a href="#">话题</a></li>
-		  	  <li><a href="#">发现</a></li>
-		  	  <li><a href="#">博客</a></li>
+		  	  <li><a href="QuestionAction_pagination">发现</a></li>
+		  	  <li><a href="BlogAction_pagination">博客</a></li>
+		  	  <li><a href="QuestionAction_toAskQuestionPage">提问题</a></li>
 		  </ul>
 	 </nav>
 	<section class="content-wrap">

@@ -49,5 +49,22 @@ public interface QuestionService {
 	 * @return
 	 */
 	public List<Question> queryAllMyQuestions(User user);
-	
+
+	/**
+	 * 删除问题
+	 * @param qid
+	 */
+	public void deleteQuestion(Integer qid);
+
+	/**
+	 * 更新问题
+	 * @param model
+	 */
+	public void updateQuestion(Question model);
+
+	/**
+	 * 根据id查询此用户的所有问题
+	 */
+	public List<Question> queryHisQuestions(Integer userId);
+
 }

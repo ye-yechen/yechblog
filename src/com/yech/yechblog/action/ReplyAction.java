@@ -20,6 +20,7 @@ import com.yech.yechblog.service.AnswerService;
 import com.yech.yechblog.service.CommentService;
 import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.ReplyService;
+import com.yech.yechblog.service.UserService;
 
 /**
  * ReplyAction
@@ -44,6 +45,9 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 
 	@Resource
 	private AnswerService answerService;
+	
+	@Resource
+	private UserService userService;
 	// 注入当前登录的用户(即回复的人)
 	private User user;
 
@@ -56,6 +60,17 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 	private Integer cid;
 	// 接收页面传过来的answer id
 	private Integer aid;
+
+	//接收页面传过来的 userId
+	private Integer userId;
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
 	public Integer getAid() {
 		return aid;
@@ -120,7 +135,14 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 		// 设置追问与answer之间的关联关系
 		model.setAnswer(answer);
 		model.setSelf(user);
-		model.setOther(answer2.getUser());
+		if(userId == null){ //userId为空，表示是回复别人的回答
+			model.setOther(answer2.getUser());
+		} else{
+			//userId不为空，表示是回复别人的追问，此时model.setOther(User)中的user
+			//就不是comment2.getUser()了，主要是为了维护关联关系的正确性
+			User other = userService.getEntity(userId);
+			model.setOther(other);
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setReplyTime(format.format(new Date()));
 		replyService.saveReply(model);
@@ -129,7 +151,14 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 		Message message = new Message();
 		message.setContent(model.getContent());
 		message.setSelf(user);
-		message.setOther(answer2.getUser());
+		if(userId == null){ //userId为空，表示是回复别人的回答
+			message.setOther(answer2.getUser());
+		} else {
+			//userId不为空，表示是回复别人的追问，此时model.setOther(User)中的user
+			//就不是comment2.getUser()了，主要是为了维护关联关系的正确性
+			User other = userService.getEntity(userId);
+			message.setOther(other);
+		}
 		message.setStatus(true);// 1代表未读
 		message.setAddAsk(true);// 1代表是追问
 		message.setQuestion(question);

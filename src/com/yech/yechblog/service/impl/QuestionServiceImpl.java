@@ -116,4 +116,35 @@ public class QuestionServiceImpl implements QuestionService {
 		return questions;
 	}
 
+	/**
+	 * 删除问题
+	 */
+	@Override
+	public void deleteQuestion(Integer qid) {
+		String hql = "update Question q set q.deleted = 1 where q.id = ?";
+		questionDao.batchUpdateEntityByHQL(hql, qid);
+	}
+
+	/**
+	 * 更新问题
+	 */
+	@Override
+	public void updateQuestion(Question question) {
+		questionDao.updateEntity(question);
+	}
+
+	/**
+	 * 根据id查询此用户的所有问题
+	 */
+	@Override
+	public List<Question> queryHisQuestions(Integer userId) {
+		String hql = "from Question q where q.user.id = ? and q.deleted = 0";
+		List<Question> questions = questionDao.batchFindEntityByHQL(hql, userId);
+		for(Question question : questions){
+			question.getAnswers().size();
+			question.getUser().getUsername();
+		}
+		return questions;
+	}
+
 }

@@ -35,7 +35,8 @@ public class MessageServiceImpl implements  MessageService{
 	 */
 	@Override
 	public List<Message> getMyUnReadMessages(User user) {
-		String hql = "from Message m where m.other.id = ? and m.self.id != ? and m.status = ?";
+		String hql = "from Message m where m.other.id = ? and m.self.id != ? "
+				+ "and m.status = ? order by m.createTime desc";
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId(), user.getId(),true);
 		for(Message message : messages){
@@ -75,7 +76,8 @@ public class MessageServiceImpl implements  MessageService{
 	 */
 	@Override
 	public List<Message> getOldMessages(User user) {
-		String hql = "from Message m where m.other.id = ? and m.self.id != ? and m.status = ?";
+		String hql = "from Message m where m.other.id = ? and m.self.id != ? "
+				+ "and m.status = ? order by m.createTime desc";
 		List<Message> messages = 
 				messageDao.batchFindEntityByHQL(hql, user.getId(), user.getId(),false);
 		for(Message message : messages){//关注和answer类型的消息没有对应的博客

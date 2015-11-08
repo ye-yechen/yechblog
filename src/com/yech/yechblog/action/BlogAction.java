@@ -431,8 +431,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	/**
 	 * 编辑博客
-	 * 
-	 * @return
 	 */
 	public String editBlog() {
 		// 得到要编辑的博客
@@ -442,14 +440,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	/**
 	 * 更新blog
-	 * 
-	 * @return
 	 */
 	public String updateBlog() {
 		model.setId(bid);
-		// 去掉CKEditor自动在文本上添加的<p></p>标签
-		model.setContent(model.getContent().replace("<p>", "")
-				.replace("</p>", ""));
 		model.setUser(user);// 保持关联关系
 		model.setDeleted(0);
 		model.setReadCount(0);

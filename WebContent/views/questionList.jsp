@@ -14,13 +14,51 @@
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+	$(function(){
+		//ajax 方式提交表单，搜索好友
+		$("#searchit").click(function(){
+			//获取输入的用户名
+			var $friendName = $("#friendName").val();
+			//开始发送数据
+			$.ajax({
+				//请求处理页
+				url:"UserAction_searchFriends",
+				dataType: "json",
+				type: "POST",
+				//传送请求数据
+                data: { "friendName" : $friendName},
+                beforeSend: function () {   
+                	if($friendName == ""){
+                		alert("搜索内容不能为空!");
+                		return false;
+                	}
+                },
+                //处理成功返回的数据
+                success:function(retVal){
+                	$.each(retVal,function(index,element){
+	                	var $parentdiv = $("<div></div>");//创建一个父div
+	                	var $childa = $("<a href='#'>"+element.username+"</a>");
+	                	$childa.attr('href','UserAction_toOtherHomePage?userId='+element.id);
+	                	$parentdiv.append($childa);
+	                	$("#search-result").append($parentdiv);
+                	});
+	                $("#search-result").show();
+                }
+			})
+			return false;
+		});
+	})
+
+</script>
 </head>
 <body>
 	 <nav role="navigation" class="navbar navbar-default">
 		  <ul class="nav navbar-nav">
 		  	  <li><a href="#">话题</a></li>
-		  	  <li><a href="#">发现</a></li>
-		  	  <li><a href="#">博客</a></li>
+		  	  <li><a href="QuestionAction_pagination">发现</a></li>
+		  	  <li><a href="BlogAction_pagination">博客</a></li>
+		  	  <li><a href="QuestionAction_toAskQuestionPage">提问题</a></li>
 		  </ul>
 	 </nav>
 	<section class="content-wrap">
@@ -44,7 +82,7 @@
 		                            <div class="metas">
 		                            	<span><i class="tag-cloud"><a href="QuestionAction_similarQuestionsPagination?categoryName=<s:property value='#aq.category'/>"><s:property value="#aq.category"/></a></i></span>
 		                                <span class="name">
-		                                	<a href="UserAction_toOtherHomePage?userId=#aq.user.id"><s:property value="#aq.user.username"/></a>
+		                                	<a href="UserAction_toOtherHomePage?userId=<s:property value='#aq.user.id'/>"><s:property value="#aq.user.username"/></a>
 		                                </span>
 		                                <span class="badge badge-important pull-right"><s:property value="#aq.answers.size()"/></span>
 		                                <span class="time">1 人关注 • <s:property value="#aq.answers.size()"/> 个回答 • <s:property value="#aq.readCount"/> 次浏览</span>

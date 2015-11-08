@@ -1,5 +1,8 @@
 package com.yech.yechblog.action;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -101,6 +104,7 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 	public String newQuestion() {
 		model.setUser(user);
 		model.setDeleted(false);// 设置未删除(逻辑删除)
+		model.setReadCount(0);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setCreateTime(format.format(new Date()));
 
@@ -226,15 +230,47 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 	 * @return
 	 */
 	public String editQuestion(){
-		return "";
+		model = questionService.getQuestionById(qid);
+		return "editQuestionPage";
 	}
 	
+	/**
+	 * 更新问题
+	 * @return
+	 */
+	public String updateQuestion(){
+		model.setId(qid);
+		model.setUser(user);// 保持关联关系
+		model.setDeleted(false);
+		model.setReadCount(0);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		model.setCreateTime(format.format(new Date()));
+		questionService.updateQuestion(model);
+		return "redirectToPersonalPage";
+	}
+	/*
+	 *使用 ajax 的方式删除，以流的形式返回删除后的信息
+	 */
+	private InputStream inputStream;
+	public InputStream getInputStream() {
+		return inputStream;
+	}
 	/**
 	 * 删除问题
 	 * @return
 	 */
 	public String deleteQuestion(){
-		return "";
+		try {
+			questionService.deleteQuestion(qid);
+			inputStream = new ByteArrayInputStream("1".getBytes("UTF-8"));
+		} catch (Exception e) {
+			try {
+				inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return "ajax-success";
 	}
 
 }

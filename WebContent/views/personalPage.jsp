@@ -141,6 +141,28 @@ body{
 				//取消超链接的默认行为
 				return false;
 			}
+			if($a == "删除问题"){
+				//1.点击 delete 时，弹出警告信息
+				var flag = confirm("确定要删除这个问题吗?");
+				if(flag){
+					//使用 ajax 的方式删除
+					var url = this.href;
+					var args = {"time":new Date()};
+					//将 <a></a>节点所在行从页面删除
+					var $tr = $(this).parent().parent().parent();
+					$.post(url,args,function(data){
+						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
+						if(data == 1){
+							alert("删除成功!");
+							$tr.remove();
+						} else{
+						//若 data 的返回值不为1，则删除失败
+							alert("删除失败!");
+						}
+					});
+				}
+				return false;
+			}
 		});
 	})
 
@@ -348,8 +370,8 @@ body{
 				 	<table class="table table-hover">
 				 		<tr>
 				 			<th>标题</th>
-				 			<th>阅读</th>
-				 			<th>评论</th>
+				 			<th>浏览</th>
+				 			<th>回答</th>
 				 			<th>操作</th>
 				 		</tr>
 				 		<s:iterator var="aq" value="allQuestions">

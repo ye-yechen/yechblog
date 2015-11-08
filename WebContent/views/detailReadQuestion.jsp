@@ -15,15 +15,6 @@
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <style type="text/css">
-body{
-	background-image:url(image/bg2.jpg);
-}
-.bgimage {
-	background-image: url(image/bg.jpg);
-	background-position: 40% 40%;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -39,7 +30,14 @@ body{
 </script>
 </head>
 <body>
-	<jsp:include page="/views/navbar.jsp"></jsp:include>
+	<nav role="navigation" class="navbar navbar-default">
+		  <ul class="nav navbar-nav">
+		  	  <li><a href="#">话题</a></li>
+		  	  <li><a href="QuestionAction_pagination">发现</a></li>
+		  	  <li><a href="BlogAction_pagination">博客</a></li>
+		  	  <li><a href="QuestionAction_toAskQuestionPage">提问题</a></li>
+		  </ul>
+	 </nav>
 	<section class="content-wrap">
 		<div class="container">
 			<div class="row">

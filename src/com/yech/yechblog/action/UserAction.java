@@ -60,13 +60,24 @@ public class UserAction extends BaseAction<User>
 	
 	@Resource
 	private QuestionService questionService;
+	
 	//他的博客列表
 	private List<Blog> hisBlogs;
 	//他关注的人
 	private List<Relation> hisRelations;
 	//关注他的人
 	private List<Relation> focusHims;
+	//他的问题列表
+	private List<Question> hisQuestions;
 	
+	public List<Question> getHisQuestions() {
+		return hisQuestions;
+	}
+
+	public void setHisQuestions(List<Question> hisQuestions) {
+		this.hisQuestions = hisQuestions;
+	}
+
 	public List<Relation> getFocusHims() {
 		return focusHims;
 	}
@@ -260,6 +271,7 @@ public class UserAction extends BaseAction<User>
 			hisBlogs = blogService.queryHisBlogs(userId);
 			hisRelations = relationService.queryAllRelations(user);
 			focusHims = relationService.queryAllMyFocus(user);
+			hisQuestions = questionService.queryHisQuestions(userId);
 			return "toOtherHomePage";
 		} else{	//要进的主页是当前登录用户的主页(即进自己的主页)
 			//重定向到个人主页

@@ -129,10 +129,10 @@ body{
 							</div>
 							<div class="">
 								<s:property value="#c.content" />
-								<span class="pull-right"><a id="<s:property value='#c.id'/>">追问</a></span>
+								<span class="pull-right"><a id="<s:property value='#c.id'/>">回复</a></span>
 								<form action="ReplyAction_addQuestionReply?aid=<s:property value='#c.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#c.id'/>">
 									 <div class="form-group">
-										<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="追问你的新疑惑..."></textarea>
+										<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#c.user.username'/>..."></textarea>
 										<div class="col-sm-offset-10">
 											<button type="submit" class="btn btn-default">确定</button>
 										</div>
@@ -147,10 +147,21 @@ body{
 									<div class="post-footer2">
 									<div class="post-comment">
 										<span class="author">
-											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;追问
+											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;回复
 											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
 										</span>
 										<p><s:property value="#v.content" /></p>
+										<s:if test="#v.other.username == #session['user'].username">
+											<span class="pull-right"><a id="<s:property value='#v.id'/>">回复</a></span>
+											<form action="ReplyAction_addQuestionReply?aid=<s:property value='#v.answer.id'/>&userId=<s:property value='#v.self.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#v.id'/>">
+												 <div class="form-group">
+													<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#v.self.username'/>..."></textarea>
+													<div class="col-sm-offset-10">
+														<button type="submit" class="btn btn-default">确定</button>
+													</div>
+												</div>
+											</form>
+										</s:if>
 									</div>
 									</div>
 								</s:iterator>

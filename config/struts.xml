@@ -150,9 +150,18 @@
 			<result name="allQuestionList">/views/questionList.jsp</result>
 			<result name="detailReadPage">/views/detailReadQuestion.jsp</result>
 			<result name="similarQuestions">/views/similarQuestionPage.jsp</result>
+			<result name="editQuestionPage">/views/editQuestion.jsp</result>
 			<result name="QuestionAction" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">QuestionAction_pagination</param>
+			</result>
+			<result type="stream" name="ajax-success">
+       			<param name="contentType">text/html</param>
+       			<param name="inputName">inputStream</param>
+       		</result>
+       		<result name="redirectToPersonalPage" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">BlogAction_toPersonalPage</param>
 			</result>
 		</action>
 		

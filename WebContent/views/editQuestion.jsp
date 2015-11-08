@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
-<title>编辑博客</title>
+<title>编辑问题</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
@@ -18,25 +18,6 @@
 <script type="text/javascript" src="xhEditor/xheditor_lang/zh-cn.js"></script>
 <script type="text/javascript">
 	$(function() {
-		//CKEDITOR.replace('content');
-	
-		var b = true;
-		//得到焦点
-		$("#blogtag").focus(function() {
-			$("#usual_tags").show();
-		}).blur(function() { //失去焦点
-			if(b){
-				$("#usual_tags").hide();
-			}
-		});
-		$("#usual_tags").click(function(){
-			alert("ss");
-			if(b){
-				b = false;
-			} else {
-				b = true;
-			}
-		});
 	})
 </script>
 <style type="text/css">
@@ -57,18 +38,23 @@
 		</div>
 	</div>
 	</header>
-	<h1 class="col-sm-offset-2">编辑博客</h1>
-	<form action="BlogAction_updateBlog?bid=${model.id }" method="post" namespace="/"
+	<h1 class="col-sm-offset-2">编辑问题</h1>
+	<form action="QuestionAction_updateQuestion?qid=${model.id }" method="post"
 		class="col-sm-offset-2 col-sm-8">
 		<div class="form-group">
-			<label for="blogtitle">博客标题</label>
+			<label for="questiontitle">问题标题</label>
 			 <input type="text" name="title" value="${model.title }"
-				class="form-control" id="blogtitle" placeholder="Title">
+				class="form-control" id="questiontitle" placeholder="Title">
 		</div>
 		<div class="form-group">
-			<label for="blogcontent">博客内容</label>
+			<label for="questioncontent">问题内容</label>
 			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" 
 						name="content" >${model.content }</textarea>
+		</div>
+		<div class="form-group">
+			<label for="questioncategory">问题分类</label>
+			<input type="text" name="category" value="${model.category }"
+				class="form-control" id="questioncategory" placeholder="Category">
 		</div>
 		
 		<div class="form-group">

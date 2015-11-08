@@ -31,12 +31,18 @@ body{
 		$("#h_bloglist").click(function(){
 			$("#hisBlogs").show();
 			$("#hisFriends").hide();
+			$("#hisQuestions").hide();
 		});
 		$("#h_friends").click(function(){
 			$("#hisFriends").show();
 			$("#hisBlogs").hide();
+			$("#hisQuestions").hide();
 		});
-		
+		$("#h_questionlist").click(function(){
+			$("#hisQuestions").show();
+			$("#hisBlogs").hide();
+			$("#hisFriends").hide();
+		});
 		$("span a").click(function(){
 			var $a = $(this).html();
 			if($a == "关注ta"){
@@ -95,6 +101,7 @@ body{
 			<main class="col-md-12 main-content">
 				<ul class="nav nav-tabs">
  					 <li id="h_bloglist" role="presentation" class="active"><a href="#">他的博客</a></li>
+ 					 <li id="h_questionlist" role="presentation"><a href="#">他的问题</a></li>
   					 <li id="h_friends" role="presentation"><a href="#">他的关系</a></li>
 				</ul>
 				
@@ -163,6 +170,25 @@ body{
 								</s:else>
 							</s:iterator>
 					</table>
+				 </div>
+				 <div id="hisQuestions" class="post" style="display:none;">
+				  	  <table class="table table-hover">
+				 		<tr>
+				 			<th>标题</th>
+				 			<th>浏览</th>
+				 			<th>回答</th>
+				 		</tr>
+				 		<s:iterator var="hq" value="hisQuestions">
+				 			<tr>
+				 				<td>
+				 					<a href="QuestionAction_readDetail?qid=<s:property value='#hq.id'/>"><s:property value="#hq.title"/></a>
+									(<s:property value="#hq.createTime"/>)
+				 				</td>
+				 				<td><s:property value="#hq.readCount"/></td>
+				 				<td><s:property value="#hq.answers.size()"/></td>
+				 			</tr>
+				 		</s:iterator>
+				 	</table>
 				 </div>
 			</main>
 		</div>
