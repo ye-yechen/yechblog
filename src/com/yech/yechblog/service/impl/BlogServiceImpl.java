@@ -278,4 +278,14 @@ public class BlogServiceImpl implements BlogService {
 		return blogs;
 	}
 
+	/**
+	 * 改变博客的评论权限(是否可评论)
+	 * @param bid
+	 */
+	@Override
+	public void changeBlogAllowState(Integer bid,Boolean state) {
+		String hql = "update Blog b set b.allowComment = ? where b.id = ?";
+		blogDao.batchUpdateEntityByHQL(hql, state,bid);
+	}
+
 }

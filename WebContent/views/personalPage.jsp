@@ -279,6 +279,7 @@ body{
 				 			<th>标题</th>
 				 			<th>阅读</th>
 				 			<th>评论</th>
+				 			<th>评论权限</th>
 				 			<th>操作</th>
 				 		</tr>
 				 		<s:iterator var="mb" value="myBlogList">
@@ -289,6 +290,11 @@ body{
 				 				</td>
 				 				<td><s:property value="#mb.readCount"/></td>
 				 				<td><s:property value="#mb.comments.size()"/></td>
+				 				<td><a href="BlogAction_changeAllowState?bid=<s:property value='#mb.id'/>">
+				 						<s:if test="#mb.allowComment">禁止评论</s:if>
+				 						<s:else>允许评论</s:else>
+				 					</a>
+				 				</td>
 				 				<td>
 				 					<i><a href="BlogAction_editBlog?bid=<s:property value='#mb.id'/>">编辑</a></i>&nbsp;
 									<i><a href="BlogAction_deleteBlog?bid=<s:property value='#mb.id'/>">删除博客</a></i>&nbsp;

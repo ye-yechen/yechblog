@@ -161,6 +161,9 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 		// 总页数
 		pageCount = (questionCount % countPerPage == 0 ? questionCount
 				/ countPerPage : (questionCount / countPerPage + 1));
+		if(questionCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "allQuestionList";
 	}
 
@@ -222,6 +225,9 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 		// 总页数
 		pageCount = (questionCount % countPerPage == 0 ? questionCount / countPerPage
 				: (questionCount / countPerPage + 1));
+		if(questionCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "similarQuestions";
 	}
 	

@@ -29,6 +29,9 @@
         <property name="readCount" type="java.lang.Integer">
             <column name="READ_COUNT" />
         </property>
+        <property name="allowComment" type="java.lang.Boolean">
+            <column name="ALLOW_COMMENT" />
+        </property>
         <!-- Blog 和 User 多对一 -->
         <many-to-one name="user" class="com.yech.yechblog.entity.User">
         	<column name="USERID"></column>

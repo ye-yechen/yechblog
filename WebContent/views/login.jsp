@@ -22,7 +22,6 @@
 	</div>
 	<form action="LoginAction_doLogin" method="post" class="form-signin" role="form">
 		<input type="text" class="form-control" name="email" placeholder="邮箱" required autofocus>
-		<input name="username" type="text" class="form-control" placeholder="用户名" required/>
 		<input name="password" type="password" class="form-control" placeholder="密码" required />
 		<button class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
 		<label class="checkbox">

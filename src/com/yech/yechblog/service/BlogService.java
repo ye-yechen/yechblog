@@ -127,4 +127,10 @@ public interface BlogService{
 	 */
 	public List<Blog> queryHisBlogs(Integer userId);
 
+	/**
+	 * 改变博客的评论权限(是否可评论)
+	 * @param bid
+	 */
+	public void changeBlogAllowState(Integer bid,Boolean state);
+
 }

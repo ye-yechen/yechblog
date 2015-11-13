@@ -28,6 +28,17 @@ public class Blog{
 	//博客摘要
 	private String summary;
 	
+	//是否允许评论
+	private Boolean allowComment;
+	
+	public Boolean getAllowComment() {
+		return allowComment;
+	}
+
+	public void setAllowComment(Boolean allowComment) {
+		this.allowComment = allowComment;
+	}
+
 	public String getSummary() {
 		return summary;
 	}

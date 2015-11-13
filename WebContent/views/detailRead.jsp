@@ -59,14 +59,18 @@ body{
 						<div class="post-content">
 							<p><s:property value="#b.content" escapeHtml="false"/></p>
 						</div>
-						<div class="pull-right share">
-							<a id="comment" href="#">评论</a>
-						</div>
-						
-						<s:if test="allComments == null || allComments.size() == 0">
-							<div class="post-footer clearfix"><span>当前没有任何评论!赶紧去抢沙发!</span></div>
-						</s:if>
+						<!-- 如果博客允许评论 -->
+						<s:if test="#b.allowComment">
+							<div class="pull-right share">
+								<a id="comment" href="#">评论</a>
+							</div>
+							<s:if test="allComments == null || allComments.size() == 0">
+								<div class="post-footer clearfix"><span>当前没有任何评论!赶紧去抢沙发!</span></div>
+							</s:if>
+						</s:if>	
 						<s:else>
+							<div class="post-footer clearfix"><span>博主关闭了此博客的评论功能!</span></div>
+						</s:else>
 							<!-- 迭代评论列表 -->
 							<s:iterator var="c" value="allComments">
 							<div class="post-footer2">
@@ -90,7 +94,6 @@ body{
 									</div>
 								</s:iterator>
 							</s:iterator>
-						</s:else>
 						<form action="CommentAction_addComment?bid=<s:property value='#b.id' />" method="post" style="display: none;" id="comment_zone">
 							 <div class="form-group">
 								<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="说说你的观点..."></textarea>

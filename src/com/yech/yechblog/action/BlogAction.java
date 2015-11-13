@@ -239,6 +239,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 			//截取内容的前200个字符作为博客的summary
 			model.setSummary(model.getContent().substring(0, 400));
 		}
+		model.setAllowComment(true);//默认允许评论
 		model.setUser(user);
 		model.setReadCount(0);// 设置阅读次数
 		model.setDeleted(0);// 设置未删除(逻辑删除)
@@ -372,6 +373,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
+		if(blogCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "myBlogList";
 	}
 
@@ -403,7 +407,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	/**
 	 * 根据传入的tagName 查找含有此标签的博客
-	 * 
 	 * @return
 	 */
 	public String queryBlogsByTagName() {
@@ -429,6 +432,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
+		if(blogCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "similarBlogs";
 	}
 
@@ -577,8 +583,26 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
 		
-		
+		if(blogCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "toMatchedBlogPage";
+	}
+	
+	/**
+	 * 改变博客的评论权限(是否可评论)
+	 * @return
+	 */
+	public String changeAllowState(){
+		Blog blog = blogService.getBlogById(bid);
+		if(blog.getAllowComment()){ //如果博客现在是可评论的
+			//设置为不可评论
+			blogService.changeBlogAllowState(bid,false);
+		} else {
+			//设置为可评论
+			blogService.changeBlogAllowState(bid,true);
+		}
+		return "redirectToPersonalPage";
 	}
 
 }
