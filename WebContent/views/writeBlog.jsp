@@ -10,14 +10,45 @@
 <title>写博客</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
+<link href="xhEditor/prettify/prettify.css" rel="stylesheet" type="text/css" >
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="xhEditor/xheditor-1.2.2.min.js"></script>
 <script type="text/javascript" src="xhEditor/xheditor_lang/zh-cn.js"></script>
+<script type="text/javascript" src="xhEditor/prettify/prettify.js"></script>
 <script type="text/javascript">
 	$(function() {
-		//CKEDITOR.replace('content');
-	
+		$(pageInit);  
+		function pageInit()
+		{
+		    var allPlugin={
+		        
+		        Code:{c:'btnCode',t:'插入代码',h:1,e:function(){
+		            var _this=this;
+		            var htmlCode='<div><select id="xheCodeType">'
+		            +'<option value="html">HTML/XML</option><option value="js">Javascript</option>'
+		            +'<option value="css">CSS</option><option value="php">PHP</option>'
+		            +'<option value="java">Java</option><option value="py">Python</option>'
+		            +'<option value="pl">Perl</option><option value="rb">Ruby</option>'
+		            +'<option value="cs">C#</option><option value="c">C++/C</option>'
+		            +'<option value="sql">sql</option>'
+		            +'<option value="vb">VB/ASP</option><option value="">其它</option>'
+		            +'</select></div><div>'
+		            +'<textarea id="xheCodeValue" wrap="soft" spellcheck="false" style="width:300px;height:100px;" /></div><div style="text-align:right;"><input type="button" id="xheSave" value="确定" /></div>';    
+		            var jCode=$(htmlCode),jType=$('#xheCodeType',jCode),jValue=$('#xheCodeValue',jCode),jSave=$('#xheSave',jCode);
+		            jSave.click(function(){
+		                _this.loadBookmark();
+		               	_this.pasteHTML('<pre class="prettyprint lang-'+jType.val()+'">'+_this.domEncode(jValue.val())+'</pre>');
+		                _this.hidePanel();
+		                return false;    
+		            });
+		            _this.saveBookmark();  
+		            _this.showDialog(jCode);
+		        }}
+		    }
+		    $('#bcontent').xheditor({plugins:allPlugin,tools:'Cut,Copy,Paste,Pastetext,Blocktag,Fontface,FontSize,FontColor,BackColor,Bold,Italic,Underline,Removeformat,Link,Source,Code,Emot,Table'});
+		}
+
 		var b = true;
 		//得到焦点
 		$("#blogtag").focus(function() {
@@ -37,6 +68,7 @@
 		});
 	})
 </script>
+
 <style type="text/css">
 .bgimage {
 	background-image: url(image/bg.jpg);
@@ -46,7 +78,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="prettyPrint()">
 	<!-- start header -->
 	<header class="main-header bgimage">
 	<div class="container">
@@ -70,7 +102,7 @@
 		</div>
 		<div class="form-group">
 			<label for="blogcontent">博客内容</label>
-			<textarea class="xheditor {tools:'simple'} form-control" rows="30" cols="50" name="content"></textarea>
+			<textarea id="bcontent" class="form-control" rows="30" cols="50" name="content"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用,分隔)</label> 

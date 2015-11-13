@@ -348,6 +348,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
+		if(blogCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
 		return "allBlogList";
 	}
 

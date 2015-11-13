@@ -76,7 +76,7 @@
 					<div class="form-group">
 						<input name="searchCondition" type="text" class="form-control" placeholder="博客名">
 					</div>
-					<button type="submit" class="btn btn-default">Search</button>
+					<button type="submit" class="btn btn-default">搜索</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="UserAction_toAboutPage">关于</a></li>

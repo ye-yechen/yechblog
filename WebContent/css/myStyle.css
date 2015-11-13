@@ -1,3 +1,8 @@
+.btnCode {
+	background: transparent url(../xhEditor/prettify/code.png) no-repeat 16px 16px;
+	background-position: 2px 2px;
+}
+
 html, body {
 	color: #505050;
 	line-height: 1.75em;
@@ -705,4 +710,3 @@ pre {
 	margin-bottom: 10px;
 	-webkit-border-radius: 50% !important;
 }
-

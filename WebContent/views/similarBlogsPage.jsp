@@ -11,10 +11,10 @@
 <title>同类博客</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
-
+<link href="xhEditor/prettify/prettify.css" rel="stylesheet" type="text/css" >
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="xhEditor/prettify/prettify.js"></script>
 <style type="text/css">
 body{
 	background-image:url();

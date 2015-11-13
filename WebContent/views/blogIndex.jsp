@@ -9,9 +9,10 @@
 <title>博客精选</title>
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
-
+<link href="xhEditor/prettify/prettify.css" rel="stylesheet" type="text/css" >
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="xhEditor/prettify/prettify.js"></script>
 <style type="text/css">
 
 .bgimage {
@@ -127,7 +128,16 @@
 	<div class="container">
 		<div class="row">
 			<main class="col-md-9 main-content"> 
+				<s:if test="allBlogList == null || allBlogList.size() == 0">
+					<article class="post">
+						<div class="post-content">
+							现在还没有人写博客！赶紧注册加入我们吧，你就是我们的第一个用户！
+							我们将会是创造奇迹的一群人!
+						</div>
+					</article>
+				</s:if>
 				<!-- 迭代博客列表 -->
+				<s:else>
 				<s:iterator var="b" value="allBlogList">
 					<article id=<s:property value="#b.id" /> class="post ">
 						<div class="post-head">
@@ -175,6 +185,7 @@
 					</footer> 
 				</article> 
 			</s:iterator>
+			</s:else>
 			<nav class="pagination" role="navigation"> 
 				<span class="label label-warning">第&nbsp;<s:property value="currentPageIndex"/>&nbsp;页 &frasl; 共&nbsp; <s:property value="pageCount"/>&nbsp;页</span>
 				 <ul class="pager">

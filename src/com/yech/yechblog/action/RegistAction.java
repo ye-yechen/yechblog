@@ -106,14 +106,19 @@ public class RegistAction extends BaseAction<User> implements ServletRequestAwar
 	 */
 	public void sendMessage(){
 		if(model != null && !model.getStatus()){ //没有验证
-			String email = model.getEmail();
+			String email = model.getEmail().trim();
 			String code = DataUtil.md5("VaLiDaTeCoDe");
-			StringBuffer content = new StringBuffer("<h2>请点击下面的链接激活帐号，"
-			 		+ "链接只能使用一次，请尽快激活！</h2>");
-			 content.append("<a style='font-size:16px;' "
-					 	+ "href='http://localhost:8080/yechblog/RegistAction_doMessageValidate?")
-			 .append("email=" + email + "&vcode=" + code+"&userId="+model.getId() +"'>")
-			 .append("<span style='color:blue;font-size:20px;font-weight:bold;'>yechblog欢迎您！<span></a>");
+			StringBuffer content = new StringBuffer("亲爱的"+model.getUsername()+" :您好!<br>");
+			 content.append("&nbsp;&nbsp;&nbsp;&nbsp;感谢您注册 yechblog，您只要点击下面的链接，激活您的账号，便可以享受 yechblog 各项服务。")
+			 .append("<br><br>")
+//			 .append("<a style='font-size:16px;' "
+//					 	+ "href='http://localhost:8080/yechblog/RegistAction_doMessageValidate?")
+//			 .append("email=" + email + "&vcode=" + code+"&userId="+model.getId() +"'>")
+			 .append("<span style='font-size:16px;'>")
+			 .append("http://114.215.92.22:8080/yechblog/RegistAction_doMessageValidate?email="+ email + "&vcode=" + code+"&userId="+model.getId())
+			 .append("<span>")
+			 .append("<br><br><br><br>")
+			 .append("&nbsp;&nbsp;此链接只能激活一次，请尽快激活!");
 			 SendMailUtil.send(email, content.toString());//开始发送邮件
 		}
 	}
@@ -143,7 +148,7 @@ public class RegistAction extends BaseAction<User> implements ServletRequestAwar
 		if(!ValidateUtil.isValidate(model.getPassword())){
 			addFieldError("password", "password 不能为空!");
 		}
-		if(!identifyCode.equals((String)(ActionContext.getContext().getSession().get("code")))){
+		if(!identifyCode.toLowerCase().equals(((String)(ActionContext.getContext().getSession().get("code"))).toLowerCase())){
 			addFieldError("identifyCode", "验证码不对!");
 		}
 		if(hasErrors()){

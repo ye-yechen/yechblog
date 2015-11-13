@@ -25,6 +25,11 @@ public class SendMailUtil {
 	public static final int PORT = 25;
 	public static final String SENDER = "yczll678@163.com";//
 	public static final String SENDERPWD = "xuyozsbyrbhxyuxt";
+//	public static final String HOST = "smtp.qq.com";
+//	public static final String PROTOCOL = "smtp";
+//	public static final int PORT = 25;
+//	public static final String SENDER = "1522120424@qq.com";//
+//	public static final String SENDERPWD = "@zjjsg4yc";
 	
 	/**
 	 * 获取用于发送邮件的Session
