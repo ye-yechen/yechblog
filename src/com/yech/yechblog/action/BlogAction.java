@@ -26,6 +26,7 @@ import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
 import com.yech.yechblog.service.CollectionService;
+import com.yech.yechblog.service.CommentService;
 import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.RelationService;
@@ -66,6 +67,9 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	
 	@Resource
 	private QuestionService questionService;
+	
+	@Resource
+	private CommentService commentService;
 	// 接收 User 对象
 	private User user;
 

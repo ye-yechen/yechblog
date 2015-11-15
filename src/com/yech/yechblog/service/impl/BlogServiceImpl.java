@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.yech.yechblog.dao.BaseDao;
 import com.yech.yechblog.entity.Blog;
 import com.yech.yechblog.entity.Comment;
+import com.yech.yechblog.entity.Message;
+import com.yech.yechblog.entity.Reply;
 import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
@@ -21,6 +23,12 @@ public class BlogServiceImpl implements BlogService {
 
 	@Resource(name="commentDao")
 	private BaseDao<Comment> commentDao;
+	
+	@Resource(name="messageDao")
+	private BaseDao<Message> messageDao;
+	
+	@Resource(name="replyDao")
+	private BaseDao<Reply> replyDao;
 	/**
 	 * 查找所有博客
 	 */
@@ -224,10 +232,29 @@ public class BlogServiceImpl implements BlogService {
 
 	/**
 	 * 删除blog(逻辑删除)
+	 * 同时删除评论、回复、标签、消息
 	 */
 	@Override
 	public void deleteBlog(Integer bid) {
-		String hql = "update Blog b set b.deleted = 1 where b.id = ?";
+		//删除标签
+//		String hql = "delete from tags_blogs where tb.b_id = ?";
+//		blogDao.executeSQL(hql, bid);
+		
+		//删除消息
+		String hql = "delete from Message m where m.blog.id = ?";
+		messageDao.batchUpdateEntityByHQL(hql, bid);
+		
+		//删除回复
+		hql = "delete from Reply r where r.comment.id in (select c.id "
+				+ "from Comment c where c.blog.id = ?)";
+		replyDao.batchUpdateEntityByHQL(hql, bid);
+		
+		//删除评论
+		hql = "delete from Comment c where c.blog.id = ?";
+		commentDao.batchUpdateEntityByHQL(hql, bid);
+	
+		//删除博客
+		hql = "update Blog b set b.deleted = 1 where b.id = ?";
 		blogDao.batchUpdateEntityByHQL(hql, bid);
 	}
 

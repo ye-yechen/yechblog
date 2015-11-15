@@ -18,7 +18,58 @@ public class User{
 	private String notes;//个人备注
     private String image;//图片URL
     
-    private Boolean status;//是否验证
+    //个人基本信息
+    private String career; //职业
+    private String birth; //生日
+    private Boolean gender;//性别(男1女0)
+    private String field; //领域
+    private String country;//国家
+    private String province;
+    private String city;
+    
+    public String getCareer() {
+		return career;
+	}
+	public void setCareer(String career) {
+		this.career = career;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+	public Boolean getGender() {
+		return gender;
+	}
+	public void setGender(Boolean gender) {
+		this.gender = gender;
+	}
+	public String getField() {
+		return field;
+	}
+	public void setField(String field) {
+		this.field = field;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	private Boolean status;//是否验证
     private String validateCode;//验证的验证码，保证只能激活链接只能验证一次
     
     public Boolean getStatus() {

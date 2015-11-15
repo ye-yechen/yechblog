@@ -23,22 +23,9 @@ public class ScheduleMessage {
 	public void scheduleTask() {
 		System.out.println("任务开始了...");
 		User user = Global.user;
-		System.out.println("user=" + user.getUsername());
 		if (user != null) {
 			List<Message> messages = messageService.getMyUnReadMessages(user);
 			user.setMessages(messages);
-//			List<Message> userMessages = user.getMessages();
-//			userMessages.clear();
-//			for (Message message : messages) {
-//				int i=0;
-//				for(i=0;i<userMessages.size();i++){
-//					if(message.getId().equals(userMessages.get(i).getId())){
-//						break;
-//					}
-//				}
-//				if(i == user.getMessages().size())
-//					user.getMessages().add(message);
-//			}
 		}
 	}
 }

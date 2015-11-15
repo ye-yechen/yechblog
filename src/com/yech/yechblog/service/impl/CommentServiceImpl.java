@@ -24,5 +24,5 @@ public class CommentServiceImpl implements CommentService {
 		comment.getBlog().getUser().getUsername();
 		return comment;
 	}
-
+	
 }

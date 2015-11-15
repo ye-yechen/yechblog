@@ -13,7 +13,8 @@
 
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="js/quxian.js"></script>
+<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 <style type="text/css">
 body{
 	background-image:url();
@@ -174,6 +175,7 @@ body{
 	<div class="container">
 		<div class="row">
 			<main class="col-md-12 main-content">
+				<s:set var="u" value="#session['user']"></s:set>
 				<div class="post">
 					<dl class="pull-left">
 						<dt class="personal-img">
@@ -196,8 +198,16 @@ body{
 						<dd class="person-edit  pull-right">
 							<a id="edit" href="#" data-toggle="modal" data-target="#myModal">编辑</a>
 						</dd>
-						<dd class="person-signature"><span>天下第一帅</span></dd>
-						<dd class="person-introduce"><span>计算机软件&nbsp;&nbsp;|&nbsp;&nbsp;未填写职位&nbsp;&nbsp;|&nbsp;&nbsp;未填写姓名&nbsp;&nbsp;|&nbsp;&nbsp;中国-安徽省-马鞍山市&nbsp;&nbsp;|&nbsp;&nbsp;男&nbsp;&nbsp;|&nbsp;&nbsp;未填写生日</span></dd>
+						<dd class="person-signature"><span><s:property value="#session['user'].notes"/></span></dd>
+						<dd class="person-introduce"><span>
+							<s:property value="#session['user'].field"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="#session['user'].career"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="#session['user'].username"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="#session['user'].country"/>-<s:property value="#session['user'].province"/>-<s:property value="#session['user'].city"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:if test="#session['user'].gender">女</s:if>
+							<s:else>男</s:else>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="#session['user'].birth"/></span>
+						</dd>
 					</dl>
 				</div>
 			 </main>
@@ -420,63 +430,56 @@ body{
 	         		 		<table class="table table-bordered" border="0">
 							  <tr>
 							  	<td>
-							  		<label>name:</label>
-							  		<input type="text" name="username">
+							  		<label>昵称:</label>
+							  		<input type="text" name="username" value="<s:property value='#u.username'/>">
 							  	</td>
 							  	<td>
 							  		<label>职位:</label>
-							  		<input type="text" name="career">
+							  		<input type="text" name="career" value="<s:property value='#u.career'/>">
 							  	</td>
 							  </tr>
 							  <tr>
 							  	<td>
 							  		<label>生日:</label>
-							  		<input type="text" name="birth">
+							  		<input id="birth" class="Wdate" type="text" name="birth" value="<s:property value='#u.birth'/>" 
+							  				onFocus="WdatePicker({isShowWeek:false})">
 							  	</td>
 							  	<td>
 							  		<label>性别:</label>
-							  		<input type="radio" name="gender">男
-							  		<input type="radio" name="gender">女
+							  		<input type="radio" name="gender" <s:if test="#u.gender == 0">checked="checked"</s:if>>男
+							  		<input type="radio" name="gender" <s:if test="#u.gender == 1">checked="checked"</s:if>>女
 							  	</td>
 							  </tr>
 							  <tr>
 							  	<td colspan="2">
 							  		<label>行业:</label>
 							  		<select name="field">
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
-							  			<option value="field">计算机</option>
+							  			<option value="none">--选择行业--</option>
+							  			<option value="计算机">计算机</option>
+							  			<option value="互联网/电子商务">互联网/电子商务</option>
+							  			<option value="电子/微电子">电子/微电子</option>
+							  			<option value="餐饮服务">餐饮服务</option>
+							  			<option value="嵌入式">嵌入式</option>
+							  			<option value="医疗">医疗</option>
+							  			<option value="中介服务">中介服务</option>
 							  		</select>
 							  	</td>
 							  </tr>
 							  <tr>
 							  	<td colspan="2">
 							  		<label>地区:</label>
-							  		<select name="country">
-							  			<option value="">中国</option>
-							  			<option value="">中国</option>
-							  			<option value="">中国</option>
-							  		</select>
-							  		<select name="province">
-							  			<option value="">安徽</option>
-							  			<option value="">安徽</option>
-							  			<option value="">安徽</option>
-							  		</select>
-							  		<select name="city">
-							  			<option value="">桐城</option>
-							  			<option value="">桐城</option>
-							  			<option value="">桐城</option>
-							  		</select>
+							  		<select name="province"></select>
+							  		<select name="city"></select>
+									<script type="text/javascript">
+										new PCAS("province","city","area","","","");
+									</script>
 							  	</td>
 							  </tr>
 							  <tr>
 							  	<td colspan="2">
 							  		<label>简介:</label>
-							  		<textarea rows="5" cols="75" name="notes"></textarea>
+							  		<textarea rows="5" cols="75" name="notes" 
+							  				 placeholder="一句话介绍自己..."><s:property value='#u.notes'/></textarea>
 							  	</td>
 							  </tr>
 							</table>

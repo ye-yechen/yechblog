@@ -38,5 +38,27 @@
         <property name="recentLoginTime" type="java.sql.Timestamp">
             <column name="RECENT_LOGIN_TIME" />
         </property>
+        
+         <property name="career" type="java.lang.String">
+            <column name="CAREER" />
+        </property>
+         <property name="birth" type="java.lang.String">
+            <column name="BIRTH" />
+        </property>
+         <property name="field" type="java.lang.String">
+            <column name="FIELD" />
+        </property>
+         <property name="country" type="java.lang.String">
+            <column name="COUNTRY" />
+        </property>
+         <property name="province" type="java.lang.String">
+            <column name="PROVINCE" />
+        </property>
+         <property name="city" type="java.lang.String">
+            <column name="CITY" />
+        </property>
+         <property name="gender" type="java.lang.Boolean">
+            <column name="GENDER" />
+        </property>
     </class>
 </hibernate-mapping>

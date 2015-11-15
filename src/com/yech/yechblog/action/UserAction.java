@@ -112,13 +112,15 @@ public class UserAction extends BaseAction<User>
 	public void setServletResponse(HttpServletResponse arg0) {
 		this.response = arg0;
 	}
+	
 	/**
 	 * 编辑用户信息
-	 * 
-	 * @return
 	 */
 	public String editInfo() {
-		return "";
+		model.setCountry("中国");
+		model.setId(model.getId());
+		userService.updateEntity(model);
+		return "personalPage";
 	}
 
 	public File getUserImg() {
@@ -315,5 +317,5 @@ public class UserAction extends BaseAction<User>
 		}
 //		return "ajax-success";
 	}
-
+	
 }
