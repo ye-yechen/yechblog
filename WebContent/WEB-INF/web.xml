@@ -18,6 +18,9 @@ id="WebApp_ID" version="3.1">
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<listener>
+		<listener-class>com.yech.yechblog.listener.OnlineUserListener</listener-class>
+	</listener>
 	<!-- 配置 struts2 的 Filter -->
 	<filter>
 		<filter-name>struts2</filter-name>

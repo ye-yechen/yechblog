@@ -66,6 +66,7 @@ public class BlogServiceImpl implements BlogService {
 		//遍历blog所属的user，避免懒加载
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
+			blog.getTags().size();
 		}
 		return blogs;
 	}

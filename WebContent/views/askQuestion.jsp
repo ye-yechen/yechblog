@@ -50,8 +50,21 @@
 		
 		<div class="form-group">
 			<label for="">为问题添加版块</label> 
-			 <select id="select_parent_forum" class="">
-     			 <option value="">-选择大版块-</option>
+			 <select id="select_parent_forum" name="category">
+     			 <option value="">-选择版块-</option>
+     			 <option value="C++/C">C++/C</option>
+     			 <option value="java">java/javaEE</option>
+     			 <option value="php">php</option>
+     			 <option value="c#">C#/.NET</option>
+     			 <option value="Android">Android</option>
+     			 <option value="ios">ios</option>
+     			 <option value="Python">Python</option>
+     			 <option value="javascript">javaScript/jQuery</option>
+     			 <option value="css">css</option>
+     			 <option value="数据库">数据库</option>
+     			 <option value="生活">生活</option>
+     			 <option value="学习">学习</option>
+     			 <option value="其他">其他</option>
    			 </select>
 		</div>
 		<div class="form-group">

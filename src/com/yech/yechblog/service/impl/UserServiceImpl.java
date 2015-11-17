@@ -73,4 +73,14 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 				+ "where u.id = ?";
 		this.batchUpdateEntityByHQL(hql, "",model.getId());
 	}
+
+	/**
+	 * 统计注册的总人数
+	 * @return
+	 */
+	@Override
+	public int getRegistedUserNums() {
+		String hql = "select count(*) from User u where u.status = 1";
+		return  ((Long)(this.uniqueResult(hql))).intValue();
+	}
 }

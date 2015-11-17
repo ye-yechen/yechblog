@@ -19,7 +19,7 @@
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
 				 <param name="excludeMethods">
 				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,
-				 	searchBlog,toAboutPage,similarQuestionsPagination
+				 	searchBlog,toAboutPage,similarQuestionsPagination,toDataAnalysePage
 				 </param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
@@ -71,6 +71,7 @@
 		<action name="LoginAction_*" class="loginAction" method="{1}">
 			<result name="loginPage">/views/login.jsp</result>
 			<result name="input">/views/login.jsp</result>
+			<result name="dataAnalysePage">/views/dataAnalyse.jsp</result>
 		</action>
 		
 		<!-- blogAction -->

@@ -67,4 +67,10 @@ public interface QuestionService {
 	 */
 	public List<Question> queryHisQuestions(Integer userId);
 
+	/**
+	 * 查询所有问题
+	 * @return
+	 */
+	public List<Question> queryAllQuestions();
+
 }

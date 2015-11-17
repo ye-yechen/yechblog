@@ -81,6 +81,18 @@
 <body onload="prettyPrint()">
 	<!-- start header -->
 	<header class="main-header bgimage">
+		<div class="container">
+			<div class="row">
+			<div class="col-sm-12">
+				<!-- start logo -->
+				<a class="branding" href="" title=""><img src="" alt=""></a>
+				<!-- end logo -->
+				<h2 class="text-hide">yechblog is simple and useful!</h2>
+				<img src="" alt="" class="hide">
+			</div>
+		</div>
+		</div>
+	</header>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12"></div>

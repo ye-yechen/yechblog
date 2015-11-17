@@ -13,7 +13,14 @@
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<style type="text/css">
+.bgimage {
+	background-image: url(image/bg.jpg);
+	background-position: 40% 40%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+</style>
 <script type="text/javascript">
 	$(function(){
 		//ajax 方式提交表单，搜索好友
@@ -53,6 +60,19 @@
 </script>
 </head>
 <body>
+	<header class="main-header bgimage">
+		<div class="container">
+			<div class="row">
+			<div class="col-sm-12">
+				<!-- start logo -->
+				<a class="branding" href="" title=""><img src="" alt=""></a>
+				<!-- end logo -->
+				<h2 class="text-hide">yechblog is simple and useful!</h2>
+				<img src="" alt="" class="hide">
+			</div>
+		</div>
+		</div>
+	</header>
 	 <nav role="navigation" class="navbar navbar-default">
 		  <ul class="nav navbar-nav">
 		  	  <li><a href="#">话题</a></li>

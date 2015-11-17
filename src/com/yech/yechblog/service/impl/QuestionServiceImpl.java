@@ -147,4 +147,16 @@ public class QuestionServiceImpl implements QuestionService {
 		return questions;
 	}
 
+	/**
+	 * 查询所有问题
+	 * @return
+	 */
+	@Override
+	public List<Question> queryAllQuestions() {
+		String hql = "from Question q where q.deleted = 0";
+		List<Question> questions = questionDao.batchFindEntityByHQL(hql);
+		questions.size();
+		return questions;
+	}
+
 }

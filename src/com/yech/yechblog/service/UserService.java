@@ -33,4 +33,10 @@ public interface UserService extends BaseService<User> {
 	 * @param model
 	 */
 	public void setValidate(User model);
+
+	/**
+	 * 统计注册的总人数
+	 * @return
+	 */
+	public int getRegistedUserNums();
 }
