@@ -253,13 +253,14 @@
 
 <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 <!-- JiaThis Button END -->
-	<!--footer-->
+	<!--footer
 	<footer>
 	<div class="container"></div>
 	<div class="text-center" id="all-rights">
 		Copyright&nbsp;&copy;&nbsp;2015&nbsp;<a href="#">yech blog</a>&nbsp;All
 		rights reserved.
 	</div>
-	</footer>
+	</footer>-->
+	<jsp:include page="/views/foot.jsp"></jsp:include>
 </body>
 </html>

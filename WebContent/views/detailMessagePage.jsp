@@ -98,6 +98,15 @@ body{
 											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
 										</span>
 										<p><s:property value="#v.content" /></p>
+										<span class="pull-right"><a id="<s:property value='#v.id'/>">回复</a></span>
+										<form action="ReplyAction_addReply?cid=<s:property value='#v.comment.id'/>&userId=<s:property value='#v.self.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#v.id'/>">
+											 <div class="form-group">
+												<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#v.self.username'/>..."></textarea>
+												<div class="col-sm-offset-10">
+													<button type="submit" class="btn btn-default">确定</button>
+												</div>
+											</div>
+										</form>
 									</div>
 									</div>
 								</s:iterator>

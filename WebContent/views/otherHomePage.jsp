@@ -76,7 +76,7 @@ body{
 						<dt class="personal-img">
 							<!-- 如果上传了个人头像 -->
 							<s:if test="user.image != null">
-								<img alt="" src='<s:url value="user.image"/>' height="120px" width="120px">
+								<img alt='' src="<s:url value='user.image'/>" height="120px" width="120px">
 							</s:if>
 							<s:else>
 								<img alt="" src="image/personImg.jpg">
@@ -90,8 +90,16 @@ body{
 							<s:property value="user.username"></s:property>
 							<span class="person_add_focus"><a href="RelationAction_addFocus?userId=<s:property value='user.id'/>">关注ta</a></span>
 						</dd>
-						<dd class="person-signature"><span>天下第一帅</span></dd>
-						<dd class="person-introduce"><span>计算机软件&nbsp;&nbsp;|&nbsp;&nbsp;未填写职位&nbsp;&nbsp;|&nbsp;&nbsp;未填写姓名&nbsp;&nbsp;|&nbsp;&nbsp;中国-北京&nbsp;&nbsp;|&nbsp;&nbsp;男&nbsp;&nbsp;|&nbsp;&nbsp;未填写生日</span></dd>
+						<dd class="person-signature"><span><s:property value="user.notes"/></span></dd>
+						<dd class="person-introduce"><span>
+							<s:property value="user.field"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="user.career"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="user.username"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="user.country"/>-<s:property value="user.province"/>-<s:property value="user.city"/>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:if test="user.gender">女</s:if>
+							<s:else>男</s:else>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<s:property value="user.birth"/></span>
+						</dd>
 					</dl>
 				</div>
 			</main>

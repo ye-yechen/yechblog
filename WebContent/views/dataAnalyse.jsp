@@ -125,5 +125,6 @@
 			</aside>
 		</div>
 	</div>
+	<jsp:include page="/views/foot.jsp"></jsp:include>
 </body>
 </html>

@@ -130,6 +130,9 @@ body{
 									<a href="#"><s:property value="#om.self.username"/></a>&nbsp;在
 										<a href="BlogAction_readDetail?bid=<s:property value='#om.blog.id'/>"><s:property value="#om.blog.title"/></a>
 										中回复了您&nbsp;&nbsp;
+										<a href="MessageAction_toDetailMessage?bid=<s:property value='#om.blog.id' />&mid=<s:property value='#om.id' />">
+											查看
+										</a>
 								</s:elseif>
 								
 								<s:elseif test="#om.focus == true">

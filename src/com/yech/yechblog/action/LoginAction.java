@@ -57,19 +57,16 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	// 接收 application 的map
 	private Map<String, Object> application;
 
-	//用户地址(根据ip得到的地址) Map<"ip","地址(国，省，市)">
-	private Map<String,String> userAddr = 
-								new HashMap<String, String>();
-	//保存用户信息(Map<"用户名",Map<"ip","地址">>)
-	private static Map<String, Map<String, String>> userInfo = 
-							new HashMap<String, Map<String,String>>();
+	// 用户地址(根据ip得到的地址) Map<"ip","地址(国，省，市)">
+	private Map<String, String> userAddr = new HashMap<String, String>();
+	// 保存用户信息(Map<"用户名",Map<"ip","地址">>)
+	private static Map<String, Map<String, String>> userInfo = new HashMap<String, Map<String, String>>();
 	private HttpServletRequest request;
 	// 含某标签的博客数量 Map<"标签名",博客数量>
-	private Map<String, Integer> blogNumsWithTag = 
-								new HashMap<String, Integer>();
+	private Map<String, Integer> blogNumsWithTag = new HashMap<String, Integer>();
 	// 属于某分类的问题数量 Map<"分类名",问题数量>
-	private Map<String, Integer> questionNumsWithTag = 
-								new HashMap<String, Integer>();
+	private Map<String, Integer> questionNumsWithTag = new HashMap<String, Integer>();
+
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
 		this.request = arg0;
@@ -96,6 +93,17 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 
 	@Resource
 	private QuestionService questionService;
+
+	// 保存登录前的页面用于登录后跳回
+	private static String originUrl;
+
+	public String getOriginUrl() {
+		return originUrl;
+	}
+
+	// public void setOriginUrl(String originUrl) {
+	// this.originUrl = originUrl;
+	// }
 	/**
 	 * 到达登录界面
 	 * 
@@ -103,6 +111,9 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	 */
 	@SkipValidation
 	public String toLoginPage() {
+		// 只有静态，才能在登录后回到之前的页面，不然 originUrl 就为null
+		originUrl = request.getHeader("referer");
+		originUrl = originUrl.substring(originUrl.lastIndexOf("/"));
 		return "loginPage";
 	}
 
@@ -112,11 +123,13 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	 * @return
 	 */
 	public String doLogin() {
-		return "BlogAction";
+		// 得到请求头中的 referer 字段，用于登录后跳转到之前的页面
+		return "keepOriginUrl";
 	}
 
 	/**
 	 * 去到数据分析页面
+	 * 
 	 * @return
 	 */
 	@SkipValidation
@@ -136,6 +149,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 
 	/**
 	 * 得到含有某个标签的博客的数量(用于进行数据分析)
+	 * 
 	 * @return
 	 */
 	private void getBlogNumsWithTag() {
@@ -155,16 +169,18 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 			}
 		}
 	}
-	
+
 	/**
 	 * 得到含有某分类的问题的数量(用于进行数据分析)
 	 */
-	private void getQuestionNumsWithCategory(){
+	private void getQuestionNumsWithCategory() {
 		List<Question> questions = questionService.queryAllQuestions();
-		for(int i=0;i<questions.size();i++){
+		for (int i = 0; i < questions.size(); i++) {
 			// map里已经有此次遍历得到的question的分类,直接将含有此分类的问题数+1
-			if(questionNumsWithTag.keySet().contains(questions.get(i).getCategory())){
-				Integer num = questionNumsWithTag.get(questions.get(i).getCategory());
+			if (questionNumsWithTag.keySet().contains(
+					questions.get(i).getCategory())) {
+				Integer num = questionNumsWithTag.get(questions.get(i)
+						.getCategory());
 				questionNumsWithTag.put(questions.get(i).getCategory(), ++num);
 			} else {
 				// map里面不含此次遍历到的question的分类,设置含有此此分类的问题数为1
@@ -184,14 +200,17 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 		if (count != null && count > 0) {
 			count--;
 			application.put("count", count);
-			//退出登录时移除此用户
+			// 退出登录时移除此用户
 			userInfo.remove(user.getUsername());
 		}
 		sessionMap.clear();
 		// 2、session失效：强转为SessionMap，调用invalidate方法
 		((SessionMap<String, Object>) sessionMap).invalidate();
 		Global.user = null;
-		return "BlogAction";
+		// 只有静态，才能在登录后回到之前的页面，不然 originUrl 就为null
+		originUrl = request.getHeader("referer");
+		originUrl = originUrl.substring(originUrl.lastIndexOf("/"));
+		return "keepOriginUrl";
 	}
 
 	public void validate() {
@@ -212,10 +231,11 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 			String remoteAddr = request.getRemoteAddr() == null ? "" : request
 					.getRemoteAddr();
 			try {
-				//在map中加入ip对应的地址
-				userAddr.clear();//先清空
-				userAddr.put(remoteAddr, AddressUtil.getAddresses(remoteAddr, "utf-8"));
-				//添加到userInfo的map中
+				// 在map中加入ip对应的地址
+				userAddr.clear();// 先清空
+				userAddr.put(remoteAddr,
+						AddressUtil.getAddresses(remoteAddr, "utf-8"));
+				// 添加到userInfo的map中
 				userInfo.put(user.getUsername(), userAddr);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

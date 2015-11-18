@@ -49,6 +49,11 @@
 				<param name="namespace">/</param>
 				<param name="actionName">BlogAction_pagination</param>
 			</result>
+			<!-- 动态结果跳转(比如登录后需要跳转到登录前的页面) -->
+			<result name="keepOriginUrl" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">${originUrl}</param>
+			</result>
 		</global-results>
 
 		<!-- RegistAction -->
@@ -114,6 +119,7 @@
 			<result name="toMessageCenterPage">/views/messageCenterPage.jsp</result>
 			<result name="toOtherHomePage">/views/otherHomePage.jsp</result>
 			<result name="toAboutPage">/views/about.jsp</result>
+			
 			<result name="redirectToPersonalPage" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">BlogAction_toPersonalPage</param>

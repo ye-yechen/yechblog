@@ -33,6 +33,7 @@ public class ReplyServiceImpl implements ReplyService {
 		String hql = "from Reply r where r.comment.id = ?";
 		List<Reply> replies = replyDao.batchFindEntityByHQL(hql, cid);
 		for(Reply reply : replies){
+			reply.getComment().getId();
 			reply.getSelf().getUsername();
 			reply.getOther().getUsername();
 		}

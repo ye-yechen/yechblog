@@ -16,6 +16,11 @@
 			$('ul.nav > li').removeClass('active');
 			$(this).addClass('active');
 		});
+		
+		//提交反馈
+		$("#btn_feedback").click(function(){
+			$("#feedbackform").submit();
+		});
 	})
 </script>
 </head>
@@ -82,6 +87,9 @@
 					<li><a href="UserAction_toAboutPage">关于</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#" data-toggle="modal" data-target="#feedback">反馈</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
 					<s:if test="#session['user'] != null">
 						<li><a href="LoginAction_logout">退出</a><li>
 					</s:if>
@@ -95,5 +103,33 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	</nav>
+	<!-- 点击反馈弹出的模态框 -->
+	<div class="modal fade" id="feedback" tabindex="-1" role="dialog" 
+	 		  aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-dialog">
+		   <div class="modal-content">
+	       		<div class="modal-header">
+	       			<button type="button" class="close" 
+	              			 data-dismiss="modal" aria-hidden="true">&times;
+	           			 </button>
+	           			 <h4 class="modal-title" id="myModalLabel">
+	           			    反馈
+	           			 </h4>
+	       		</div>
+	       		<div class="modal-body">
+	         		 <form action="UserAction_feedBack" method="post" id="feedbackform">
+	         		 	<input type="hidden"  name="userId" value='<s:property value="#session['user'].id"/>'>
+						<label>问题描述:</label>
+						<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="我们还有很多不足，感谢您向我们反馈..."></textarea>
+	         		 </form>
+	         	</div>
+	         	<div class="modal-footer">
+	         		<button type="button" class="btn btn-default" 
+		              			 data-dismiss="modal">关闭</button>
+		             <button type="button" class="btn btn-primary" id="btn_feedback">提交更改</button>
+	         	</div>
+	       </div>
+	     </div>
+	</div>
 </body>
 </html>

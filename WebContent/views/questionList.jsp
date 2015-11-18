@@ -177,6 +177,6 @@
 			</div>
 		</div>
 	</section>
-	
+	<jsp:include page="/views/foot.jsp"></jsp:include>
 </body>
 </html>

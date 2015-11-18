@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.json.JSONArray;
 import org.springframework.context.annotation.Scope;
@@ -36,7 +38,7 @@ import com.yech.yechblog.util.ValidateUtil;
 @Controller
 @Scope("prototype")
 public class UserAction extends BaseAction<User> 
-					implements ServletContextAware,ServletResponseAware
+					implements ServletContextAware,ServletResponseAware,ServletRequestAware
 {
 
 	private static final long serialVersionUID = 3575939345060413099L;
@@ -108,9 +110,14 @@ public class UserAction extends BaseAction<User>
 	}
 
 	private HttpServletResponse response;
+	private HttpServletRequest request;
 	@Override
 	public void setServletResponse(HttpServletResponse arg0) {
 		this.response = arg0;
+	}
+	@Override
+	public void setServletRequest(HttpServletRequest arg0) {
+		this.request = arg0;
 	}
 	
 	/**
@@ -307,7 +314,6 @@ public class UserAction extends BaseAction<User>
 	 * @return
 	 */
 	public void searchFriends(){
-		System.out.println("friendName= "+friendName);
 		friendsList = userService.searchUserByName(friendName);
 		JSONArray array = new JSONArray(friendsList);
 		try {
@@ -318,4 +324,23 @@ public class UserAction extends BaseAction<User>
 //		return "ajax-success";
 	}
 	
+	public String originUrl;
+	public String getOriginUrl() {
+		return originUrl;
+	}
+	public void setOriginUrl(String originUrl) {
+		this.originUrl = originUrl;
+	}
+	/**
+	 * ”√ªß∑¥¿°
+	 */
+	public String feedBack(){
+		model = userService.getEntity(userId);
+		originUrl = request.getHeader("referer");
+		// http://localhost:8080/yechblog/BlogAction_pagination.action
+		originUrl = 
+				originUrl.substring(originUrl.lastIndexOf("/"));
+		return "keepOriginUrl";
+	}
+
 }

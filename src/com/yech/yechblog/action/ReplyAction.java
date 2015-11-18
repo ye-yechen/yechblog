@@ -103,7 +103,14 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 		// 设置回复与评论之间的关联关系
 		model.setComment(comment);
 		model.setSelf(user);
-		model.setOther(comment2.getUser());
+		if(userId == null){ //userId为空，表示是回复别人的回答
+			model.setOther(comment2.getUser());
+		} else{
+			//userId不为空，表示是回复别人的追问，此时model.setOther(User)中的user
+			//就不是comment2.getUser()了，主要是为了维护关联关系的正确性
+			User other = userService.getEntity(userId);
+			model.setOther(other);
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		model.setReplyTime(format.format(new Date()));
 		replyService.saveReply(model);
@@ -112,7 +119,14 @@ public class ReplyAction extends BaseAction<Reply> implements UserAware {
 		Message message = new Message();
 		message.setContent(model.getContent());
 		message.setSelf(user);
-		message.setOther(comment2.getUser());
+		if(userId == null){ //userId为空，表示是回复别人的回答
+			message.setOther(comment2.getUser());
+		} else{
+			//userId不为空，表示是回复别人的追问，此时model.setOther(User)中的user
+			//就不是comment2.getUser()了，主要是为了维护关联关系的正确性
+			User other = userService.getEntity(userId);
+			message.setOther(other);
+		}
 		message.setStatus(true);// 1代表未读
 		message.setReply(true);// 1代表是回复评论
 		message.setBlog(blog);
