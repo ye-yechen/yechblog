@@ -49,7 +49,7 @@ body{
 							</div>
 						</div>
 					<div class="post-content">
-						<p><s:property value="#b.content" escapeHtml="false"/></p>
+						<p><s:property value="#b.summary" escapeHtml="false"/></p>
 					</div>
 					<div class="post-permalink">
 						<a href="BlogAction_readDetail?bid=<s:property value='#b.id' />" class="btn btn-default">阅读全文</a>

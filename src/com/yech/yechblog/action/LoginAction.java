@@ -18,10 +18,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.yech.yechblog.entity.Blog;
+import com.yech.yechblog.entity.FeedBack;
 import com.yech.yechblog.entity.Question;
 import com.yech.yechblog.entity.Tag;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
+import com.yech.yechblog.service.FeedBackService;
 import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.UserService;
 import com.yech.yechblog.util.AddressUtil;
@@ -66,6 +68,16 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	private Map<String, Integer> blogNumsWithTag = new HashMap<String, Integer>();
 	// 属于某分类的问题数量 Map<"分类名",问题数量>
 	private Map<String, Integer> questionNumsWithTag = new HashMap<String, Integer>();
+	// 反馈列表
+	private List<FeedBack> feedBackList;
+	
+	public List<FeedBack> getFeedBackList() {
+		return feedBackList;
+	}
+
+	public void setFeedBackList(List<FeedBack> feedBackList) {
+		this.feedBackList = feedBackList;
+	}
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
@@ -94,6 +106,8 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	@Resource
 	private QuestionService questionService;
 
+	@Resource
+	private FeedBackService feedBackService;
 	// 保存登录前的页面用于登录后跳回
 	private static String originUrl;
 
@@ -113,7 +127,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	public String toLoginPage() {
 		// 只有静态，才能在登录后回到之前的页面，不然 originUrl 就为null
 		originUrl = request.getHeader("referer");
-		originUrl = originUrl.substring(originUrl.lastIndexOf("/"));
+		originUrl = originUrl.substring(originUrl.lastIndexOf("/")+1);
 		return "loginPage";
 	}
 
@@ -136,6 +150,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	public String toDataAnalysePage() {
 		getBlogNumsWithTag();
 		getQuestionNumsWithCategory();
+		feedBackList = feedBackService.findAllFeedBacks();
 		int registedUserNums = userService.getRegistedUserNums();
 		application.put("registedUserNums", registedUserNums);
 		application.put("blogNumsWithTag", blogNumsWithTag);
@@ -209,7 +224,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 		Global.user = null;
 		// 只有静态，才能在登录后回到之前的页面，不然 originUrl 就为null
 		originUrl = request.getHeader("referer");
-		originUrl = originUrl.substring(originUrl.lastIndexOf("/"));
+		originUrl = originUrl.substring(originUrl.lastIndexOf("/")+1);
 		return "keepOriginUrl";
 	}
 

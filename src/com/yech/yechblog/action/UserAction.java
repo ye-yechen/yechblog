@@ -2,6 +2,8 @@ package com.yech.yechblog.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,11 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.ServletContextAware;
 
 import com.yech.yechblog.entity.Blog;
+import com.yech.yechblog.entity.FeedBack;
 import com.yech.yechblog.entity.Message;
 import com.yech.yechblog.entity.Question;
 import com.yech.yechblog.entity.Relation;
 import com.yech.yechblog.entity.User;
 import com.yech.yechblog.service.BlogService;
+import com.yech.yechblog.service.FeedBackService;
 import com.yech.yechblog.service.MessageService;
 import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.RelationService;
@@ -63,6 +67,8 @@ public class UserAction extends BaseAction<User>
 	@Resource
 	private QuestionService questionService;
 	
+	@Resource
+	private FeedBackService feedBackService;
 	//他的博客列表
 	private List<Blog> hisBlogs;
 	//他关注的人
@@ -331,6 +337,18 @@ public class UserAction extends BaseAction<User>
 	public void setOriginUrl(String originUrl) {
 		this.originUrl = originUrl;
 	}
+	
+	//接收反馈页面的反馈内容
+	private String fbContent;
+	
+	public String getFbContent() {
+		return fbContent;
+	}
+
+	public void setFbContent(String fbContent) {
+		this.fbContent = fbContent;
+	}
+
 	/**
 	 * 用户反馈
 	 */
@@ -339,7 +357,15 @@ public class UserAction extends BaseAction<User>
 		originUrl = request.getHeader("referer");
 		// http://localhost:8080/yechblog/BlogAction_pagination.action
 		originUrl = 
-				originUrl.substring(originUrl.lastIndexOf("/"));
+				originUrl.substring(originUrl.lastIndexOf("/")+1);
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		FeedBack feedBack = new FeedBack();
+		feedBack.setContent(fbContent);
+		feedBack.setState(false); //初始为为处理状态
+		feedBack.setUser(model);
+		feedBack.setFeedBackTime(format.format(new Date()));
+		feedBackService.saveFeedBack(feedBack); //保存feedBack
 		return "keepOriginUrl";
 	}
 

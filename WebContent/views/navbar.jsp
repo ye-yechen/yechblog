@@ -19,6 +19,11 @@
 		
 		//提交反馈
 		$("#btn_feedback").click(function(){
+			if($("#fbcontent").val() == null 
+					|| $("#fbcontent").val().trim() == ''){
+				alert("反馈内容不能为空!-_-!");
+				return false;
+			}
 			$("#feedbackform").submit();
 		});
 	})
@@ -120,7 +125,7 @@
 	         		 <form action="UserAction_feedBack" method="post" id="feedbackform">
 	         		 	<input type="hidden"  name="userId" value='<s:property value="#session['user'].id"/>'>
 						<label>问题描述:</label>
-						<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="我们还有很多不足，感谢您向我们反馈..."></textarea>
+						<textarea id="fbcontent" class="form-control"  rows="10" cols="20" name="fbContent" placeholder="我们还有很多不足，感谢您向我们反馈..."></textarea>
 	         		 </form>
 	         	</div>
 	         	<div class="modal-footer">

@@ -59,11 +59,11 @@
 					</table>
 				</div>
 			</main>
-			<aside class="col-md-2 sidebar">
+			<!--  <aside class="col-md-2 sidebar">
 				<div class="widget">
 					yechoor
 				</div>
-			</aside>
+			</aside> -->
 			<main class="col-md-8 main-content">
 				<div class="post">
 					<!-- 迭代含有某标签的博客数量 -->
@@ -118,9 +118,41 @@
 					</div>
 				</div>
 			</main>
-			<aside class="col-md-2 sidebar">
+			<aside class="col-md-4 sidebar">
 				<div class="widget">
-					yechoor
+					<span class="title" style="color: #77a05f">用户反馈</span>
+					<s:iterator var="f" value="feedBackList">
+						<div class="fbInfo">
+							<span class="author" style="color: #629a9d"><s:property value="#f.user.username"/></span>
+							<span class="pull-right" style="color: #78aaab"><s:property value="#f.feedBackTime"/></span>
+							<span class="fbcontent"><a data-toggle="modal" data-target="#fbDetail_<s:property value='#f.id'/>"><s:property value="#f.content"/></a></span>
+							<!-- 点击反馈信息弹出的模态框 -->
+							<div class="modal fade" id="fbDetail_<s:property value='#f.id'/>" tabindex="-1" role="dialog" 
+							 		  aria-labelledby="myModalLabel" aria-hidden="true">
+								 <div class="modal-dialog">
+								   <div class="modal-content">
+							       		<div class="modal-header">详细反馈信息</div>
+							       		<div class="modal-body">
+											<textarea class="form-control" rows="10" cols="20" disabled="disabled">
+												<s:property value="#f.content"/>
+											</textarea>
+							         	</div>
+							         	<div class="modal-footer">
+							         		<button type="button" class="btn btn-default" 
+								              			 data-dismiss="modal">关闭</button>
+							         	</div>
+							       	</div>
+							     </div>
+							</div>
+							
+							<s:if test="#f.state">
+								<span class="pull-right" style="color: #6fcc71">已解决</span>
+							</s:if>
+							<s:else>
+								<span class="pull-right" style="color: #d52b40">未解决</span>
+							</s:else>
+						</div>
+					</s:iterator>
 				</div>
 			</aside>
 		</div>
