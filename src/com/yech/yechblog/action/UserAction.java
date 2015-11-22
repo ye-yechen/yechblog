@@ -162,7 +162,6 @@ public class UserAction extends BaseAction<User>
 
 	/**
 	 * ÉÏ´«Í·Ïñ
-	 * 
 	 * @return
 	 */
 	public String addImage() {

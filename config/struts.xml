@@ -26,12 +26,27 @@
 			<interceptor-stack name="yechblogStack">
 				<interceptor-ref name="loginInterceptor"></interceptor-ref>
 				<interceptor-ref name="defaultStack">
-					<!-- 上传文件的大小 kb-->
-					<param name="fileUpload.maximumSize">600000</param>
+					<!-- 上传文件的大小，单位是 B（Byte）这里是5M-->
+					<param name="fileUpload.maximumSize">5242880</param>
 					<!-- 上传文件的扩展名 -->
-					<param name="fileUpload.allowedExtensions">.jpg,.jpeg,.png,.bmp,.gif</param>
+					<param name="fileUpload.allowedExtensions">
+						.jpg,.jpeg,.png,.bmp,.gif,.ico,.dll,.psd,
+						.txt,.rar,.zip,.java,.chm,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.cpp,
+						.xml,.css,.js,.htm,.html,.jar,.exe,.json
+					</param>
 					<!-- 文件的内容类型 -->
-					<param name="fileUpload.allowedTypes">image/jpg,image/jpeg,image/png,image/bmp,image/gif</param>
+					<param name="fileUpload.allowedTypes">
+						image/jpg,image/jpeg,image/png,image/bmp,image/gif,image/x-icon,application/x-msdownload,
+						text/plain,application/zip,text/css,application/msword,
+						text/html,application/x-javascript,application/pdf,application/vnd.ms-htmlhelp,
+						application/vnd.ms-powerpoint,application/excel,text/x-c,text/x-java-source,
+						application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+						application/vnd.ms-excel,text/xml,application/octet-stream,application/json,
+						application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+						application/java-archive,application/octet-stream,image/vnd.adobe.photoshop,
+						application/vnd.openxmlformats-officedocument.presentationml.presentation,
+						application/x-rar-compressed,application/x-zip-compressed
+					</param>
 				</interceptor-ref>
 			</interceptor-stack>
 		</interceptors>	
@@ -158,6 +173,7 @@
 			<result name="detailReadPage">/views/detailReadQuestion.jsp</result>
 			<result name="similarQuestions">/views/similarQuestionPage.jsp</result>
 			<result name="editQuestionPage">/views/editQuestion.jsp</result>
+			<result name="myQuestionList">/views/myQuestionList.jsp</result>
 			<result name="QuestionAction" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">QuestionAction_pagination</param>
@@ -179,6 +195,13 @@
 				<param name="actionName">QuestionAction_readDetail</param>
 				<param name="qid">${qid}</param>
 			</result>
+		</action>
+		
+		<!-- resourceAction -->
+		<action name="ResourceAction_*" class="resourceAction" method="{1}">
+			<result name="toUploadPage">/views/uploadPage.jsp</result>
+			<result name="toResPage">/views/resourcePage.jsp</result>
+			<result name="input">/views/error.jsp</result>
 		</action>
 	</package>
 

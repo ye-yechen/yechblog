@@ -108,7 +108,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 
 	@Resource
 	private FeedBackService feedBackService;
-	// 保存登录前的页面用于登录后跳回
+//	// 保存登录前的页面用于登录后跳回
 	private static String originUrl;
 
 	public String getOriginUrl() {
@@ -137,6 +137,10 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	 * @return
 	 */
 	public String doLogin() {
+		if(Global.originUrl != ""){ //不为""说明经过了登录拦截器被拦截重定向到登录页面的
+			originUrl = Global.originUrl;
+			Global.originUrl="";//重新置空
+		}
 		// 得到请求头中的 referer 字段，用于登录后跳转到之前的页面
 		return "keepOriginUrl";
 	}

@@ -66,7 +66,7 @@
 				<li class="active"><a href="BlogAction_pagination">博客精选<span
 						class="sr-only">(current)</span></a></li>
 				<li><a href="QuestionAction_pagination">问答社区</a></li>
-				<li><a href="#">资源分享</a></li>
+				<li><a href="ResourceAction_toResPage">资源分享</a></li>
 				<li><a href="#">美文推送</a></li>
 				<li><a href="LoginAction_toDataAnalysePage">数据统计</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -77,8 +77,10 @@
 						<li role="separator" class="divider"></li>
 						<li><a href="BlogAction_toWriteBlogPage">写博客</a></li>
 						<li><a href="QuestionAction_toAskQuestionPage">提问题</a></li>
+						<li><a href="ResourceAction_toUploadPage">上传资源</a></li>
+						<li role="separator" class="divider"></li>
 						<li><a href="BlogAction_myPagination">我的博客</a></li>
-						<li><a href="#">我的问答</a></li>
+						<li><a href="QuestionAction_myPagination">我的问答</a></li>
 						<li><a href="#">我的分享</a></li>
 					</ul></li>
 

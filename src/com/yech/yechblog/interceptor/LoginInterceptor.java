@@ -16,6 +16,7 @@ import com.yech.yechblog.action.RegistAction;
 import com.yech.yechblog.action.UserAction;
 import com.yech.yechblog.aware.UserAware;
 import com.yech.yechblog.entity.User;
+import com.yech.yechblog.util.Global;
 
 /**
  * 登录拦截器
@@ -69,12 +70,14 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 					return null;
 				}
 				
+				Global.originUrl = request.getHeader("referer");
+				Global.originUrl = 
+						Global.originUrl.substring(Global.originUrl.lastIndexOf("/")+1);
 				//去登录
 				return "login";
 			} else {
 				//如果 action 实现了 UserAware 接口,则为此 action 注入 user
 				if(action instanceof UserAware){
-					System.out.println("useraware");
 					((UserAware)action).setUser(user);
 					return arg0.invoke();
 				} else if(action instanceof UserAction){

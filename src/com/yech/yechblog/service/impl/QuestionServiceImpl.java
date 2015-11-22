@@ -159,4 +159,32 @@ public class QuestionServiceImpl implements QuestionService {
 		return questions;
 	}
 
+	/**
+	 * 查询当前用户的问题总数
+	 */
+	@Override
+	public int getMyQuestionCount(Integer userId) {
+		String hql = "select count(*) from Question q where q.deleted = 0 "
+					+ "and q.user.id = ?";
+		return  ((Long)(questionDao.uniqueResult(hql,userId))).intValue();
+	}
+
+	/**
+	 * 在当前用户问题中查询指定页的question总数
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Question> queryMyPage(Integer userId, int currentPageIndex,
+			int countPerPage) {
+		String hql = "SELECT * FROM questions WHERE userid = ? and deleted = 0 "
+				+ "order by create_time desc LIMIT ?,?";
+		List<Question> questions = questionDao.listResult(Question.class, hql, userId,
+				(currentPageIndex-1) * countPerPage,countPerPage);
+		for(Question question : questions){
+			question.getAnswers().size();
+			question.getUser().getUsername();
+		}
+		return questions;
+	}
+
 }

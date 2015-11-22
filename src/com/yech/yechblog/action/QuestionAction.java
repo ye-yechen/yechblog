@@ -51,6 +51,17 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 	private List<Question> similarQuestionList;
 	//当前问题的回答
 	private List<Answer> allAnswers;
+	//当前用户的问题列表
+	private List<Question> myQuestions;
+	
+	public List<Question> getMyQuestions() {
+		return myQuestions;
+	}
+
+	public void setMyQuestions(List<Question> myQuestions) {
+		this.myQuestions = myQuestions;
+	}
+
 	// 当前博客对应评论的回复--- Map<评论id,对应评论的回复>
 	private Map<Integer, List<Reply>> allQuestionReplies = 
 					new HashMap<Integer, List<Reply>>();
@@ -277,6 +288,29 @@ public class QuestionAction extends BaseAction<Question> implements UserAware {
 			}
 		}
 		return "ajax-success";
+	}
+	
+	/**
+	 * 查询当前用户拥有的问题
+	 * @return
+	 */
+	public String myPagination(){
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		// 查询question的总数
+		int questionCount = questionService.getMyQuestionCount(user.getId());
+		myQuestions = questionService.queryMyPage(user.getId(),currentPageIndex,
+				countPerPage);
+		// 总页数
+		pageCount = (questionCount % countPerPage == 0 ? questionCount
+				/ countPerPage : (questionCount / countPerPage + 1));
+		if(questionCount == 0){
+			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		}
+		return "myQuestionList";
 	}
 
 }

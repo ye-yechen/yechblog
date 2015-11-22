@@ -73,4 +73,15 @@ public interface QuestionService {
 	 */
 	public List<Question> queryAllQuestions();
 
+	/**
+	 * 查询当前用户的问题列表
+	 */
+	public int getMyQuestionCount(Integer userId);
+
+	/**
+	 * 在当前用户问题中查询指定页的question总数
+	 */
+	public List<Question> queryMyPage(Integer userId, int currentPageIndex,
+			int countPerPage);
+
 }

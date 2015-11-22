@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-21 11:26:13 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.yech.yechblog.entity.Resource" table="RESOURCES">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="resName" type="java.lang.String">
+            <column name="RES_NAME" />
+        </property>
+        <property name="resDesc" type="java.lang.String">
+            <column name="RES_DESC" />
+        </property>
+        <property name="resType" type="java.lang.String">
+            <column name="RES_TYPE" />
+        </property>
+        <property name="resScore" type="java.lang.Integer">
+            <column name="RES_SCORE" />
+        </property>
+        <property name="resSuffix" type="java.lang.String">
+            <column name="RES_SUFFIX" />
+        </property>
+        <property name="downloadCount" type="java.lang.Integer">
+            <column name="DOWNLOAD_COUNT" />
+        </property>
+        <property name="resPath" type="java.lang.String">
+            <column name="RES_PATH" />
+        </property>
+        <property name="resUploadTime" type="java.lang.String">
+            <column name="RES_UPLOAD_TIME" />
+        </property>
+        <many-to-one name="uploadUser" class="com.yech.yechblog.entity.User">
+            <column name="UPLOADUSERID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
