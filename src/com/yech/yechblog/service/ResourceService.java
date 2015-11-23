@@ -18,4 +18,15 @@ public interface ResourceService {
 	 */
 	public List<Resource> queryAllResources();
 
+	/**
+	 * 根据资源id查找资源
+	 */
+	public Resource getResourceById(Integer rid);
+
+	/**
+	 * 更新资源
+	 * @param model
+	 */
+	public void updateResource(Resource model);
+
 }

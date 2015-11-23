@@ -201,6 +201,9 @@
 		<action name="ResourceAction_*" class="resourceAction" method="{1}">
 			<result name="toUploadPage">/views/uploadPage.jsp</result>
 			<result name="toResPage">/views/resourcePage.jsp</result>
+			<result name="success" type="stream">
+				<param name="bufferSize">2048</param>
+			</result>
 			<result name="input">/views/error.jsp</result>
 		</action>
 	</package>

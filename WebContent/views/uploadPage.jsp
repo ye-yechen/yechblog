@@ -39,10 +39,6 @@
 	        <input type="file" name="userRes">
 		</div>
 		<div class="form-group">
-			<label for="resname">资源名称</label> <input type="text" name="resName"
-				class="form-control" id="resname" placeholder="资源名称">
-		</div>
-		<div class="form-group">
 			<label for="restype">资源类型</label> 
 			<select name="resType">
 				<option value="">请选择</option>

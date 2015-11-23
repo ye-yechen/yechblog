@@ -1,7 +1,10 @@
 package com.yech.yechblog.action;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -124,6 +127,7 @@ public class ResourceAction extends BaseAction<Resource> implements UserAware,
 				e.printStackTrace();
 			}
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			model.setResName(userResFileName);
 			model.setDownloadCount(0);//初始下载次数为0
 			model.setResSuffix(ext);//设置资源后缀名
 			model.setResUploadTime(format.format(new Date()));
@@ -141,6 +145,60 @@ public class ResourceAction extends BaseAction<Resource> implements UserAware,
 	public String toResPage(){
 		resList = resourceService.queryAllResources();
 		return "toResPage";
+	}
+	public Integer rid;//接收页面传过来的resource的id
+	private String contentType;//下载的结果类型
+	private long contentLength;//下载的文件长度
+	//此响应头指定响应是文件下载类型，一般取值为attachment;filename=""
+	private String contentDisposition;
+	private InputStream inputStream;
+	
+	public Integer getRid() {
+		return rid;
+	}
+
+	public void setRid(Integer rid) {
+		this.rid = rid;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public long getContentLength() {
+		return contentLength;
+	}
+
+	public String getContentDisposition() {
+		return contentDisposition;
+	}
+	
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+	/**
+	 * 下载资源
+	 * @return
+	 */
+	public String downloadResource(){
+		model = resourceService.getResourceById(rid);
+		String filename = servletContext.getRealPath(model.getResPath());
+		String downName;
+		try {
+			//为文件名编码，防止中文乱码
+			downName = URLEncoder.encode(model.getResName(), "utf-8");
+			contentType = "application/octet-stream;charset=utf-8";
+			contentDisposition = "attachment;filename="+downName;
+			inputStream = new FileInputStream(filename);
+			if(inputStream != null){ //代表可下载
+				model.setDownloadCount(model.getDownloadCount()+1);//下载量+1
+				resourceService.updateResource(model);//更新数据库中此资源
+				contentLength = inputStream.available();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
 	}
 
 }

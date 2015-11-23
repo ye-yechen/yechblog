@@ -124,7 +124,7 @@
 								<s:else>
 									<td><img alt="" src="image/filetype/other.ico" width="50" height="50"></td>
 								</s:else>
-								<td><s:property value="#r.resName"/></td>
+								<td><a href="ResourceAction_downloadResource?rid=<s:property value='#r.id'/>"><s:property value="#r.resName"/></a></td>
 								<td><s:property value="#r.resDesc"/></td>
 								<td><s:property value="#r.resType"/></td>
 								<td><s:property value="#r.uploadUser.username"/></td>

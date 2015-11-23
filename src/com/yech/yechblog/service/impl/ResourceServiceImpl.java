@@ -36,4 +36,20 @@ public class ResourceServiceImpl implements ResourceService {
 		return resources;
 	}
 
+	/**
+	 * 根据资源id查找资源
+	 */
+	@Override
+	public Resource getResourceById(Integer rid) {
+		return resourceDao.getEntity(rid);
+	}
+
+	/**
+	 * 更新资源
+	 */
+	@Override
+	public void updateResource(Resource model) {
+		resourceDao.updateEntity(model);
+	}
+
 }
