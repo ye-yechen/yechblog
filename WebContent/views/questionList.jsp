@@ -88,6 +88,9 @@
 					<!-- 迭代问题列表 -->
 					 <div class="course-notes course-in">
 						<ul class="post">
+						<s:if test="allQuestionList == null || allQuestionList.size() == 0">
+							<div class="post-content">暂且没有问题,赶紧去提问吧!</div>
+						</s:if>
 						<s:iterator var="aq" value="allQuestionList">
 							 <li style="list-style-type:none;">
 						        <div class="notes-img">

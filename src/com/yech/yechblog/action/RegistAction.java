@@ -51,6 +51,12 @@ public class RegistAction extends BaseAction<User> implements
 		originUrl = originUrl.substring(originUrl.lastIndexOf("/"));
 		return "registPage";
 	}
+	
+	//去重置密码页面
+	@SkipValidation
+	public String toResetPswPage(){
+		return "toResetPswPage";
+	}
 
 	/**
 	 * 进行用户注册
@@ -58,16 +64,40 @@ public class RegistAction extends BaseAction<User> implements
 	 * @return
 	 */
 	public String doRegist() {
+		//设置初始默认信息
+		model.setCareer("未填写职位");
+		model.setField("未填写领域");
+		model.setCountry("中国");
+		model.setBirth("未填写生日");
+		model.setGender(false);
+		model.setCity("未填写城市");
+		model.setProvince("未填写省份");
+		model.setNotes("未填写备注");
 		// 密码加密
 		model.setPassword(DataUtil.md5(model.getPassword()));
 		model.setImage("/image/personImg.jpg");// 保存默认图片
 		model.setStatus(false);// 设置没有验证
-		model.setValidateCode(DataUtil.md5("VaLiDaTeCoDe"));
+		model.setValidateCode(DataUtil.md5("VaLiDaTeCoDe"));//
 		userService.saveEntity(model);
 		sendMessage();// 发送验证邮件
 		return "keepOriginUrl";
 	}
 
+	/**
+	 * 重置密码
+	 * @return
+	 */
+	public String resetPsw(){
+		String newPsw = model.getPassword();
+		model = userService.queryUserByEmail(model.getEmail());
+		model.setPassword(DataUtil.md5(newPsw));
+		model.setStatus(false);// 重新设置没有验证
+		model.setValidateCode(DataUtil.md5("VaLiDaTeCoDe"));
+		userService.updateEntity(model);
+		sendMessage();// 发送验证邮件
+		return "BlogAction";
+	}
+	
 	private String email;
 	private String vcode;
 	private Integer userId;
@@ -136,7 +166,7 @@ public class RegistAction extends BaseAction<User> implements
 					// .append("email=" + email + "&vcode=" +
 					// code+"&userId="+model.getId() +"'>")
 					.append("<span style='font-size:16px;'>")
-					.append("http://114.215.92.22:8080/yechblog/RegistAction_doMessageValidate?email="
+					.append("http://localhost:8080/yechblog/RegistAction_doMessageValidate?email="
 							+ email
 							+ "&vcode="
 							+ code

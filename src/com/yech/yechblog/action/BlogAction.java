@@ -10,7 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.interceptor.ApplicationAware;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -32,6 +37,9 @@ import com.yech.yechblog.service.QuestionService;
 import com.yech.yechblog.service.RelationService;
 import com.yech.yechblog.service.ReplyService;
 import com.yech.yechblog.service.TagService;
+import com.yech.yechblog.service.UserService;
+import com.yech.yechblog.util.AddressUtil;
+import com.yech.yechblog.util.Global;
 import com.yech.yechblog.util.StringUtil;
 
 /**
@@ -41,7 +49,9 @@ import com.yech.yechblog.util.StringUtil;
  */
 @Controller
 @Scope("prototype")
-public class BlogAction extends BaseAction<Blog> implements UserAware {
+public class BlogAction extends BaseAction<Blog> implements UserAware,
+		ServletRequestAware,ApplicationAware,SessionAware
+{
 
 	private static final long serialVersionUID = 5190914411419980760L;
 	/**
@@ -58,20 +68,38 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	@Resource
 	private ReplyService replyService;
-	
+
 	@Resource
 	private CollectionService collectionService;
-	
+
 	@Resource
 	private RelationService relationService;
-	
+
 	@Resource
 	private QuestionService questionService;
-	
+
 	@Resource
 	private CommentService commentService;
+
+	@Resource
+	private UserService userService;
 	// 接收 User 对象
 	private User user;
+	private HttpServletRequest request;
+	private Map<String, Object> application;
+	private Map<String, Object> sessionMap;
+	@Override
+	public void setSession(Map<String, Object> arg0) {
+		this.sessionMap = arg0;
+	}
+	@Override
+	public void setApplication(Map<String, Object> arg0) {
+		this.application = arg0;
+	}
+	@Override
+	public void setServletRequest(HttpServletRequest arg0) {
+		this.request = arg0;
+	}
 
 	@Override
 	public void setUser(User user) {
@@ -80,8 +108,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	// 当前用户的博客列表
 	private List<Blog> myBlogList;
-
-	//
 	// 所有博客列表
 	private List<Blog> allBlogList;
 
@@ -91,17 +117,20 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	private List<Blog> similarBlogList;
 	// 当前用户的动态(评论了谁、赞了谁、收藏了谁...)
 	private List<Message> allMessages;
-	//当前用户的所有收藏
+	// 当前用户的所有收藏
 	private List<Collection> allCollections;
-	//根据用户搜索匹配的博客列表
+	// 根据用户搜索匹配的博客列表
 	private List<Blog> matchedBlogList;
-	//我关注的人列表
+	// 我关注的人列表
 	private List<Relation> allRelations;
-	//所有关注我的人
+	// 所有关注我的人
 	private List<Relation> allFocusMe;
-	//当前用户提的问题列表
+	// 当前用户提的问题列表
 	private List<Question> allQuestions;
-	
+	// 用户地址(根据ip得到的地址) Map<"ip","地址(国，省，市)">
+	private Map<String, String> userAddr = new HashMap<String, String>();
+	// 保存用户信息(Map<"用户名",Map<"ip","地址">>)
+	private static Map<String, Map<String, String>> userInfo = new HashMap<String, Map<String, String>>();
 	public List<Question> getAllQuestions() {
 		return allQuestions;
 	}
@@ -235,15 +264,15 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 * 新建博客
 	 */
 	public String newBlog() {
-//		// 去掉CKEditor自动在文本上添加的<p></p>标签
-//		model.setContent(model.getContent().replace("<p>", "")
-//				.replace("</p>", ""));
-		//如果没写summary
-		if(model.getSummary().trim().equals("")){
-			//截取内容的前200个字符作为博客的summary
+		// // 去掉CKEditor自动在文本上添加的<p></p>标签
+		// model.setContent(model.getContent().replace("<p>", "")
+		// .replace("</p>", ""));
+		// 如果没写summary
+		if (model.getSummary().trim().equals("")) {
+			// 截取内容的前200个字符作为博客的summary
 			model.setSummary(model.getContent().substring(0, 400));
 		}
-		model.setAllowComment(true);//默认允许评论
+		model.setAllowComment(true);// 默认允许评论
 		model.setUser(user);
 		model.setReadCount(0);// 设置阅读次数
 		model.setDeleted(0);// 设置未删除(逻辑删除)
@@ -296,7 +325,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		model.setReadCount(model.getReadCount() + 1);
 		blogService.saveOrUpdateBlog(model);// 更新博客的阅读次数
 		allComments = blogService.queryAllComments(bid);
-		//查询当前评论的所有回复
+		// 查询当前评论的所有回复
 		for (Comment comment : allComments) {
 			List<Reply> replies = replyService.queryAllReplies(comment.getId());
 			allReplies.put(comment.getId(), replies);
@@ -342,6 +371,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	 * @return
 	 */
 	public String pagination() {
+		autoLogin();//如果记住了密码就自动登录
 		int countPerPage = 5;// 每页显示5条
 		if (pageIndex == null) {
 			pageIndex = "1";
@@ -353,10 +383,58 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
-		if(blogCount == 0){
-			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
 		}
 		return "allBlogList";
+	}
+
+	private String email = "";
+	private String password = "";
+	
+	/**
+	 * 自动登录
+	 */
+	public void autoLogin() {
+		// 获取当前站点的所有Cookie
+		Cookie[] cookies = request.getCookies();
+		// 对cookies中的数据进行遍历，找到用户名、密码的数据
+		if(cookies != null){
+			for (int i = 0; i < cookies.length; i++) {
+				if ("email".equals(cookies[i].getName())) {
+					email = cookies[i].getValue();
+				} else if ("password".equals(cookies[i].getName())) {
+					password = cookies[i].getValue();
+				}
+			}
+		}
+		User user = userService
+				.validateLoginInfo(email,password);
+		if (user != null) {
+			// 1、获取当前的在线人数，从application中获取
+			Integer count = (Integer) application.get("count");
+			if (count == null) {
+				count = 0;
+			}
+			// 2、使当前的在线人数+1
+			count++;
+			String remoteAddr = request.getRemoteAddr() == null ? "" : request
+					.getRemoteAddr();
+			try {
+				// 在map中加入ip对应的地址
+				userAddr.clear();// 先清空
+				userAddr.put(remoteAddr,
+						AddressUtil.getAddresses(remoteAddr, "utf-8"));
+				// 添加到userInfo的map中
+				userInfo.put(user.getUsername(), userAddr);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			application.put("userInfo", userInfo);
+			application.put("count", count);
+			sessionMap.put("user", user);// 将 user 信息放到session域
+			Global.user = user;
+		}
 	}
 
 	/**
@@ -377,8 +455,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
-		if(blogCount == 0){
-			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
 		}
 		return "myBlogList";
 	}
@@ -411,6 +489,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	/**
 	 * 根据传入的tagName 查找含有此标签的博客
+	 * 
 	 * @return
 	 */
 	public String queryBlogsByTagName() {
@@ -436,8 +515,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
-		if(blogCount == 0){
-			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
 		}
 		return "similarBlogs";
 	}
@@ -472,9 +551,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	}
 
 	/**
-	 * 删除blog(逻辑删除)
-	 * 处理 ajax 请求
-	 * 将删除后的信息以流的方式返回，以便 ajax 代码调用(struts2 中 ajax的用法)
+	 * 删除blog(逻辑删除) 处理 ajax 请求 将删除后的信息以流的方式返回，以便 ajax 代码调用(struts2 中 ajax的用法)
 	 * 删除成功返回 1，否则返回0
 	 */
 	public String deleteBlog() {
@@ -499,19 +576,20 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 	public String addToCollections() {
 		try {
 			// 如果没有收藏这个博客
-			if (!collectionService.queryBlogInCollection(user,bid)) {
+			if (!collectionService.queryBlogInCollection(user, bid)) {
 				Blog blog2 = blogService.getBlogById(bid);
 				Blog blog = new Blog();
 				blog.setId(bid);
 				Collection collection = new Collection();
 				collection.setBlog(blog);
-				collection.setDeleted(false);//未删除
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				collection.setDeleted(false);// 未删除
+				SimpleDateFormat format = new SimpleDateFormat(
+						"yyyy-MM-dd HH:mm");
 				collection.setCollectTime(format.format(new Date()));
 				collection.setSelf(user);
 				collection.setOther(blog2.getUser());
 				collectionService.saveCollection(collection);
-				
+
 				// 将收藏消息添加到 Message 中
 				Message message = new Message();
 				message.setContent("收藏了博客!");
@@ -526,7 +604,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 			} else {
 				inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
 			}
-			
+
 		} catch (Exception e) {
 			try {
 				inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
@@ -536,14 +614,15 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		}
 		return "ajax-success";
 	}
-	
+
 	/**
 	 * 删除收藏的博客
+	 * 
 	 * @return
 	 */
-	public String removeTheCollection(){
+	public String removeTheCollection() {
 		try {
-			collectionService.removeBlogFromCollections(user,bid);
+			collectionService.removeBlogFromCollections(user, bid);
 			inputStream = new ByteArrayInputStream("1".getBytes("UTF-8"));
 		} catch (Exception e) {
 			try {
@@ -554,10 +633,10 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 		}
 		return "ajax-success";
 	}
-	
-	//搜索条件
+
+	// 搜索条件
 	private String searchCondition;
-	
+
 	public String getSearchCondition() {
 		return searchCondition;
 	}
@@ -568,45 +647,45 @@ public class BlogAction extends BaseAction<Blog> implements UserAware {
 
 	/**
 	 * 根据用户的输入搜索博客
+	 * 
 	 * @return
 	 */
-	public String searchBlog(){
-		
+	public String searchBlog() {
+
 		int countPerPage = 5;// 每页显示5条
 		if (pageIndex == null) {
 			pageIndex = "1";
 		}
 		currentPageIndex = Integer.parseInt(pageIndex);
 		int blogCount = blogService.getMatchedBlogCount(searchCondition);// 查询匹配的博客总数
-		System.out.println("llll"+blogCount);
+		System.out.println("llll" + blogCount);
 		// 显示在当前页的博客
-		matchedBlogList = 
-				blogService.searchBlogByCondition(currentPageIndex,
-											countPerPage,searchCondition);
+		matchedBlogList = blogService.searchBlogByCondition(currentPageIndex,
+				countPerPage, searchCondition);
 		// 总页数
 		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
 				: (blogCount / countPerPage + 1));
-		
-		if(blogCount == 0){
-			pageCount = 1;	//为了在页面上不显示“第1页/共0页”这种效果
+
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
 		}
 		return "toMatchedBlogPage";
 	}
-	
+
 	/**
 	 * 改变博客的评论权限(是否可评论)
+	 * 
 	 * @return
 	 */
-	public String changeAllowState(){
+	public String changeAllowState() {
 		Blog blog = blogService.getBlogById(bid);
-		if(blog.getAllowComment()){ //如果博客现在是可评论的
-			//设置为不可评论
-			blogService.changeBlogAllowState(bid,false);
+		if (blog.getAllowComment()) { // 如果博客现在是可评论的
+			// 设置为不可评论
+			blogService.changeBlogAllowState(bid, false);
 		} else {
-			//设置为可评论
-			blogService.changeBlogAllowState(bid,true);
+			// 设置为可评论
+			blogService.changeBlogAllowState(bid, true);
 		}
 		return "redirectToPersonalPage";
 	}
-
 }

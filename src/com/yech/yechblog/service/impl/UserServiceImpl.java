@@ -83,4 +83,14 @@ public class UserServiceImpl extends BaseServiceImpl<User>
 		String hql = "select count(*) from User u where u.status = 1";
 		return  ((Long)(this.uniqueResult(hql))).intValue();
 	}
+
+	/**
+	 * 根据注册邮箱查询用户(用于重置密码)
+	 * @param email
+	 */
+	@Override
+	public User queryUserByEmail(String email) {
+		String hql = "from User u where u.email = ?";
+		return this.batchFindEntityByHQL(hql, email).get(0);
+	}
 }

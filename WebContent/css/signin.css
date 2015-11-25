@@ -47,22 +47,31 @@ body {
   border-radius: 0;
   background: url(../image/login_user.png) 0 0 #bdbdbd no-repeat;
   padding-left:60px;
-  color:#FFFFFF;
+  color:#e67e22;
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-radius: 0;
   background: url(../image/login_pas.png) 0 0 #bdbdbd no-repeat;
   padding-left:60px;
-  color:#FFFFFF;
+  color:#e67e22;
 }
 .form-signin input[name="email"] {
   margin-bottom: 10px;
   border-radius: 0;
   background: url(../image/login_user.png) 0 0 #bdbdbd no-repeat;
   padding-left:60px;
-  color:#FFFFFF;
+  color:#e67e22;
 }
 .form-signin button {
   border-radius: 0;
+}
+a {
+	color: #ae5964;
+	outline: none;
+	font-size: 1em;
+}
+a:hover {
+	color: #e67e22;
+	font-size: 1em;
 }

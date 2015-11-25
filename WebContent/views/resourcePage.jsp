@@ -28,6 +28,14 @@
 			<main class="col-md-12 main-content">
 				<div class="post">
 					<div class="alert alert-warning" role="alert">资源列表</div>
+					<s:if test="resList == null || resList.size() == 0">
+						<article class="post">
+							<div class="post-content">
+								现在还没有资源！赶紧上传吧!
+							</div>
+						</article>
+					</s:if>
+					<s:else>
 					<table class="table table-hover">
 						<tr>
 							<th>资源</th>
@@ -127,12 +135,17 @@
 								<td><a href="ResourceAction_downloadResource?rid=<s:property value='#r.id'/>"><s:property value="#r.resName"/></a></td>
 								<td><s:property value="#r.resDesc"/></td>
 								<td><s:property value="#r.resType"/></td>
-								<td><s:property value="#r.uploadUser.username"/></td>
+								<td>
+									<a href="UserAction_toOtherHomePage?userId=<s:property value='#r.uploadUser.id'/>">
+										<s:property value="#r.uploadUser.username"/>
+									</a>
+								</td>
 								<td><s:property value="#r.resUploadTime"/></td>
 								<td><s:property value="#r.downloadCount"/></td>
 							</tr>
 						</s:iterator>
 					</table>
+					</s:else>
 				</div>
 			</main>
 		</div>

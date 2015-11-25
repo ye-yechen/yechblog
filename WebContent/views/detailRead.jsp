@@ -52,7 +52,7 @@ body{
 								<s:property value="#b.title" />
 							</h1>
 							<div class="post-meta">
-								<span class="author">作者：<a href="#"><s:property value="#b.user.username" /></a></span>
+								<span class="author">作者：<a href="UserAction_toOtherHomePage?userId=<s:property value='#b.user.id'/>"><s:property value="#b.user.username" /></a></span>
 								<span class="post-date"><s:property value="#b.createTime" /></span>
 							</div>
 						</div>
@@ -62,7 +62,8 @@ body{
 						<!-- 如果博客允许评论 -->
 						<s:if test="#b.allowComment">
 							<div class="pull-right share">
-								<a id="comment" href="#">评论</a>
+								<button id="comment" class="btn btn-default">评论</button>
+								<!--  <a id="comment" href="#">评论</a>-->
 							</div>
 							<s:if test="allComments == null || allComments.size() == 0">
 								<div class="post-footer clearfix"><span>当前没有任何评论!赶紧去抢沙发!</span></div>
@@ -75,7 +76,7 @@ body{
 							<s:iterator var="c" value="allComments">
 							<div class="post-footer2">
 								<div class="post-comment">
-									<span class="author"><a href="#"><s:property value="#c.user.username" /></a>:</span>
+									<span class="author"><a href="UserAction_toOtherHomePage?userId=<s:property value='#c.user.id'/>"><s:property value="#c.user.username" /></a>:</span>
 									<p><s:property value="#c.content" /></p>
 								</div>
 							</div>
@@ -86,8 +87,8 @@ body{
 									<div class="post-footer2">
 									<div class="post-comment">
 										<span class="author">
-											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;回复
-											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#v.self.id'/>"><s:property value="#v.self.username" /></a>&nbsp;回复
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#v.other.id'/>"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
 										</span>
 										<p><s:property value="#v.content" /></p>
 									</div>
@@ -114,7 +115,7 @@ body{
 						<s:if test="#session['user'] != null">
 							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="name">
-								<a href="#"><s:property value="#session['user'].username" /></a>
+								<a href="BlogAction_toPersonalPage"><s:property value="#session['user'].username" /></a>
 								<a href="UserAction_toMessageCenter">
 									<span class="badge badge-important">
 										<s:property value="#session['user'].messages.size()"/>

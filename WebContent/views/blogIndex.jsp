@@ -120,7 +120,6 @@
 
 </head>
 <body>
-	
 	<!-- 包含 导航栏 -->
 	<jsp:include page="/views/navbar.jsp"></jsp:include>
 

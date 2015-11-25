@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.annotation.Scope;
@@ -38,19 +41,19 @@ import com.yech.yechblog.util.Global;
 @Controller
 @Scope("prototype")
 public class LoginAction extends BaseAction<User> implements SessionAware,
-		ApplicationAware, ServletRequestAware
+		ApplicationAware, ServletRequestAware,ServletResponseAware
 {
 
 	private static final long serialVersionUID = 6769670387253184703L;
 
 	// 是否记住密码
-	private boolean remember;
+	private String remember;
 
-	public boolean isRemember() {
+	public String getRemember() {
 		return remember;
 	}
 
-	public void setRemember(boolean remember) {
+	public void setRemember(String remember) {
 		this.remember = remember;
 	}
 
@@ -64,6 +67,7 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 	// 保存用户信息(Map<"用户名",Map<"ip","地址">>)
 	private static Map<String, Map<String, String>> userInfo = new HashMap<String, Map<String, String>>();
 	private HttpServletRequest request;
+	private HttpServletResponse response;
 	// 含某标签的博客数量 Map<"标签名",博客数量>
 	private Map<String, Integer> blogNumsWithTag = new HashMap<String, Integer>();
 	// 属于某分类的问题数量 Map<"分类名",问题数量>
@@ -84,6 +88,11 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 		this.request = arg0;
 	}
 
+	@Override
+	public void setServletResponse(HttpServletResponse arg0) {
+		this.response = arg0;
+	}
+	
 	@Override
 	public void setSession(Map<String, Object> arg0) {
 		this.sessionMap = arg0;
@@ -222,6 +231,11 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 			// 退出登录时移除此用户
 			userInfo.remove(user.getUsername());
 		}
+		//将Cookie置空
+		Cookie emailCookie = new Cookie("email", "");
+		Cookie pswCookie = new Cookie("password", "");
+		response.addCookie(emailCookie);
+		response.addCookie(pswCookie);
 		sessionMap.clear();
 		// 2、session失效：强转为SessionMap，调用invalidate方法
 		((SessionMap<String, Object>) sessionMap).invalidate();
@@ -238,7 +252,15 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 		if (user == null) {
 			addActionError("email 或 password 错误!或者账号未激活!");
 		} else {
-			if (isRemember()) { // 记住了密码
+			// "on"代表checkbox被选中，记住了密码,将信息保存到 cookie 中,否则为 null
+			if ("on".equals(getRemember())) { 
+				Cookie emailCookie = new Cookie("email", model.getEmail()); //保存email
+				Cookie pswCookie = 
+						new Cookie("password", DataUtil.md5(model.getPassword()));//保存密码
+				emailCookie.setMaxAge(10 * 24 * 60 * 60);//有效期为10天
+				pswCookie.setMaxAge(10 * 24 * 60 * 60);
+				response.addCookie(emailCookie);
+				response.addCookie(pswCookie);
 			}
 			// 1、获取当前的在线人数，从application中获取
 			Integer count = (Integer) application.get("count");

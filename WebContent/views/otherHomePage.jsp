@@ -139,8 +139,14 @@ body{
 							<s:iterator var="hr" status="s" value="hisRelations">
 								<s:if test="(#s.index+1)%4!=0">
 									<td>
-										<img alt="" src='image/personImg.jpg' width="40" height="40">
-										<a href="#">
+										<!-- 如果上传了个人头像 -->
+											<s:if test="#hr.other.image != null">
+												<img alt='' src="<s:url value='#hr.other.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+										<a href="UserAction_toOtherHomePage?userId=<s:property value='#hr.other.id'/>">
 											<s:property value="#hr.other.username"/>
 										</a>
 									</td>
@@ -148,8 +154,13 @@ body{
 								<s:else>
 									<tr></tr>
 										<td>
-											<img alt="" src="image/personImg.jpg" width="40" height="40">
-											<a href="#">
+											<s:if test="#hr.other.image != null">
+												<img alt='' src="<s:url value='#hr.other.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#hr.other.id'/>">
 												<s:property value="#hr.other.username"/>
 											</a>
 										</td>
@@ -161,8 +172,13 @@ body{
 							<s:iterator var="fh" status="s" value="focusHims">
 								<s:if test="(#s.index+1)%4!=0">
 									<td>
-										<img alt="" src='image/personImg.jpg' width="40" height="40">
-										<a href="#">
+										<s:if test="#fh.self.image != null">
+												<img alt='' src="<s:url value='#fh.self.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+										<a href="UserAction_toOtherHomePage?userId=<s:property value='#fh.self.id'/>">
 											<s:property value="#fh.self.username"/>
 										</a>
 									</td>
@@ -170,8 +186,13 @@ body{
 								<s:else>
 									<tr></tr>
 										<td>
-											<img alt="" src="image/personImg.jpg" width="40" height="40">
-											<a href="#">
+											<s:if test="#fh.self.image != null">
+												<img alt='' src="<s:url value='#fh.self.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#fh.self.id'/>">
 												<s:property value="#fh.self.username"/>
 											</a>
 										</td>

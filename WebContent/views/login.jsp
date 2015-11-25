@@ -24,10 +24,13 @@
 		<input type="text" class="form-control" name="email" placeholder="邮箱" required autofocus>
 		<input name="password" type="password" class="form-control" placeholder="密码" required />
 		<button class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
-		<label class="checkbox">
-			<input type="checkbox" value="remember-me"> 记住我
+		<label class="checkbox col-sm-offset-5">
+			<input type="checkbox" name="remember"> 记住我
 		</label>
 	</form>
+	<div class="col-sm-offset-8">
+		<a href="RegistAction_toResetPswPage">忘记密码?</a>
+	</div>
 </div>
 </body>
 </html>

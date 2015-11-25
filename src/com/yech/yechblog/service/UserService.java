@@ -39,4 +39,10 @@ public interface UserService extends BaseService<User> {
 	 * @return
 	 */
 	public int getRegistedUserNums();
+
+	/**
+	 * 根据注册邮箱查询用户(用于重置密码)
+	 * @param email
+	 */
+	public User queryUserByEmail(String email);
 }

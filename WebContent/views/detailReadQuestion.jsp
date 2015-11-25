@@ -49,7 +49,7 @@
 								<s:property value="#q.title" />
 							</h1>
 							<div class="post-meta">
-								<span class="author">提问者：<a href="#"><s:property value="#q.user.username" /></a></span>
+								<span class="author">提问者：<a href="UserAction_toOtherHomePage?userId=<s:property value='#q.user.id'/>"><s:property value="#q.user.username" /></a></span>
 								<span class="post-date"><s:property value="#q.createTime" /></span>
 							</div>
 						</div>
@@ -57,7 +57,7 @@
 							<p><s:property value="#q.content" escapeHtml="false"/></p>
 						</div>
 						<div class="pull-right share">
-							<a id="answer" href="#">回答</a>
+							<a id="answer" href="UserAction_toOtherHomePage?userId=<s:property value='#q.user.id'/>">回答</a>
 						</div>
 						
 						<s:if test="allAnswers == null || allAnswers.size() == 0">
@@ -68,7 +68,7 @@
 							<s:iterator var="c" value="allAnswers">
 							<div class="post-footer2">
 								<div class="post-comment">
-									<span class="author"><a href="#"><s:property value="#c.user.username" /></a>:</span>
+									<span class="author"><a href="UserAction_toOtherHomePage?userId=<s:property value='#c.user.id'/>"><s:property value="#c.user.username" /></a>:</span>
 									<p><s:property value="#c.content" /></p>
 								</div>
 							</div>
@@ -79,8 +79,8 @@
 									<div class="post-footer2">
 									<div class="post-comment">
 										<span class="author">
-											<a href="#"><s:property value="#v.self.username" /></a>&nbsp;回复
-											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#v.self.id'/>"><s:property value="#v.self.username" /></a>&nbsp;回复
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#v.other.id'/>"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
 										</span>
 										<p><s:property value="#v.content" /></p>
 									</div>
@@ -109,7 +109,7 @@
 						<s:if test="#session['user'] != null">
 							<span class="welcome">欢迎:</span>&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="name">
-								<a href="#"><s:property value="#session['user'].username" /></a>
+								<a href="BlogAction_toPersonalPage"><s:property value="#session['user'].username" /></a>
 								<a href="UserAction_toMessageCenter">
 									<span class="badge badge-important">
 										<s:property value="#session['user'].messages.size()"/>

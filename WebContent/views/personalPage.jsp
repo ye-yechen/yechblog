@@ -226,28 +226,28 @@ body{
 						<ul class="notice-list">
 							<li>
 								<s:if test="#m.comment == true">
-									评论了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+									评论了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
 										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
 											<s:property value="#m.blog.title"/>
 										</a>
 								</s:if>
 								<s:elseif test="#m.love == true">
-									赞了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+									赞了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
 										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
 											<span><s:property value="#m.blog.title"/></span>
 										</a>
 								</s:elseif>
 								<s:elseif test="#m.collect == true">
-									收藏了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+									收藏了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
 										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
 											<s:property value="#m.blog.title"/>
 										</a>
 								</s:elseif>
 								<s:elseif test="#m.share == true">
-									分享了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的博客
+									分享了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
 										&nbsp;&nbsp;
 										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
 											<s:property value="#m.blog.title"/>
@@ -256,11 +256,11 @@ body{
 								<s:elseif test="#m.reply == true">
 									在&nbsp;<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
 										<s:property value="#m.blog.title"/>
-									</a>&nbsp;中回复了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
+									</a>&nbsp;中回复了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>
 										&nbsp;&nbsp;
 								</s:elseif>
 								<s:elseif test="#m.focus == true">
-									关注了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>
+									关注了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>
 								</s:elseif>
 								<s:elseif test="#m.answer == true">
 									回答了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的问题
@@ -270,7 +270,7 @@ body{
 								</s:elseif>
 								
 								<s:elseif test="#m.addAsk == true">
-									追问了<a href="#"><s:property value="#m.self.username"/></a>&nbsp;
+									追问了<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.self.id'/>"><s:property value="#m.self.username"/></a>&nbsp;
 										<a href="QuestionAction_readDetail?qid=<s:property value='#m.question.id' />">
 											<s:property value="#m.question.title"/>
 										</a>
@@ -339,8 +339,14 @@ body{
 							<s:iterator var="ar" status="s" value="allRelations">
 								<s:if test="(#s.index+1)%4!=0">
 									<td>
-										<img alt="" src='image/personImg.jpg' width="40" height="40">
-										<a href="#">
+										<!-- 如果上传了个人头像 -->
+										<s:if test="#ar.other.image != null">
+											<img alt='' src="<s:url value='#ar.other.image'/>" width="40" height="40">
+										</s:if>
+										<s:else>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+										</s:else>
+										<a href="UserAction_toOtherHomePage?userId=<s:property value='#ar.other.id'/>">
 											<s:property value="#ar.other.username"/>
 										</a>
 										<div class="stop-focus"><a href="RelationAction_stopFocus?userId=<s:property value='#ar.other.id'/>">不再关注</a></div>
@@ -349,8 +355,14 @@ body{
 								<s:else>
 									<tr></tr>
 										<td>
-											<img alt="" src="image/personImg.jpg" width="40" height="40">
-											<a href="#">
+											<!-- 如果上传了个人头像 -->
+											<s:if test="#ar.other.image != null">
+												<img alt='' src="<s:url value='#ar.other.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#ar.other.id'/>">
 												<s:property value="#ar.other.username"/>
 											</a>
 											<div class="stop-focus"><a href="RelationAction_stopFocus?userId=<s:property value='#ar.other.id'/>">不再关注</a></div>
@@ -364,8 +376,14 @@ body{
 							<s:iterator var="af" status="s" value="allFocusMe">
 								<s:if test="(#s.index+1)%4!=0">
 									<td>
-										<img alt="" src='image/personImg.jpg' width="40" height="40">
-										<a href="#">
+										<!-- 如果上传了个人头像 -->
+										<s:if test="#af.self.image != null">
+											<img alt='' src="<s:url value='#af.self.image'/>" width="40" height="40">
+										</s:if>
+										<s:else>
+											<img alt="" src="image/personImg.jpg" width="40" height="40">
+										</s:else>
+										<a href="UserAction_toOtherHomePage?userId=<s:property value='#af.self.id'/>">
 											<s:property value="#af.self.username"/>
 										</a>
 									</td>
@@ -373,8 +391,14 @@ body{
 								<s:else>
 									<tr></tr>
 										<td>
-											<img alt="" src="image/personImg.jpg" width="40" height="40">
-											<a href="#">
+											<!-- 如果上传了个人头像 -->
+											<s:if test="#af.self.image != null">
+												<img alt='' src="<s:url value='#af.self.image'/>" width="40" height="40">
+											</s:if>
+											<s:else>
+												<img alt="" src="image/personImg.jpg" width="40" height="40">
+											</s:else>
+											<a href="UserAction_toOtherHomePage?userId=<s:property value='#af.self.id'/>">
 												<s:property value="#af.self.username"/>
 											</a>
 										</td>

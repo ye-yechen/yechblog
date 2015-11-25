@@ -19,7 +19,7 @@
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
 				 <param name="excludeMethods">
 				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,
-				 	searchBlog,toAboutPage,similarQuestionsPagination,toDataAnalysePage
+				 	searchBlog,toAboutPage,similarQuestionsPagination,toDataAnalysePage,toResPage
 				 </param>  
 			</interceptor>
 			<!-- 定义拦截器栈 -->
@@ -77,6 +77,7 @@
 			<result name="success">/views/blogIndex.jsp</result>
 			<result name="input">/views/regist.jsp</result>
 			<result name="temp">/views/temp.jsp</result>
+			<result name="toResetPswPage">/views/resetPsw.jsp</result>
 		</action>
 		
 		<!-- IdentifyCodeAction -->
