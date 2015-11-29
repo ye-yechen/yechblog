@@ -18,7 +18,7 @@
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
 				 <param name="excludeMethods">
-				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,
+				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,getBlogNumsWithTag,
 				 	searchBlog,toAboutPage,similarQuestionsPagination,toDataAnalysePage,toResPage
 				 </param>  
 			</interceptor>
@@ -207,6 +207,7 @@
 			</result>
 			<result name="input">/views/error.jsp</result>
 		</action>
+		
 	</package>
 
 </struts>

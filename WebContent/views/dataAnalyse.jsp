@@ -12,6 +12,7 @@
 <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <style type="text/css">
 .bgimage {
@@ -21,6 +22,118 @@
 	background-size: cover;
 }
 </style>
+
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			//请求处理页
+			url:"LoginAction_getBlogNumsWithTag",
+			dataType: "json",
+			type: "POST",
+			data:{},
+			async: false,
+			error: function(result){
+				alert(result);
+			},
+            //处理成功返回的数据
+            success:function(result){
+            	 var json = result;              
+                 var jsondata = [];              
+                 for (var i in json) {
+                     jsondata.push([i, json[i]]);
+                 }   
+            	var chart = new Highcharts.Chart({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie',
+                        renderTo: 'blogChart'
+                    },
+                    title: {
+                        text: '含各标签的博客数量统计'
+                    },
+                    credits: { 
+                        text: 'www.yechoor.cn' 
+                    }, 
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            },
+                    	showInLegend: true
+                        },
+                    },
+                    series: [{
+                        name: "blog percent",
+                        colorByPoint: true,
+                        data:jsondata
+                     }]
+                });
+            }
+		})
+		
+		$.ajax({
+			//请求处理页
+			url:"LoginAction_getQuestionNumsWithCategory",
+			dataType: "json",
+			type: "POST",
+			data:{},
+			async: false,
+			error: function(result){
+				alert(result);
+			},
+            //处理成功返回的数据
+            success:function(result){
+            	 var json = result;              
+                 var jsondata = [];              
+                 for (var i in json) {
+                     jsondata.push([i, json[i]]);
+                 }   
+            	var chart = new Highcharts.Chart({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie',
+                        renderTo: 'questionChart'
+                    },
+                    title: {
+                        text: '含各标签的问答数量统计'
+                    },
+                    credits: { 
+                        text: 'www.yechoor.cn' 
+                    }, 
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            },
+                    	showInLegend: true
+                        },
+                    },
+                    series: [{
+                        name: "question percent",
+                        colorByPoint: true,
+                        data:jsondata
+                     }]
+                });
+            }
+		})
+	})
+</script>
 </head>
 <body>
 	<!-- 包含 导航栏 -->
@@ -155,6 +268,16 @@
 					</s:iterator>
 				</div>
 			</aside>
+			<main class="col-md-8 main-content">
+				<div class="post">
+					<div id="blogChart" style="min-width: 400px; height: 600px; max-width: 600px; margin: 0 auto"></div>
+				</div>
+			</main>
+			<main class="col-md-8 main-content">
+				<div class="post">
+					<div id="questionChart" style="min-width: 400px; height: 600px; max-width: 600px; margin: 0 auto"></div>
+				</div>
+			</main>
 		</div>
 	</div>
 	<jsp:include page="/views/foot.jsp"></jsp:include>

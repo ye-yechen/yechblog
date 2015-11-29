@@ -17,6 +17,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
+import org.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -177,10 +178,10 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 
 	/**
 	 * 得到含有某个标签的博客的数量(用于进行数据分析)
-	 * 
 	 * @return
 	 */
-	private void getBlogNumsWithTag() {
+	@SkipValidation
+	public void getBlogNumsWithTag() {
 		List<Blog> blogs = blogService.findAllBlogs();// 得到所有blog
 		// 得到含有某个标签的博客的数量(用于进行数据分析)
 		for (int i = 0; i < blogs.size(); i++) {
@@ -196,12 +197,20 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 				}
 			}
 		}
+		JSONObject object = new JSONObject(blogNumsWithTag);
+		try {
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().print(object);
+			System.out.println("key= "+object);
+		} catch (Exception e) {
+		}
 	}
 
 	/**
 	 * 得到含有某分类的问题的数量(用于进行数据分析)
 	 */
-	private void getQuestionNumsWithCategory() {
+	@SkipValidation
+	public void getQuestionNumsWithCategory() {
 		List<Question> questions = questionService.queryAllQuestions();
 		for (int i = 0; i < questions.size(); i++) {
 			// map里已经有此次遍历得到的question的分类,直接将含有此分类的问题数+1
@@ -214,6 +223,13 @@ public class LoginAction extends BaseAction<User> implements SessionAware,
 				// map里面不含此次遍历到的question的分类,设置含有此此分类的问题数为1
 				questionNumsWithTag.put(questions.get(i).getCategory(), 1);
 			}
+		}
+		JSONObject object = new JSONObject(questionNumsWithTag);
+		try {
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().print(object);
+			System.out.println("key= "+object);
+		} catch (Exception e) {
 		}
 	}
 
