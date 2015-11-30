@@ -13,6 +13,7 @@
 <link type="text/css" href="css/myStyle.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/exporting.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <style type="text/css">
 .bgimage {
@@ -42,6 +43,16 @@
                  for (var i in json) {
                      jsondata.push([i, json[i]]);
                  }   
+             /*    Highcharts.setOptions({  
+     		        lang: {  
+     		            printChart:"打印图表",  
+     		            downloadJPEG: "下载JPEG 图片" ,  
+     		            downloadPDF: "下载PDF文档"  ,
+     		            downloadPNG: "下载PNG 图片"  ,  
+     		            downloadSVG: "下载SVG 矢量图" ,  
+     		            exportButtonTitle: "导出图片"  
+     		        }  
+     		    });  */
             	var chart = new Highcharts.Chart({
                     chart: {
                         plotBackgroundColor: null,
@@ -56,6 +67,11 @@
                     credits: { 
                         text: 'www.yechoor.cn' 
                     }, 
+                   /* exporting:{  
+                        enabled:true,  
+                        filename:'pie-chart',  
+                        url:'http://localhost:8080/yechblog/ResourceAction_exportChartToImg'  
+                    },  */
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },

@@ -18,7 +18,7 @@
 			<!-- 注册登录拦截器 -->
 			<interceptor name="loginInterceptor" class="com.yech.yechblog.interceptor.LoginInterceptor">
 				 <param name="excludeMethods">
-				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,getBlogNumsWithTag,
+				 	searchFriends,pagination,readDetail,logout,similarBlogsPagination,
 				 	searchBlog,toAboutPage,similarQuestionsPagination,toDataAnalysePage,toResPage
 				 </param>  
 			</interceptor>

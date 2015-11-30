@@ -200,5 +200,74 @@ public class ResourceAction extends BaseAction<Resource> implements UserAware,
 		}
 		return SUCCESS;
 	}
+	
+//	private String svg;  
+//    private String type;  
+//    private String extName;
+//    
+//	public String getSvg() {
+//		return svg;
+//	}
+//
+//	public void setSvg(String svg) {
+//		this.svg = svg;
+//	}
+//
+//	public String getType() {
+//		return type;
+//	}
+//
+//	public void setType(String type) {
+//		this.type = type;
+//	}
+//
+//	public String getExtName() {
+//		return extName;
+//	}
+//
+//	public void setExtName(String extName) {
+//		this.extName = extName;
+//	}
+
+//	/**
+//	 * 将使用 HighCharts 生成的图表导出成图片
+//	 */
+//	public String exportChartToImg() throws IOException{
+//		String downName = new String("统计图".getBytes(), "utf-8");
+//		contentType = "application/"+getType() +";charset=utf-8";
+//		contentDisposition = 
+//				"attachment;filename="+downName + "."+ getExtName();
+//		ByteArrayOutputStream out = new ByteArrayOutputStream();  
+//        svg = svg.replaceAll(":rect", "rect");  
+//        String ext = "";  
+//        Transcoder t = null;  
+//        if (type.equals("image/png")) {  
+//            ext = "png";  
+//            t = new PNGTranscoder();  
+//        } else if (type.equals("image/jpeg")) {  
+//            ext = "jpg";  
+//            t = new JPEGTranscoder();  
+//        } else if (type.equals("image/svg+xml")) {  
+//            ext = "svg";  
+//        }  else if(type.equals("application/pdf")){
+////        	 ext = "pdf";  
+////             t = new PDFTranscoder(); 
+//        }
+//        setExtName(ext);  
+//        if (null != t) {  
+//            TranscoderInput input = new TranscoderInput(new StringReader(svg));  
+//            TranscoderOutput output = new TranscoderOutput(out);  
+//            try {  
+//                t.transcode(input, output);  
+//            } catch (TranscoderException e) {  
+//  
+//                e.printStackTrace();  
+//            }  
+//        }  
+//        out.close();  
+//        byte[] data=out.toByteArray();  
+//        inputStream= new ByteArrayInputStream(data);  
+//		return  SUCCESS;
+//	}
 
 }
