@@ -23,4 +23,15 @@ public interface CollectionService {
 
 	public void removeBlogFromCollections(User user,Integer bid);
 
+	/**
+	 * 统计收藏的博客总数
+	 */
+	public int getMyCollectionCount(User user);
+
+	/**
+	 * 查询指定页收藏的博客总数
+	 */
+	public List<Collection> queryMyPage(User user, int currentPageIndex,
+			int countPerPage);
+
 }

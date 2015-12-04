@@ -138,7 +138,8 @@ public class QuestionServiceImpl implements QuestionService {
 	 */
 	@Override
 	public List<Question> queryHisQuestions(Integer userId) {
-		String hql = "from Question q where q.user.id = ? and q.deleted = 0";
+		String hql = "from Question q where q.user.id = ? and q.deleted = 0 "
+				+ "order by q.createTime desc";
 		List<Question> questions = questionDao.batchFindEntityByHQL(hql, userId);
 		for(Question question : questions){
 			question.getAnswers().size();

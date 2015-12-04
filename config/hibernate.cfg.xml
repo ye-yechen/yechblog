@@ -15,7 +15,7 @@
     	
     	<!-- 生成数据表的策略 -->
     	<property name="hibernate.hbm2ddl.auto">update</property>
-    	
+    	<property name="hibernate.autoReconnect">true</property>
     	<!-- 二级缓存相关 -->
     </session-factory>
 </hibernate-configuration>

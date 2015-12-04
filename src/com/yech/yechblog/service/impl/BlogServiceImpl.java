@@ -145,6 +145,7 @@ public class BlogServiceImpl implements BlogService {
 		for(Blog blog : blogs){
 			blog.getUser().getUsername();
 			blog.getTags().size();
+			blog.getComments().size();
 		}
 		return blogs;
 	}

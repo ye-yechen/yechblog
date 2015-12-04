@@ -43,4 +43,16 @@ public interface MessageService{
 	 */
 	public List<Message> queryUserActivities(User user);
 
+	/**
+	 * 查询消息总数
+	 * @return
+	 */
+	public int getMessageCount(User user);
+
+	/**
+	 * 显示在当前页的消息列表
+	 * @return
+	 */
+	public List<Message> queryMessagePage(User user,int currentPageIndex, int countPerPage);
+
 }

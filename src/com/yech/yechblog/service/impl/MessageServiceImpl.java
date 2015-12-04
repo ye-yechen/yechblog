@@ -117,4 +117,39 @@ public class MessageServiceImpl implements  MessageService{
 		return messages;
 	}
 
+	/**
+	 * 查询消息总数
+	 * @return
+	 */
+	@Override
+	public int getMessageCount(User user) {
+		String hql = "select count(m.id) from Message m where m.self.id = ?";
+		return  ((Long)(messageDao.uniqueResult(hql,user.getId()))).intValue();
+	}
+
+	/**
+	 * 显示在当前页的消息列表
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> queryMessagePage(User user,int currentPageIndex, int countPerPage) {
+		String hql = "SELECT * FROM messages where self = ? order by create_time desc LIMIT ?,?";
+		List<Message> messages = (List<Message>) messageDao.listResult(Message.class,hql,user.getId(),
+				(currentPageIndex-1) * countPerPage,countPerPage);
+		for(Message message : messages){
+			//关注、answer、追问类型的消息没有对应的博客
+			if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){ 
+				message.getBlog().getId();
+				message.getBlog().getTitle();
+			}else if (message.getAnswer() || message.getAddAsk()) { //answer类型的消息需要查出对应的question,避免懒加载
+				message.getQuestion().getId();
+				message.getQuestion().getTitle();
+			}
+			message.getOther().getUsername();
+			message.getSelf().getUsername();
+		}
+		return messages;
+	}
+
 }

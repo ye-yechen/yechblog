@@ -41,8 +41,8 @@ import com.yech.yechblog.util.ValidateUtil;
  */
 @Controller
 @Scope("prototype")
-public class UserAction extends BaseAction<User> 
-					implements ServletContextAware,ServletResponseAware,ServletRequestAware
+public class UserAction extends BaseAction<User> implements
+		ServletContextAware, ServletResponseAware, ServletRequestAware
 {
 
 	private static final long serialVersionUID = 3575939345060413099L;
@@ -60,24 +60,24 @@ public class UserAction extends BaseAction<User>
 
 	@Resource
 	private BlogService blogService;
-	
+
 	@Resource
 	private RelationService relationService;
-	
+
 	@Resource
 	private QuestionService questionService;
-	
+
 	@Resource
 	private FeedBackService feedBackService;
-	//他的博客列表
+	// 他的博客列表
 	private List<Blog> hisBlogs;
-	//他关注的人
+	// 他关注的人
 	private List<Relation> hisRelations;
-	//关注他的人
+	// 关注他的人
 	private List<Relation> focusHims;
-	//他的问题列表
+	// 他的问题列表
 	private List<Question> hisQuestions;
-	
+
 	public List<Question> getHisQuestions() {
 		return hisQuestions;
 	}
@@ -117,15 +117,17 @@ public class UserAction extends BaseAction<User>
 
 	private HttpServletResponse response;
 	private HttpServletRequest request;
+
 	@Override
 	public void setServletResponse(HttpServletResponse arg0) {
 		this.response = arg0;
 	}
+
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
 		this.request = arg0;
 	}
-	
+
 	/**
 	 * 编辑用户信息
 	 */
@@ -151,17 +153,19 @@ public class UserAction extends BaseAction<User>
 	public void setUserImgFileName(String userImgFileName) {
 		this.userImgFileName = userImgFileName;
 	}
-	
+
 	/**
 	 * 去到“关于”页面
+	 * 
 	 * @return
 	 */
-	public String toAboutPage(){
+	public String toAboutPage() {
 		return "toAboutPage";
 	}
 
 	/**
 	 * 上传头像
+	 * 
 	 * @return
 	 */
 	public String addImage() {
@@ -221,41 +225,45 @@ public class UserAction extends BaseAction<User>
 		oldMessages = messageService.getOldMessages(model); // 获取已经读过的旧消息
 		if (newMessages.size() > 0) {
 			for (Message message : newMessages) {
-				//不是关注、answer、追问的消息(因为这些消息类型没有对应的博客)
-				if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){ 
+				// 不是关注、answer、追问的消息(因为这些消息类型没有对应的博客)
+				if (!message.getFocus() && !message.getAnswer()
+						&& !message.getAddAsk()) {
 					message.getBlog().getId();
-					//查出message所对应的blog
-					Blog blog = blogService.getBlogById(message.getBlog().getId());
+					// 查出message所对应的blog
+					Blog blog = blogService.getBlogById(message.getBlog()
+							.getId());
 					message.setBlog(blog);
-				}else if(!message.getAnswer() && !message.getAddAsk()){ //不是answer、追问类型的消息(即是关注类型的消息)
-					//将 message 表中的 status 字段设为 0 ，表示已读
+				} else if (!message.getAnswer() && !message.getAddAsk()) { // 不是answer、追问类型的消息(即是关注类型的消息)
+					// 将 message 表中的 status 字段设为 0 ，表示已读
 					messageService.changeMessageStatus(message.getId());
 				} else { // 是answer类型的消息
-					Question question = 
-							questionService.getQuestionById(message.getQuestion().getId());
+					Question question = questionService.getQuestionById(message
+							.getQuestion().getId());
 					message.setQuestion(question);
 				}
 			}
 		}
 		if (oldMessages.size() > 0) {
 			for (Message message : oldMessages) {
-				if(!message.getFocus() && !message.getAnswer() && !message.getAddAsk()){
-					//查出message所对应的blog
-					Blog blog = blogService.getBlogById(message.getBlog().getId());
+				if (!message.getFocus() && !message.getAnswer()
+						&& !message.getAddAsk()) {
+					// 查出message所对应的blog
+					Blog blog = blogService.getBlogById(message.getBlog()
+							.getId());
 					message.setBlog(blog);
-				} else if(message.getAnswer() || message.getAddAsk()){
-					Question question = 
-							questionService.getQuestionById(message.getQuestion().getId());
+				} else if (message.getAnswer() || message.getAddAsk()) {
+					Question question = questionService.getQuestionById(message
+							.getQuestion().getId());
 					message.setQuestion(question);
 				}
 			}
 		}
 		return "toMessageCenterPage";
 	}
-	
-	//接收页面传过来的用户id，根据id进入他的主页
+
+	// 接收页面传过来的用户id，根据id进入他的主页
 	private Integer userId;
-	
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -264,40 +272,154 @@ public class UserAction extends BaseAction<User>
 		this.userId = userId;
 	}
 
-	//要进user的主页
-	private User user;
-	
+	// 要进user的主页
+	public static User user;
+
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	/**
 	 * 去别人的主页
+	 * 
 	 * @return
 	 */
-	public String toOtherHomePage(){
+	public String toOtherHomePage() {
 		user = userService.getEntity(userId);
-		if(model.getId() != userId){	//所进的主页不是当前登录的用户的主页
-			hisBlogs = blogService.queryHisBlogs(userId);
+		if (model.getId() != userId) { // 所进的主页不是当前登录的用户的主页
+//			hisBlogs = blogService.queryHisBlogs(userId);
 			hisRelations = relationService.queryAllRelations(user);
 			focusHims = relationService.queryAllMyFocus(user);
-			hisQuestions = questionService.queryHisQuestions(userId);
+//			hisQuestions = questionService.queryHisQuestions(userId);
 			return "toOtherHomePage";
-		} else{	//要进的主页是当前登录用户的主页(即进自己的主页)
-			//重定向到个人主页
+		} else { // 要进的主页是当前登录用户的主页(即进自己的主页)
+			// 重定向到个人主页
 			return "redirectToPersonalPage";
 		}
 	}
-	
-	//接收页面传过来的值
+
+	// 接收页面参数，默认第一页
+	private String pageIndex;
+
+	// 当前页数
+	private int currentPageIndex;
+	// 总页数
+	private int pageCount;
+
+	public String getPageIndex() {
+		return pageIndex;
+	}
+
+	public void setPageIndex(String pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
+	public int getCurrentPageIndex() {
+		return currentPageIndex;
+	}
+
+	public void setCurrentPageIndex(int currentPageIndex) {
+		this.currentPageIndex = currentPageIndex;
+	}
+
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
+	/**
+	 * (别人的个人中心的功能) 用于将他的博客分页
+	 */
+	public void hisBlogPagination() {
+		System.out.println("AAAAAAAAAAAAAAA -->"+user.getUsername());
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getMyBlogCount(user);// 查询博客总数
+		// 显示在当前页的博客
+		List<Blog> blogList = blogService.queryMyPage(user, currentPageIndex,
+				countPerPage);
+		// 总页数
+		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
+				: (blogCount / countPerPage + 1));
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for (Blog blog : blogList) {
+			buffer.append("{\"blogTitle\":\"" + blog.getTitle() + "\",")
+					.append("\"blogId\":" + blog.getId() + ",")
+					.append("\"createTime\":\"" + blog.getCreateTime() + "\",")
+					.append("\"readCount\":" + blog.getReadCount() + ",")
+					.append("\"commentSize\":" + blog.getComments().size()+ ",")
+					.append("\"pageCount\":" + pageCount + "},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length() - 1); // 去掉最后一个逗号
+		buffer.append("]");
+		// 使用 Json 传递数据到前台
+		try {
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().print(buffer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * (别人的个人中心的功能)
+	 * 用于将问问题进行分页展示(在 js 中 ajax 请求调用)
+	 */
+	public void hisQuestionPagination(){
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int questionCount = questionService.getMyQuestionCount(user.getId());//查询问题总数
+		// 显示在当前页的博客
+		List<Question> questionList = 
+				questionService.queryMyPage(user.getId(), currentPageIndex,countPerPage);
+		// 总页数
+		pageCount = (questionCount % countPerPage == 0 ? questionCount / countPerPage
+				: (questionCount / countPerPage + 1));
+		if (questionCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for(Question question : questionList){
+			buffer.append("{\"questionTitle\":\""+question.getTitle()+"\",")
+			  .append("\"questionId\":"+question.getId()+",")
+			  .append("\"createTime\":\""+question.getCreateTime()+"\",")
+			  .append("\"readCount\":"+question.getReadCount()+",")
+			  .append("\"answerSize\":"+question.getAnswers().size()+",")
+			  .append("\"pageCount\":"+pageCount+"},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length()-1); //去掉最后一个逗号
+		buffer.append("]");
+		//使用 Json 传递数据到前台
+		try {
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().print(buffer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	// 接收页面传过来的值
 	private String friendName;
-	//好友列表
+	// 好友列表
 	private List<User> friendsList;
-	
+
 	public List<User> getFriendsList() {
 		return friendsList;
 	}
@@ -316,30 +438,33 @@ public class UserAction extends BaseAction<User>
 
 	/**
 	 * 搜索好友（根据输入的好友名）
+	 * 
 	 * @return
 	 */
-	public void searchFriends(){
+	public void searchFriends() {
 		friendsList = userService.searchUserByName(friendName);
 		JSONArray array = new JSONArray(friendsList);
 		try {
 			response.getWriter().print(array);
-			System.out.println("array= "+array);
+			System.out.println("array= " + array);
 		} catch (Exception e) {
 		}
-//		return "ajax-success";
+		// return "ajax-success";
 	}
-	
+
 	public String originUrl;
+
 	public String getOriginUrl() {
 		return originUrl;
 	}
+
 	public void setOriginUrl(String originUrl) {
 		this.originUrl = originUrl;
 	}
-	
-	//接收反馈页面的反馈内容
+
+	// 接收反馈页面的反馈内容
 	private String fbContent;
-	
+
 	public String getFbContent() {
 		return fbContent;
 	}
@@ -351,20 +476,19 @@ public class UserAction extends BaseAction<User>
 	/**
 	 * 用户反馈
 	 */
-	public String feedBack(){
+	public String feedBack() {
 		model = userService.getEntity(userId);
 		originUrl = request.getHeader("referer");
 		// http://localhost:8080/yechblog/BlogAction_pagination.action
-		originUrl = 
-				originUrl.substring(originUrl.lastIndexOf("/")+1);
-		
+		originUrl = originUrl.substring(originUrl.lastIndexOf("/") + 1);
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		FeedBack feedBack = new FeedBack();
 		feedBack.setContent(fbContent);
-		feedBack.setState(false); //初始为为处理状态
+		feedBack.setState(false); // 初始为为处理状态
 		feedBack.setUser(model);
 		feedBack.setFeedBackTime(format.format(new Date()));
-		feedBackService.saveFeedBack(feedBack); //保存feedBack
+		feedBackService.saveFeedBack(feedBack); // 保存feedBack
 		return "keepOriginUrl";
 	}
 

@@ -1,6 +1,7 @@
 package com.yech.yechblog.action;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -12,9 +13,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -50,7 +53,7 @@ import com.yech.yechblog.util.StringUtil;
 @Controller
 @Scope("prototype")
 public class BlogAction extends BaseAction<Blog> implements UserAware,
-		ServletRequestAware,ApplicationAware,SessionAware
+		ServletRequestAware,ApplicationAware,SessionAware,ServletResponseAware
 {
 
 	private static final long serialVersionUID = 5190914411419980760L;
@@ -86,6 +89,7 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 	// 接收 User 对象
 	private User user;
 	private HttpServletRequest request;
+	private HttpServletResponse response;
 	private Map<String, Object> application;
 	private Map<String, Object> sessionMap;
 	@Override
@@ -100,7 +104,10 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 	public void setServletRequest(HttpServletRequest arg0) {
 		this.request = arg0;
 	}
-
+	@Override
+	public void setServletResponse(HttpServletResponse arg0) {
+		this.response = arg0;
+	}
 	@Override
 	public void setUser(User user) {
 		this.user = user;
@@ -439,7 +446,6 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 
 	/**
 	 * 当前用户博客列表分页显示
-	 * 
 	 * @return
 	 */
 	public String myPagination() {
@@ -467,16 +473,209 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 	 * @return
 	 */
 	public String toPersonalPage() {
-		// 去个人主页的时候查询当前用户的动态
-		allMessages = messageService.queryUserActivities(user);
-		myBlogList = blogService.findMyBlogs(user);
-		allCollections = collectionService.findMyCollections(user);
-		allRelations = relationService.queryAllRelations(user);
+		// 去个人主页的时候查询当前用户的动态(第一页展示15条)
+//		allMessages = messageService.queryMessagePage(user,1,15);
+//		myBlogList = blogService.findMyBlogs(user);
+//		allCollections = collectionService.findMyCollections(user);
+//		allRelations = relationService.queryAllRelations(user);
 		allFocusMe = relationService.queryAllMyFocus(user);
-		allQuestions = questionService.queryAllMyQuestions(user);
+//		allQuestions = questionService.queryAllMyQuestions(user);
 		return "personalPage";
 	}
 
+	/**
+	 * 个人中心中的功能
+	 * 用于将问问题进行分页展示(在 js 中 ajax 请求调用)
+	 */
+	public void questionPagination(){
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int questionCount = questionService.getMyQuestionCount(user.getId());//查询问题总数
+		// 显示在当前页的博客
+		List<Question> questionList = 
+				questionService.queryMyPage(user.getId(), currentPageIndex,countPerPage);
+		// 总页数
+		pageCount = (questionCount % countPerPage == 0 ? questionCount / countPerPage
+				: (questionCount / countPerPage + 1));
+		if (questionCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for(Question question : questionList){
+			buffer.append("{\"questionTitle\":\""+question.getTitle()+"\",")
+			  .append("\"questionId\":"+question.getId()+",")
+			  .append("\"createTime\":\""+question.getCreateTime()+"\",")
+			  .append("\"readCount\":"+question.getReadCount()+",")
+			  .append("\"answerSize\":"+question.getAnswers().size()+",")
+			  .append("\"pageCount\":"+pageCount+"},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length()-1); //去掉最后一个逗号
+		buffer.append("]");
+		//使用 Json 传递数据到前台
+		try {
+			if(questionList != null){
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().print(buffer.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 个人中心中的功能
+	 * 用于将收藏进行分页展示(在 js 中 ajax 请求调用)
+	 * @return
+	 */
+	public void collectionPagination(){
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int collectionCount = collectionService.getMyCollectionCount(user);//查询收藏的博客总数
+		// 显示在当前页的博客
+		List<Collection> collectionList = collectionService.queryMyPage(user, currentPageIndex,
+				countPerPage);
+		// 总页数
+		pageCount = (collectionCount % countPerPage == 0 ? collectionCount / countPerPage
+				: (collectionCount / countPerPage + 1));
+		if (collectionCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for(Collection collection : collectionList){
+			buffer.append("{\"blogTitle\":\""+collection.getBlog().getTitle()+"\",")
+			  .append("\"blogId\":"+collection.getBlog().getId()+",")
+			  .append("\"collectTime\":\""+collection.getCollectTime()+"\",")
+			  .append("\"pageCount\":"+pageCount+"},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length()-1); //去掉最后一个逗号
+		buffer.append("]");
+		//使用 Json 传递数据到前台
+		try {
+			if(collectionList != null){
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().print(buffer.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 个人中心中的功能
+	 * 用于将博客进行分页展示(在 js 中 ajax 请求调用)
+	 * @return
+	 */
+	public void blogPagination() {
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int blogCount = blogService.getMyBlogCount(user);// 查询博客总数
+		// 显示在当前页的博客
+		List<Blog> blogList = blogService.queryMyPage(user, currentPageIndex,
+				countPerPage);
+		// 总页数
+		pageCount = (blogCount % countPerPage == 0 ? blogCount / countPerPage
+				: (blogCount / countPerPage + 1));
+		if (blogCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for(Blog blog : blogList){
+			buffer.append("{\"blogTitle\":\""+blog.getTitle()+"\",")
+				  .append("\"blogId\":"+blog.getId()+",")
+				  .append("\"createTime\":\""+blog.getCreateTime()+"\",")
+				  .append("\"readCount\":"+blog.getReadCount()+",")
+				  .append("\"commentSize\":"+blog.getComments().size()+",")
+				  .append("\"allowComment\":"+blog.getAllowComment()+",")
+				  .append("\"pageCount\":"+pageCount+"},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length()-1); //去掉最后一个逗号
+		buffer.append("]");
+		//使用 Json 传递数据到前台
+		try {
+			if(blogList != null){
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().print(buffer.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 个人中心中的功能
+	 * 用于将消息进行分页展示(在 js 中 ajax 请求调用)
+	 * @return
+	 */
+	public void messagePagination(){
+		int countPerPage = 15;// 每页显示15条
+		if (pageIndex == null) {
+			pageIndex = "1";
+		}
+		currentPageIndex = Integer.parseInt(pageIndex);
+		int messageCount = messageService.getMessageCount(user);// 查询消息总数
+		// 显示在当前页的博客
+		List<Message> messageList = messageService.queryMessagePage(user,currentPageIndex, countPerPage);
+		// 总页数
+		pageCount = (messageCount % countPerPage == 0 ? messageCount / countPerPage
+				: (messageCount / countPerPage + 1));
+		if (messageCount == 0) {
+			pageCount = 1; // 为了在页面上不显示“第1页/共0页”这种效果
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		for(Message message : messageList){
+			buffer.append("{\"comment\":"+message.getComment()+",")
+				  .append("\"love\":"+message.getLove()+",")
+				  .append("\"collect\":"+message.getCollect()+",")
+				  .append("\"share\":"+message.getShare()+",")
+				  .append("\"reply\":"+message.getReply()+",")
+				  .append("\"focus\":"+message.getFocus()+",")
+				  .append("\"answer\":"+message.getAnswer()+",")
+				  .append("\"addAsk\":"+message.getAddAsk()+",")
+				  .append("\"otherId\":"+message.getOther().getId()+",")
+				  .append("\"otherName\":\""+message.getOther().getUsername()+"\",");
+				  if(message.getBlog() != null){
+					  buffer.append("\"blogId\":"+message.getBlog().getId()+",")
+					  		.append("\"blogTitle\":\""+message.getBlog().getTitle()+"\",");
+				  }else {
+					  buffer.append("\"blogId\":"+0+",")
+					  	.append("\"blogTitle\":\"unknow\",");
+				  }
+				  if(message.getQuestion() != null){
+					  buffer.append("\"questionId\":"+message.getQuestion().getId()+",")
+					  		.append("\"questionTitle\":\""+message.getQuestion().getTitle()+"\",");
+				  } else {
+					  buffer.append("\"questionId\":"+0+",")
+					  		.append("\"questionTitle\":\"unknow\",");
+				  }
+				  buffer.append("\"createTime\":\""+message.getCreateTime()+"\",")
+				  		.append("\"pageCount\":"+pageCount)	//返回总的页数便于前端使用
+				  		.append("},");
+		}
+		buffer = buffer.deleteCharAt(buffer.length()-1); //去掉最后一个逗号
+		buffer.append("]");
+		//使用 Json 传递数据到前台
+		try {
+			if(messageList != null){
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().print(buffer.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String tagName;
 
 	public String getTagName() {

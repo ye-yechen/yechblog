@@ -13,6 +13,7 @@
 
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/pagination.js"></script>
 
 <style type="text/css">
 body{
@@ -28,6 +29,8 @@ body{
 
 <script type="text/javascript">
 	$(function(){
+		hisBlogPagination();//他的博客分页(显示第一页结果)
+		hisQuestionPagination();//他的问题分页(显示第一页结果)
 		$("#h_bloglist").click(function(){
 			$("#hisBlogs").show();
 			$("#hisFriends").hide();
@@ -114,23 +117,16 @@ body{
 				</ul>
 				
 				 <div id="hisBlogs" class="post">
-				 	<table class="table table-hover">
+				 	<table id="hisBlogTab" class="table table-hover">
 				 		<tr>
 				 			<th>标题</th>
 				 			<th>阅读</th>
 				 			<th>评论</th>
 				 		</tr>
-				 		<s:iterator var="hb" value="hisBlogs">
-				 			<tr>
-				 				<td>
-				 					<a href="BlogAction_readDetail?bid=<s:property value='#hb.id'/>"><s:property value="#hb.title"/></a>
-									(<s:property value="#hb.createTime"/>)
-				 				</td>
-				 				<td><s:property value="#hb.readCount"/></td>
-				 				<td><s:property value="#hb.comments.size()"/></td>
-				 			</tr>
-				 		</s:iterator>
 				 	</table>
+				 	<div id="">
+				 		<button onclick="hisBlogPagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
 				 
 				  <div id="hisFriends" class="post" style="display:none;">
@@ -201,23 +197,16 @@ body{
 					</table>
 				 </div>
 				 <div id="hisQuestions" class="post" style="display:none;">
-				  	  <table class="table table-hover">
+				  	  <table id="hisQuestionTab" class="table table-hover">
 				 		<tr>
 				 			<th>标题</th>
 				 			<th>浏览</th>
 				 			<th>回答</th>
 				 		</tr>
-				 		<s:iterator var="hq" value="hisQuestions">
-				 			<tr>
-				 				<td>
-				 					<a href="QuestionAction_readDetail?qid=<s:property value='#hq.id'/>"><s:property value="#hq.title"/></a>
-									(<s:property value="#hq.createTime"/>)
-				 				</td>
-				 				<td><s:property value="#hq.readCount"/></td>
-				 				<td><s:property value="#hq.answers.size()"/></td>
-				 			</tr>
-				 		</s:iterator>
 				 	</table>
+				 	<div id="">
+				 		<button onclick="hisBlogPagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
 			</main>
 		</div>

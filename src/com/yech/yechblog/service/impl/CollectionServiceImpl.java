@@ -61,5 +61,30 @@ public class CollectionServiceImpl implements CollectionService {
 		collectionDao.batchUpdateEntityByHQL(hql, user.getId(),bid);
 	}
 
-	
+	/**
+	 * 统计收藏的博客总数
+	 */
+	@Override
+	public int getMyCollectionCount(User user) {
+		String hql = "select count(c.id) from Collection c where c.self.id = ? and c.deleted = 0";
+		return  ((Long)(collectionDao.uniqueResult(hql,user.getId()))).intValue();
+	}
+
+	/**
+	 * 查询指定页收藏的博客总数
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Collection> queryMyPage(User user, int currentPageIndex,
+			int countPerPage) {
+		String hql = "SELECT * FROM collection where self = ? and deleted = 0 order by collect_time desc LIMIT ?,?";
+		List<Collection> collections = (List<Collection>) collectionDao.listResult(Collection.class,hql,user.getId(),
+				(currentPageIndex-1) * countPerPage,countPerPage);
+		for(Collection collection : collections){
+			collection.getBlog().getTitle();
+			collection.getBlog().getId();
+			collection.getCollectTime();
+		}
+		return collections;
+	}
 }

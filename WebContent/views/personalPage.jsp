@@ -15,6 +15,7 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/quxian.js"></script>
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="js/pagination.js"></script>
 <style type="text/css">
 body{
 	background-image:url();
@@ -28,6 +29,10 @@ body{
 </style>
 <script type="text/javascript">
 	$(function(){
+		messagePagination();//消息分页(显示第一页结果)
+		blogPagination();//博客分页(显示第一页结果)
+		collectionPagination();//收藏的博客分页(显示第一页结果)
+		questionPagination();//问题分页(显示第一页结果)
 		$("#btn_addImg").click(function(){
 			$("#addImgForm").submit();
 		});
@@ -92,9 +97,9 @@ body{
 			//取消超链接的默认行为
 			return false;
 		});
-		//以 ajax 方式删除
-		$("i > a").click(function(){
-			
+		
+		//使用 on 方法为元素进行事件委托(i > a 是由js代码动态生成的元素)
+		$("#blogTab,#collectTab,#questionTab").on("click","i > a",function(){
 			var $a = $(this).html();
 			if($a == "删除博客"){
 				//1.点击 delete 时，弹出警告信息
@@ -103,13 +108,13 @@ body{
 					//使用 ajax 的方式删除
 					var url = this.href;
 					var args = {"time":new Date()};
-					//将 <a></a>节点所在行从页面删除
-					var $tr = $(this).parent().parent().parent();
+					//将 <td></td>节点所在行从页面删除
+					var $td = $(this).parent().parent().parent();
 					$.post(url,args,function(data){
 						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
 						if(data == 1){
 							alert("删除成功!");
-							$tr.remove();
+							$td.remove();
 						} else{
 						//若 data 的返回值不为1，则删除失败
 							alert("删除失败!");
@@ -126,13 +131,13 @@ body{
 					//使用 ajax 的方式删除
 					var url = this.href;
 					var args = {"time":new Date()};
-					//将 <a></a>节点所在行从页面删除
-					var $tr = $(this).parent().parent().parent();
+					//将 <td></td>节点所在行从页面删除
+					var $td = $(this).parent().parent().parent();
 					$.post(url,args,function(data){
 						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
 						if(data == 1){
 							alert("删除成功!");
-							$tr.remove();
+							$td.remove();
 						} else{
 						//若 data 的返回值不为1，则删除失败
 							alert("删除失败!");
@@ -149,13 +154,13 @@ body{
 					//使用 ajax 的方式删除
 					var url = this.href;
 					var args = {"time":new Date()};
-					//将 <a></a>节点所在行从页面删除
-					var $tr = $(this).parent().parent().parent();
+					//将 <td></td>节点所在行从页面删除
+					var $td = $(this).parent().parent().parent();
 					$.post(url,args,function(data){
 						//若 data 的返回值为 1，则提示删除成功，并将当前行删除
 						if(data == 1){
 							alert("删除成功!");
-							$tr.remove();
+							$td.remove();
 						} else{
 						//若 data 的返回值不为1，则删除失败
 							alert("删除失败!");
@@ -222,69 +227,13 @@ body{
   					 <li id="m_questions" role="presentation"><a href="#">我的问题</a></li>
 				</ul>
 				 <div id="myActivity" class="post">
-					<s:iterator var="m" value="allMessages">
-						<ul class="notice-list">
-							<li>
-								<s:if test="#m.comment == true">
-									评论了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
-										&nbsp;&nbsp;
-										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-											<s:property value="#m.blog.title"/>
-										</a>
-								</s:if>
-								<s:elseif test="#m.love == true">
-									赞了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
-										&nbsp;&nbsp;
-										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-											<span><s:property value="#m.blog.title"/></span>
-										</a>
-								</s:elseif>
-								<s:elseif test="#m.collect == true">
-									收藏了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
-										&nbsp;&nbsp;
-										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-											<s:property value="#m.blog.title"/>
-										</a>
-								</s:elseif>
-								<s:elseif test="#m.share == true">
-									分享了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>&nbsp;的博客
-										&nbsp;&nbsp;
-										<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-											<s:property value="#m.blog.title"/>
-										</a>
-								</s:elseif>
-								<s:elseif test="#m.reply == true">
-									在&nbsp;<a href="BlogAction_readDetail?bid=<s:property value='#m.blog.id'/>">
-										<s:property value="#m.blog.title"/>
-									</a>&nbsp;中回复了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>
-										&nbsp;&nbsp;
-								</s:elseif>
-								<s:elseif test="#m.focus == true">
-									关注了&nbsp;<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.other.id'/>"><s:property value="#m.other.username"/></a>
-								</s:elseif>
-								<s:elseif test="#m.answer == true">
-									回答了&nbsp;<a href="#"><s:property value="#m.other.username"/></a>&nbsp;的问题
-									<a href="QuestionAction_readDetail?qid=<s:property value='#m.question.id' />">
-										<s:property value="#m.question.title"/>
-									</a>
-								</s:elseif>
-								
-								<s:elseif test="#m.addAsk == true">
-									追问了<a href="UserAction_toOtherHomePage?userId=<s:property value='#m.self.id'/>"><s:property value="#m.self.username"/></a>&nbsp;
-										<a href="QuestionAction_readDetail?qid=<s:property value='#m.question.id' />">
-											<s:property value="#m.question.title"/>
-										</a>
-										&nbsp;&nbsp;
-								</s:elseif>
-								<div class="pull-right">
-									<i><s:property value="#m.createTime"/></i>
-								</div>
-							</li>
-						</ul>
-					</s:iterator>
+				 	<div id="queryMore">
+				 		<button onclick="messagePagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
+				 
 				 <div id="myBlogs" class="post" style="display:none;">
-				 	<table class="table table-hover">
+				 	<table id="blogTab" class="table table-hover">
 				 		<tr>
 				 			<th>标题</th>
 				 			<th>阅读</th>
@@ -292,46 +241,21 @@ body{
 				 			<th>评论权限</th>
 				 			<th>操作</th>
 				 		</tr>
-				 		<s:iterator var="mb" value="myBlogList">
-				 			<tr>
-				 				<td>
-				 					<a href="BlogAction_readDetail?bid=<s:property value='#mb.id'/>"><s:property value="#mb.title"/></a>
-									(<s:property value="#mb.createTime"/>)
-				 				</td>
-				 				<td><s:property value="#mb.readCount"/></td>
-				 				<td><s:property value="#mb.comments.size()"/></td>
-				 				<td><a href="BlogAction_changeAllowState?bid=<s:property value='#mb.id'/>">
-				 						<s:if test="#mb.allowComment">禁止评论</s:if>
-				 						<s:else>允许评论</s:else>
-				 					</a>
-				 				</td>
-				 				<td>
-				 					<i><a href="BlogAction_editBlog?bid=<s:property value='#mb.id'/>">编辑</a></i>&nbsp;
-									<i><a href="BlogAction_deleteBlog?bid=<s:property value='#mb.id'/>">删除博客</a></i>&nbsp;
-									<i><a href="#">分类</a></i>&nbsp;
-				 				</td>
-				 			</tr>
-				 		</s:iterator>
 				 	</table>
+				 	<div id="">
+				 		<button onclick="blogPagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
 				 <div id="myCollection" class="post" style="display:none;">
-					<table class="table table-hover">
+					<table id="collectTab" class="table table-hover">
 				 		<tr>
 				 			<th>收藏的博客</th>
 				 			<th>操作</th>
 				 		</tr>
-				 		<s:iterator var="ac" value="allCollections">
-				 			<tr>
-				 				<td>
-				 					<a href="BlogAction_readDetail?bid=<s:property value='#ac.blog.id'/>"><s:property value="#ac.blog.title"/></a>
-									(<s:property value="#ac.collectTime"/>)
-				 				</td>
-				 				<td>
-									<i><a href="BlogAction_removeTheCollection?bid=<s:property value='#ac.id'/>">删除收藏</a></i>&nbsp;
-				 				</td>
-				 			</tr>
-				 		</s:iterator>
 				 	</table>
+				 	<div id="">
+				 		<button onclick="collectionPagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
 				 <div id="myFriends" class="post" style="display:none;">
 				 		<div style="color:#959595 ;">我关注的</div>
@@ -407,28 +331,17 @@ body{
 					</table>
 				 </div>
 				 <div id="myQuestions" class="post" style="display:none;">
-				 	<table class="table table-hover">
+				 	<table id="questionTab" class="table table-hover">
 				 		<tr>
 				 			<th>标题</th>
 				 			<th>浏览</th>
 				 			<th>回答</th>
 				 			<th>操作</th>
 				 		</tr>
-				 		<s:iterator var="aq" value="allQuestions">
-				 			<tr>
-				 				<td>
-				 					<a href="QuestionAction_readDetail?qid=<s:property value='#aq.id'/>"><s:property value="#aq.title"/></a>
-									(<s:property value="#aq.createTime"/>)
-				 				</td>
-				 				<td><s:property value="#aq.readCount"/></td>
-				 				<td><s:property value="#aq.answers.size()"/></td>
-				 				<td>
-				 					<i><a href="QuestionAction_editQuestion?qid=<s:property value='#aq.id'/>">编辑</a></i>&nbsp;
-									<i><a href="QuestionAction_deleteQuestion?qid=<s:property value='#aq.id'/>">删除问题</a></i>&nbsp;
-				 				</td>
-				 			</tr>
-				 		</s:iterator>
 				 	</table>
+				 	<div id="">
+				 		<button onclick="questionPagination()" class="btn btn-warning btn-block">查看更多</button>
+				 	</div>
 				 </div>
 			</main>
 		</div>
