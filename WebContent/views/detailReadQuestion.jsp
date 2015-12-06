@@ -26,6 +26,13 @@
 				$("#answer_zone").hide();
 			}
 		});
+		$("button[type='submit']").click(function(){
+			if($.trim($("textarea[name='content']").val()) == ''){
+				alert("评论内容不能为空!");
+				return false;
+			}
+			$("#answer_zone").submit();
+		});
 	})
 </script>
 </head>
@@ -57,7 +64,8 @@
 							<p><s:property value="#q.content" escapeHtml="false"/></p>
 						</div>
 						<div class="pull-right share">
-							<a id="answer" href="UserAction_toOtherHomePage?userId=<s:property value='#q.user.id'/>">回答</a>
+							<button id="answer" class="btn btn-default">回答</button>
+							<!--  <a id="answer" href="#">回答</a>-->
 						</div>
 						
 						<s:if test="allAnswers == null || allAnswers.size() == 0">

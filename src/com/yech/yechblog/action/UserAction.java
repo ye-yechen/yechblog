@@ -338,7 +338,7 @@ public class UserAction extends BaseAction<User> implements
 	 * (别人的个人中心的功能) 用于将他的博客分页
 	 */
 	public void hisBlogPagination() {
-		System.out.println("AAAAAAAAAAAAAAA -->"+user.getUsername());
+//		System.out.println("AAAAAAAAAAAAAAA -->"+user.getUsername());
 		int countPerPage = 15;// 每页显示15条
 		if (pageIndex == null) {
 			pageIndex = "1";

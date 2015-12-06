@@ -36,6 +36,13 @@ body{
 				$("#comment_zone").hide();
 			}
 		});
+		$("button[type='submit']").click(function(){
+			if($.trim($("textarea[name='content']").val()) == ''){
+				alert("评论内容不能为空!");
+				return false;
+			}
+			$("#comment_zone").submit();
+		});
 	})
 </script>
 </head>

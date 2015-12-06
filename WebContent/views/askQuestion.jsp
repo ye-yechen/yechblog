@@ -16,6 +16,22 @@
 <script type="text/javascript" src="xhEditor/xheditor_lang/zh-cn.js"></script>
 <script type="text/javascript">
 	$(function() {
+		$("button[type='submit']").click(function(){
+			if($.trim($("input[name='title']").val()) == ''){
+				alert("问题标题不能为空!");
+				return false;
+			}
+			if($.trim($("textarea[name='content']").val()) == ''){
+				alert("问题内容不能为空!");
+				return false;
+			}
+			if($.trim($("input[name='category']").val()) == ''){
+				alert("问题分类不能为空!");
+				return false;
+			}
+			//$("#newblog").submit();
+		});
+		
 	})
 </script>
 <style type="text/css">
@@ -36,6 +52,12 @@
 		</div>
 	</div>
 	</header>
+	 <nav role="navigation" class="navbar navbar-default">
+		  <ul class="nav navbar-nav">
+		  	  <li><a href="QuestionAction_pagination">问答社区</a></li>
+		  	  <li><a href="BlogAction_pagination">博客精选</a></li>
+		  </ul>
+	 </nav>
 	<h1 class="col-sm-offset-2">发表问题</h1>
 	<form action="QuestionAction_newQuestion" method="post" class="col-sm-offset-2 col-sm-8">
 		<div class="form-group">

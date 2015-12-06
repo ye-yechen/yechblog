@@ -30,7 +30,7 @@ body{
 <script type="text/javascript">
 	$(function(){
 		//设置每个回复区的可见性
-		$("span a").click(function(){
+		$("span button").click(function(){
 			//为了区分每个不同的回复区
 			var $id = $(this).attr('id'); //得到点击的id
 			if($("#reply_zone_"+$id).is(":hidden")){
@@ -38,6 +38,13 @@ body{
 			} else {
 				$("#reply_zone_"+$id).hide();
 			}
+		});
+		$("button[type='submit']").click(function(){
+			if($.trim($("textarea[name='content']").val()) == ''){
+				alert("评论内容不能为空!");
+				return false;
+			}
+			//$("#answer_zone").submit();
 		});
 	})
 </script>
@@ -77,7 +84,10 @@ body{
 							</div>
 							<div class="">
 								<s:property value="#c.content" />
-								<span class="pull-right"><a id="<s:property value='#c.id'/>">回复</a></span>
+								<span class="pull-right">
+									<button id="<s:property value='#c.id'/>" class="btn btn-default">回复</button>
+									<!-- <a id="<s:property value='#c.id'/>">回复</a> -->
+								</span>
 								<form action="ReplyAction_addReply?cid=<s:property value='#c.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#c.id'/>">
 									 <div class="form-group">
 										<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复别人是一种美德..."></textarea>
@@ -98,7 +108,10 @@ body{
 											<a href="#"><s:property value="#v.other.username" /></a>&nbsp;:&nbsp;&nbsp;
 										</span>
 										<p><s:property value="#v.content" /></p>
-										<span class="pull-right"><a id="<s:property value='#v.id'/>">回复</a></span>
+										<span class="pull-right">
+											<button id="<s:property value='#v.id'/>" class="btn btn-default">回复</button>
+											<!-- <a id="<s:property value='#v.id'/>">回复</a> -->
+										</span>
 										<form action="ReplyAction_addReply?cid=<s:property value='#v.comment.id'/>&userId=<s:property value='#v.self.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#v.id'/>">
 											 <div class="form-group">
 												<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#v.self.username'/>..."></textarea>
@@ -138,7 +151,10 @@ body{
 							</div>
 							<div class="">
 								<s:property value="#c.content" />
-								<span class="pull-right"><a id="<s:property value='#c.id'/>">回复</a></span>
+								<span class="pull-right">
+									<button id="<s:property value='#c.id'/>" class="btn btn-default">回复</button>
+									<!-- <a id="<s:property value='#c.id'/>">回复</a>  -->
+								</span>
 								<form action="ReplyAction_addQuestionReply?aid=<s:property value='#c.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#c.id'/>">
 									 <div class="form-group">
 										<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#c.user.username'/>..."></textarea>
@@ -161,7 +177,10 @@ body{
 										</span>
 										<p><s:property value="#v.content" /></p>
 										<s:if test="#v.other.username == #session['user'].username">
-											<span class="pull-right"><a id="<s:property value='#v.id'/>">回复</a></span>
+											<span class="pull-right">
+											 	<button id="<s:property value='#v.id'/>" class="btn btn-default">回复</button>
+												<!--  <a id="<s:property value='#v.id'/>">回复</a> -->
+											</span>
 											<form action="ReplyAction_addQuestionReply?aid=<s:property value='#v.answer.id'/>&userId=<s:property value='#v.self.id'/>" method="post" style="display: none;" id="reply_zone_<s:property value='#v.id'/>">
 												 <div class="form-group">
 													<textarea class="form-control"  rows="10" cols="20" name="content" placeholder="回复  <s:property value='#v.self.username'/>..."></textarea>

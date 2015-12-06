@@ -66,6 +66,18 @@
 				b = true;
 			}
 		});
+		
+		$("button[type='submit']").click(function(){
+			if($.trim($("input[name='title']").val()) == ''){
+				alert("博客标题不能为空!");
+				return false;
+			}
+			if($.trim($("textarea[name='content']").val()) == ''){
+				alert("博客内容不能为空!");
+				return false;
+			}
+			//$("#newblog").submit();
+		});
 	})
 </script>
 
@@ -92,15 +104,20 @@
 			</div>
 		</div>
 		</div>
-	</header>
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12"></div>
+			</div>
 		</div>
-	</div>
 	</header>
-	<h1 class="col-sm-offset-2">write your blog!</h1>
-	<form action="BlogAction_newBlog" method="post" namespace="/"
+	 <nav role="navigation" class="navbar navbar-default">
+		  <ul class="nav navbar-nav">
+		  	  <li><a href="QuestionAction_pagination">问答社区</a></li>
+		  	  <li><a href="BlogAction_pagination">博客精选</a></li>
+		  </ul>
+	 </nav>
+	<h1 class="col-sm-offset-2">博客</h1>
+	<form action="BlogAction_newBlog" method="post" id="newblog"
 		class="col-sm-offset-2 col-sm-8">
 		<div class="form-group">
 			<label for="blogtitle">博客标题</label>
@@ -117,7 +134,7 @@
 			<textarea id="bcontent" class="form-control" rows="30" cols="50" name="content"></textarea>
 		</div>
 		<div class="form-group">
-			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用,分隔)</label> 
+			<label for="blogtag1">博客标签(添加Tag，你的内容能被更多人看到,标签用英文,分隔)</label> 
 			<input
 				type="text" name="myTags" class="form-control" id="blogtag"
 				placeholder="Tag">
@@ -135,7 +152,7 @@
 		<div class="alert alert-danger" role="alert">如果不写博客摘要，将自动截取博客内容的前200字符作为摘要</div>
 		<div class="form-group">
 			<div class="col-sm-4 pull-right">
-				<button type="submit" class="btn btn-default">publish</button>
+				<button type="submit" class="btn btn-default">发表</button>
 			</div>
 		</div>
 	</form>

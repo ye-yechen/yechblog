@@ -517,10 +517,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 		buffer.append("]");
 		//使用 Json 传递数据到前台
 		try {
-			if(questionList != null){
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().print(buffer.toString());
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -558,10 +556,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 		buffer.append("]");
 		//使用 Json 传递数据到前台
 		try {
-			if(collectionList != null){
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().print(buffer.toString());
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -602,10 +598,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 		buffer.append("]");
 		//使用 Json 传递数据到前台
 		try {
-			if(blogList != null){
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().print(buffer.toString());
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -667,10 +661,8 @@ public class BlogAction extends BaseAction<Blog> implements UserAware,
 		buffer.append("]");
 		//使用 Json 传递数据到前台
 		try {
-			if(messageList != null){
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().print(buffer.toString());
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
