@@ -25,8 +25,8 @@
 				alert("问题内容不能为空!");
 				return false;
 			}
-			if($.trim($("input[name='category']").val()) == ''){
-				alert("问题分类不能为空!");
+			if($('select option:selected').val() == ''){
+				alert("问题版块不能为空!");
 				return false;
 			}
 			//$("#newblog").submit();
