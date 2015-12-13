@@ -152,7 +152,9 @@
 							</div>
 						</div>
 					<div class="post-content">
-						<p><s:property value="#b.summary" escapeHtml="false"/></p>
+						<p id="summary_<s:property value="#b.id" />">
+							<s:property value="#b.summary" escapeHtml="false"/>
+						</p>
 					</div>
 					<div class="post-permalink">
 						<a href="BlogAction_readDetail?bid=<s:property value='#b.id' />" class="btn btn-default">阅读全文</a>
@@ -171,15 +173,38 @@
 							<i class=""><a id="<s:property value='#b.id' />">分享</a></i>
 						</div>
 						<div id="sharezone_<s:property value='#b.id' />" class="jiathis_style_32x32" style="display: none">
-							<div class="bshare-custom">
-							<a title="分享到QQ空间" class="bshare-qzone"></a>
-							<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-							<a title="分享到人人网" class="bshare-renren"></a>
-							<a title="分享到腾讯微博" class="bshare-qqmb"></a>
-							<a title="分享到网易微博" class="bshare-neteasemb"></a>
-							<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
-							<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
-							<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+								<a class="jiathis_button_douban"></a>
+								<a class="jiathis_button_weixin"></a>
+								<a class="jiathis_button_qzone"></a>
+								<a class="jiathis_button_cqq"></a>
+								<a class="jiathis_button_tsina"></a>
+								<a class="jiathis_button_tqq"></a>
+								<a class="jiathis_button_ydnote"></a>
+								<a class="jiathis_button_evernote"></a>
+						   		<script type="text/javascript" >
+						   		var jiathis_config;
+						   		$("i > a").click(function(){
+						   			var iid = $(this).attr('id');
+						   			jiathis_config={
+											url:"http://114.215.92.22:8080",
+											title:document.getElementById("title_"+iid).innerHTML,
+											summary:document.getElementById("summary_"+iid).innerHTML,
+											shortUrl:false,
+											hideMore:true,
+											appkey:{
+										        "tsina":"",
+										        "tqq":"",
+										        "douban":"",
+										        "evernote":"",
+										        "ydnote":"",
+										        "cqq":"",
+										        "weixin":"",
+										        "qzone":"",
+										    }
+										}
+						   		});
+								</script>
+								<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
 						</div>
 					</footer> 
 				</article> 
@@ -250,7 +275,6 @@
 	</div>
 	</section>
 
-<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 <!-- JiaThis Button END -->
 	<!--footer
 	<footer>
